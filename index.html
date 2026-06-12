@@ -433,9 +433,9 @@ canvas.chart { max-width: 100%; }
           <!-- Overall Progress -->
           <div class="stat-card">
             <div class="stat-label">📈 Overall Progress</div>
-            <div class="stat-value">34.2%</div>
-            <div class="stat-sub">Planned: 38.5% &nbsp; Deviation: <span style="color:var(--danger)">-4.3%</span></div>
-            <div class="stat-bar"><div class="stat-bar-fill" style="width:34.2%;background:var(--primary-light)"></div></div>
+            <div class="stat-value">14.29%</div>
+            <div class="stat-sub">Planned: 17.74% &nbsp; Slippage: <span style="color:var(--danger)">-3.45%</span> &nbsp; (As of Feb 2026, OPPM)</div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:14.29%;background:var(--primary-light)"></div></div>
           </div>
           <!-- Workforce -->
           <div class="stat-card">
@@ -683,9 +683,9 @@ canvas.chart { max-width: 100%; }
         <div class="grid-3">
           <div class="stat-card">
             <div class="stat-label">📊 Overall Progress</div>
-            <div class="stat-value">34.2%</div>
-            <div class="stat-sub">Plan: 38.5% &nbsp;<span style="color:var(--danger)">▼ -4.3%</span></div>
-            <div class="stat-bar"><div class="stat-bar-fill" style="width:34.2%;background:var(--primary-light)"></div></div>
+            <div class="stat-value">14.29%</div>
+            <div class="stat-sub">Plan: 17.74% &nbsp;<span style="color:var(--danger)">▼ -3.45%</span></div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:14.29%;background:var(--primary-light)"></div></div>
           </div>
           <div class="stat-card">
             <div class="stat-label">📋 Survey &amp; Investigation</div>
@@ -2242,6 +2242,18 @@ function drawGantt() {
 // ── S-CURVE CHARTS ────────────────────────────
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
+// Source: OPPM Panay Agusan IR_260220.xlsm (WCI_OPPM sheet, rows 180-181)
+// Monthly weights (%), Nov 2025 – Mar 2027. As of: Feb 2026.
+const SCURVE = (() => {
+  const labels = ['Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26','Nov-26','Dec-26','Jan-27','Feb-27','Mar-27'];
+  const planMonthly   = [0.2304,2.9954,7.1429,7.3733,8.9862,9.2166,7.6037,5.5300,5.5300,5.5300,5.2995,7.3733,7.3733,6.4516,6.4516,2.7650,4.1475];
+  const actualMonthly = [0.2304,2.9954,7.1429,3.9171]; // reported through Feb 2026
+  const cum = arr => { let s = 0; return arr.map(v => +( (s += v).toFixed(2) )); };
+  const cumPlan = cum(planMonthly);
+  const cumActual = cum(actualMonthly);
+  return { labels, planMonthly, actualMonthly, cumPlan, cumActual, asOfIdx: actualMonthly.length - 1, asOfLabel: 'Feb 2026' };
+})();
+
 function drawSCurve(canvasId, small = false) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
@@ -2250,15 +2262,13 @@ function drawSCurve(canvasId, small = false) {
   const H = canvas.height;
   canvas.width = W;
 
-  const planData = [0,2,5,9,14,19,25,31,38,44,50,56,62,68,73,78,82,86,89,92,94,96,98,99,100];
-  const actualData = [0,2,4,8,12,17,22,27,33,38,43,48,52,57,61,65,68,71,74,null,null,null,null,null,null];
-  const foreData   = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,74,77,80,84,88,93,100];
-  const labels     = ['Jan-24','Apr-24','Jul-24','Oct-24','Jan-25','Apr-25','Jul-25','Oct-25','Jan-26','Apr-26','Jun-26',
-                       'Jul-26','Oct-26','Jan-27','Apr-27','Jun-27'];
+  const planData = SCURVE.cumPlan;
+  const actualData = SCURVE.labels.map((_, i) => i < SCURVE.cumActual.length ? SCURVE.cumActual[i] : null);
+  const labels = SCURVE.labels;
   const n = planData.length;
 
   ctx.clearRect(0, 0, W, H);
-  const pad = { l: small?30:40, r: small?10:20, t: 10, b: small?24:30 };
+  const pad = { l: small?32:44, r: small?10:20, t: 12, b: small?26:42 };
   const gW = W - pad.l - pad.r;
   const gH = H - pad.t - pad.b;
 
@@ -2266,15 +2276,29 @@ function drawSCurve(canvasId, small = false) {
   const yOf = v => pad.t + gH - (v / 100) * gH;
 
   // grid lines
-  ctx.strokeStyle = '#e8edf5'; ctx.lineWidth = 1;
+  ctx.strokeStyle = '#e6ebf1'; ctx.lineWidth = 1;
   for (let v = 0; v <= 100; v += 20) {
     ctx.beginPath(); ctx.moveTo(pad.l, yOf(v)); ctx.lineTo(W - pad.r, yOf(v)); ctx.stroke();
-    ctx.fillStyle = '#9aa8bb'; ctx.font = `${small?9:10}px sans-serif`;
-    ctx.fillText(v + '%', 0, yOf(v) + 4);
+    ctx.fillStyle = '#8b99aa'; ctx.font = `${small?9:10}px sans-serif`;
+    ctx.fillText(v + '%', 2, yOf(v) + 4);
   }
 
-  function drawLine(data, color, dash = []) {
-    ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = small ? 1.5 : 2; ctx.setLineDash(dash);
+  // x-axis month labels
+  const step = small ? 4 : (W < 560 ? 3 : 2);
+  ctx.fillStyle = '#8b99aa'; ctx.font = `${small?8:9.5}px sans-serif`;
+  labels.forEach((lb, i) => {
+    if (i % step !== 0 && i !== n - 1) return;
+    const tw = ctx.measureText(lb).width;
+    ctx.fillText(lb, xOf(i) - tw / 2, pad.t + gH + (small?12:14));
+  });
+
+  // as-of vertical marker
+  const ai = SCURVE.asOfIdx;
+  ctx.strokeStyle = '#e8a020'; ctx.setLineDash([3,3]); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(xOf(ai), pad.t); ctx.lineTo(xOf(ai), pad.t + gH); ctx.stroke(); ctx.setLineDash([]);
+
+  function drawLine(data, color, dash = [], width) {
+    ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = width || (small ? 1.5 : 2); ctx.setLineDash(dash);
     let started = false;
     data.forEach((v, i) => {
       if (v === null) return;
@@ -2284,25 +2308,31 @@ function drawSCurve(canvasId, small = false) {
     ctx.stroke(); ctx.setLineDash([]);
   }
 
-  drawLine(planData, '#9aa8bb', [4, 3]);
-  drawLine(foreData, '#e8a020', [3, 2]);
-  drawLine(actualData, '#2756a8');
+  drawLine(planData, '#8b99aa', [5, 3]);
+  drawLine(actualData, '#14649e', [], small ? 2 : 2.5);
 
-  // current point
-  const lastActual = actualData.filter(v => v !== null);
-  const lastIdx = actualData.lastIndexOf(lastActual[lastActual.length - 1]);
-  ctx.beginPath(); ctx.arc(xOf(lastIdx), yOf(lastActual[lastActual.length-1]), 4, 0, Math.PI*2);
-  ctx.fillStyle = '#2756a8'; ctx.fill();
+  // markers on actual points
+  actualData.forEach((v, i) => {
+    if (v === null) return;
+    ctx.beginPath(); ctx.arc(xOf(i), yOf(v), small?2.5:3.5, 0, Math.PI*2);
+    ctx.fillStyle = '#14649e'; ctx.fill();
+  });
 
+  // slippage callout at as-of point
+  const planNow = planData[ai], actNow = SCURVE.cumActual[ai];
+  const slip = +(actNow - planNow).toFixed(2);
   if (!small) {
+    ctx.fillStyle = slip < 0 ? '#c0392b' : '#27ae60';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.fillText(`Actual ${actNow}%  (Plan ${planNow}%, Slippage ${slip > 0 ? '+' : ''}${slip}%)`, Math.min(xOf(ai) + 8, W - 250), yOf(actNow) - 10);
     // legend
-    const legend = [['Plan', '#9aa8bb', [4,3]], ['Actual', '#2756a8', []], ['Forecast', '#e8a020', [3,2]]];
+    const legend = [[`Planned (cum.)`, '#8b99aa', [5,3]], [`Actual (as of ${SCURVE.asOfLabel})`, '#14649e', []]];
     let lx = pad.l;
     legend.forEach(([label, color, dash]) => {
       ctx.setLineDash(dash); ctx.strokeStyle = color; ctx.lineWidth = 2;
       ctx.beginPath(); ctx.moveTo(lx, H - 8); ctx.lineTo(lx + 20, H - 8); ctx.stroke();
-      ctx.setLineDash([]); ctx.fillStyle = '#6b7e96'; ctx.font = '10px sans-serif';
-      ctx.fillText(label, lx + 24, H - 4); lx += 70;
+      ctx.setLineDash([]); ctx.fillStyle = '#6b7686'; ctx.font = '10px sans-serif';
+      ctx.fillText(label, lx + 24, H - 4); lx += ctx.measureText(label).width + 50;
     });
   }
 }
