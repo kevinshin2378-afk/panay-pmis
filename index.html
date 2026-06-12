@@ -277,17 +277,17 @@ canvas.chart { max-width: 100%; }
     <input type="password" id="login-pw" placeholder="Password" autocomplete="current-password"
       onkeydown="if(event.key==='Enter')doLogin()">
     <div id="login-error" style="color:#c0392b;font-size:12px;margin:-6px 0 10px;display:none">
-      ❌ 아이디 또는 비밀번호가 올바르지 않습니다.
+      ❌ Invalid user ID or password.
     </div>
     <button class="login-btn" onclick="doLogin()">LOGIN</button>
     <div class="login-accounts" style="margin-top:16px">
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">기본 계정 (초기 비밀번호)</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">Default Accounts (initial password)</div>
       <span onclick="quickFill('kecc_admin')">kecc_admin</span>
       <span onclick="quickFill('wci_user')">wci_user</span>
       <span onclick="quickFill('dpwh_view')">dpwh_view</span>
     </div>
     <div style="font-size:11px;color:var(--text-muted);margin-top:12px;text-align:center">
-      Admin 초기 비밀번호: <code style="background:#f0f3f8;padding:2px 6px;border-radius:3px">1234@@</code> &nbsp;|&nbsp; 일반: <code style="background:#f0f3f8;padding:2px 6px;border-radius:3px">pmis2024</code>
+      Admin initial password: <code style="background:#f0f3f8;padding:2px 6px;border-radius:3px">1234@@</code> &nbsp;|&nbsp; Others: <code style="background:#f0f3f8;padding:2px 6px;border-radius:3px">pmis2024</code>
     </div>
   </div>
 </div>
@@ -454,8 +454,8 @@ canvas.chart { max-width: 100%; }
                 <tr><td class="text-muted">Location</td><td>Panay Island &amp; Agusan River Basin, Philippines</td></tr>
                 <tr><td class="text-muted">JV Contractor</td><td>KECC JV</td></tr>
                 <tr><td class="text-muted">Collaborator</td><td>WCI (Water &amp; Construction Inc.)</td></tr>
-                <tr><td class="text-muted">Division</td><td>수자원2부 (Water Resources Div. 2)</td></tr>
-                <tr><td class="text-muted">Team Leader</td><td>KWANG KYOON SHIN (신광균)</td></tr>
+                <tr><td class="text-muted">Division</td><td>Water Resources Div. 2</td></tr>
+                <tr><td class="text-muted">Team Leader</td><td>KWANG KYOON SHIN (Kevin Shin)</td></tr>
                 <tr><td class="text-muted">Contract Start</td><td>2024-01-15</td></tr>
                 <tr><td class="text-muted">Contract End</td><td>2027-06-30</td></tr>
                 <tr><td class="text-muted">Contract Amount</td><td>₱ 2,850,000,000 (PHP)</td></tr>
@@ -514,12 +514,12 @@ canvas.chart { max-width: 100%; }
                 <div class="org-node">
                   <div class="org-line-up"></div>
                   <div class="org-box">
-                    <div class="org-name">수자원2부</div>
+                    <div class="org-name">Water Resources Div. 2</div>
                     <div class="org-role">Water Resources Div. 2</div>
                   </div>
                   <div class="org-line-up"></div>
                   <div class="org-box" style="border-color:var(--accent);background:#fef3d0">
-                    <div class="org-name">신광균 (KK Shin)</div>
+                    <div class="org-name">KK Shin</div>
                     <div class="org-role">Team Leader</div>
                   </div>
                 </div>
@@ -696,7 +696,7 @@ canvas.chart { max-width: 100%; }
               <table>
                 <thead><tr><th>Name</th><th>Position</th><th>Company</th><th>Type</th><th>Status</th></tr></thead>
                 <tbody>
-                  <tr><td>신광균 (KK Shin)</td><td>Team Leader</td><td>KECC JV</td><td><span class="tag tag-blue">Expat</span></td><td><span class="tag tag-green">On Site</span></td></tr>
+                  <tr><td>KK Shin</td><td>Team Leader</td><td>KECC JV</td><td><span class="tag tag-blue">Expat</span></td><td><span class="tag tag-green">On Site</span></td></tr>
                   <tr><td>Hong Gildong</td><td>Hydrology Lead</td><td>KECC JV</td><td><span class="tag tag-blue">Expat</span></td><td><span class="tag tag-green">On Site</span></td></tr>
                   <tr><td>Kim Cheolsu</td><td>Structural Engineer</td><td>KECC JV</td><td><span class="tag tag-blue">Expat</span></td><td><span class="tag tag-yellow">Manila</span></td></tr>
                   <tr><td>J. Santos</td><td>Survey Lead</td><td>WCI</td><td><span class="tag tag-gray">Local</span></td><td><span class="tag tag-green">On Site</span></td></tr>
@@ -749,8 +749,8 @@ canvas.chart { max-width: 100%; }
       <div class="page" id="page-deliverables">
         <div class="page-header">
           <div class="breadcrumb">Home › <span>Deliverables</span></div>
-          <h1>산출물 관리 (Deliverables)</h1>
-          <p>계약 산출물 제출 현황 – Consulting Services for the Detailed Engineering Design of Flood Control Projects in Panay and Agusan River Basins (Package II)</p>
+          <h1>Deliverables Management</h1>
+          <p>Contract deliverables submission status – Consulting Services for the Detailed Engineering Design of Flood Control Projects in Panay and Agusan River Basins (Package II)</p>
         </div>
 
         <!-- Stats -->
@@ -759,18 +759,18 @@ canvas.chart { max-width: 100%; }
         <!-- Toolbar -->
         <div class="card mt24" style="padding:14px 20px">
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-            <input type="text" id="deliv-search" class="form-input" placeholder="🔍  산출물명 검색..." style="width:220px;padding:8px 12px;font-size:13px" oninput="renderDeliverables()">
+            <input type="text" id="deliv-search" class="form-input" placeholder="🔍  Search deliverables..." style="width:220px;padding:8px 12px;font-size:13px" oninput="renderDeliverables()">
             <select id="deliv-filter-status" class="form-input" style="width:160px;padding:8px 12px;font-size:13px" onchange="renderDeliverables()">
-              <option value="">전체 상태</option>
-              <option value="not_started">미착수</option>
-              <option value="in_progress">작성 중</option>
-              <option value="submitted">제출 완료</option>
-              <option value="under_review">검토 중</option>
-              <option value="approved">승인 완료</option>
-              <option value="revision">수정 요청</option>
+              <option value="">All Status</option>
+              <option value="not_started">Not Started</option>
+              <option value="in_progress">In Progress</option>
+              <option value="submitted">Submitted</option>
+              <option value="under_review">Under Review</option>
+              <option value="approved">Approved</option>
+              <option value="revision">Revision Required</option>
             </select>
             <select id="deliv-filter-cat" class="form-input" style="width:150px;padding:8px 12px;font-size:13px" onchange="renderDeliverables()">
-              <option value="">전체 분류</option>
+              <option value="">All Categories</option>
               <option>Report</option>
               <option>Design / Drawing</option>
               <option>Survey</option>
@@ -779,7 +779,7 @@ canvas.chart { max-width: 100%; }
             </select>
             <div style="margin-left:auto;display:flex;gap:8px">
               <button class="btn btn-outline btn-sm" onclick="exportDelivCSV()">⬇️ CSV</button>
-              <button class="btn btn-primary" onclick="openModal('modal-deliv-new')">+ 산출물 추가</button>
+              <button class="btn btn-primary" onclick="openModal('modal-deliv-new')">+ Add Deliverable</button>
             </div>
           </div>
         </div>
@@ -793,7 +793,7 @@ canvas.chart { max-width: 100%; }
         <div class="page-header">
           <div class="breadcrumb">Home › <span>Issue Tracker</span></div>
           <h1>Issue Tracker</h1>
-          <p>공문 및 업무 진행 현황 관리 – KTS Style</p>
+          <p>Official correspondence and work progress management – KTS Style</p>
         </div>
 
         <!-- Stats -->
@@ -802,25 +802,25 @@ canvas.chart { max-width: 100%; }
         <!-- Toolbar -->
         <div class="card mt24" style="padding:14px 20px">
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-            <input type="text" class="form-input" id="issue-search" placeholder="🔍  제목·내용·문서번호 검색..." style="width:220px;padding:8px 12px;font-size:13px" oninput="renderIssueTable()">
+            <input type="text" class="form-input" id="issue-search" placeholder="🔍  Search title / content / doc no..." style="width:220px;padding:8px 12px;font-size:13px" oninput="renderIssueTable()">
             <select class="form-input" id="issue-filter-cat" style="width:160px;padding:8px 12px;font-size:13px" onchange="renderIssueTable()">
-              <option value="">전체 분류</option>
+              <option value="">All Categories</option>
             </select>
             <select class="form-input" id="issue-filter-status" style="width:130px;padding:8px 12px;font-size:13px" onchange="renderIssueTable()">
-              <option value="">전체 상태</option>
-              <option value="progress">▽ 진행 중</option>
-              <option value="complete">● 완료</option>
-              <option value="closed">✕ 종료</option>
+              <option value="">All Status</option>
+              <option value="progress">▽ In Progress</option>
+              <option value="complete">● Complete</option>
+              <option value="closed">✕ Closed</option>
             </select>
             <select class="form-input" id="issue-filter-dir" style="width:130px;padding:8px 12px;font-size:13px" onchange="renderIssueTable()">
-              <option value="">I/O 전체</option>
-              <option value="I">I – 수신 (Incoming)</option>
-              <option value="O">O – 발신 (Outgoing)</option>
-              <option value="-">– 내부</option>
+              <option value="">All I/O</option>
+              <option value="I">I – Incoming</option>
+              <option value="O">O – Outgoing</option>
+              <option value="-">– Internal</option>
             </select>
             <div style="margin-left:auto;display:flex;gap:8px">
-              <button class="btn btn-outline btn-sm" onclick="exportIssueCSV()">⬇️ CSV 내보내기</button>
-              <button class="btn btn-primary" onclick="openModal('modal-issue-new')">+ 신규 이슈 등록</button>
+              <button class="btn btn-outline btn-sm" onclick="exportIssueCSV()">⬇️ Export CSV</button>
+              <button class="btn btn-primary" onclick="openModal('modal-issue-new')">+ New Issue</button>
             </div>
           </div>
         </div>
@@ -833,15 +833,15 @@ canvas.chart { max-width: 100%; }
                 <tr style="position:sticky;top:0;z-index:10">
                   <th style="width:44px">No.</th>
                   <th style="width:36px"></th>
-                  <th>제목 (TITLE & KEY WORD)</th>
-                  <th style="width:110px">분류</th>
+                  <th>TITLE & KEY WORD</th>
+                  <th style="width:110px">Category</th>
                   <th style="width:48px">I/O</th>
                   <th style="width:72px">From</th>
                   <th style="width:72px">To</th>
-                  <th style="width:90px">문서번호</th>
-                  <th style="width:88px">날짜</th>
-                  <th style="width:58px">진행</th>
-                  <th style="width:110px">다음 진행</th>
+                  <th style="width:90px">Doc. No.</th>
+                  <th style="width:88px">Date</th>
+                  <th style="width:58px">Prog.</th>
+                  <th style="width:110px">Next Action</th>
                   <th style="width:64px">Action</th>
                 </tr>
               </thead>
@@ -966,20 +966,20 @@ canvas.chart { max-width: 100%; }
         <div id="gdrive-banner" style="background:linear-gradient(135deg,#1a3a6b,#2756a8);border-radius:10px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:20px;color:#fff">
           <div style="font-size:40px">☁️</div>
           <div style="flex:1">
-            <div style="font-size:15px;font-weight:700;margin-bottom:4px">Google Drive 연동 파일 보관소</div>
-            <div id="gdrive-status" style="font-size:13px;opacity:.8">연결되지 않음 – 버튼을 눌러 Google 계정으로 로그인하세요</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:4px">Google Drive File Storage</div>
+            <div id="gdrive-status" style="font-size:13px;opacity:.8">Not connected – click the button to sign in with Google</div>
           </div>
           <button id="gdrive-connect-btn" class="btn btn-primary" style="background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.4);white-space:nowrap" onclick="gdriveSignIn()">
-            🔗 Google Drive 연결
+            🔗 Connect Google Drive
           </button>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <div class="card-title">산출물 파일 관리</div>
+            <div class="card-title">Deliverable Files</div>
             <div style="display:flex;gap:8px">
               <select id="folder-select" class="form-input" style="width:auto;padding:7px 12px;font-size:13px" onchange="loadDriveFiles(this.value)">
-                <option value="">📁 전체 (루트)</option>
+                <option value="">📁 All (Root)</option>
                 <option value="01. Reports">01. Reports</option>
                 <option value="02. Drawings">02. Drawings</option>
                 <option value="03. Survey Data">03. Survey Data</option>
@@ -997,9 +997,9 @@ canvas.chart { max-width: 100%; }
               <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">FOLDERS</div>
               <div id="folder-tree"></div>
               <div style="margin-top:16px;padding:12px;background:#f0f3f8;border-radius:8px;font-size:12px;color:var(--text-muted)">
-                <div style="font-weight:700;margin-bottom:4px">📌 Drive 폴더</div>
+                <div style="font-weight:700;margin-bottom:4px">📌 Drive Folder</div>
                 <div>Panay-Agusan PMIS</div>
-                <a id="drive-folder-link" href="https://drive.google.com" target="_blank" style="font-size:11px;color:var(--primary-light);text-decoration:none;margin-top:6px;display:block">→ Drive에서 열기</a>
+                <a id="drive-folder-link" href="https://drive.google.com" target="_blank" style="font-size:11px;color:var(--primary-light);text-decoration:none;margin-top:6px;display:block">→ Open in Drive</a>
               </div>
             </div>
             <div>
@@ -1009,7 +1009,7 @@ canvas.chart { max-width: 100%; }
                   <thead><tr><th>Name</th><th>Size</th><th>Modified</th><th>Uploader</th><th>Action</th></tr></thead>
                   <tbody id="file-list-body">
                     <tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:30px">
-                      Google Drive에 연결하면 파일 목록이 표시됩니다.
+                      Connect to Google Drive to view the file list.
                     </td></tr>
                   </tbody>
                 </table>
@@ -1029,17 +1029,17 @@ canvas.chart { max-width: 100%; }
         <!-- Share / Access Link -->
         <div class="card" style="background:linear-gradient(135deg,#1a3a6b 0%,#2563b0 100%);color:#fff">
           <div class="card-header" style="border-color:rgba(255,255,255,.15)">
-            <div class="card-title" style="color:#fff">🔗 시스템 접속 링크 공유</div>
+            <div class="card-title" style="color:#fff">🔗 Share System Access Link</div>
           </div>
           <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
             <div style="flex:1;min-width:220px">
-              <div style="font-size:12px;opacity:.8;margin-bottom:6px">GitHub Pages 공개 URL</div>
+              <div style="font-size:12px;opacity:.8;margin-bottom:6px">GitHub Pages Public URL</div>
               <div style="display:flex;gap:8px;align-items:center">
                 <input id="share-url-input" readonly value="https://kevinshin2378-afk.github.io/panay-pmis/"
                   style="flex:1;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:8px 12px;border-radius:6px;font-size:13px;outline:none">
-                <button onclick="copyShareUrl()" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:8px 16px;border-radius:6px;cursor:pointer;white-space:nowrap">📋 복사</button>
+                <button onclick="copyShareUrl()" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:8px 16px;border-radius:6px;cursor:pointer;white-space:nowrap">📋 Copy</button>
               </div>
-              <div style="font-size:11px;opacity:.7;margin-top:6px">이 링크를 프로젝트 관계자에게 공유하세요. 로그인 후 권한 범위 내 기능을 사용할 수 있습니다.</div>
+              <div style="font-size:11px;opacity:.7;margin-top:6px">Share this link with project stakeholders. After login, features are available within each user's permission scope.</div>
             </div>
             <div style="text-align:center">
               <canvas id="qr-canvas" width="100" height="100" style="border-radius:8px;background:#fff;padding:4px;display:block"></canvas>
@@ -1051,31 +1051,31 @@ canvas.chart { max-width: 100%; }
         <!-- User List -->
         <div class="card mt24">
           <div class="card-header">
-            <div class="card-title">등록 사용자</div>
-            <button class="btn btn-primary btn-sm" onclick="openUserModal()">+ 사용자 추가</button>
+            <div class="card-title">Registered Users</div>
+            <button class="btn btn-primary btn-sm" onclick="openUserModal()">+ Add User</button>
           </div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>ID</th><th>이름</th><th>소속</th><th>역할</th><th>이메일</th><th>최근 로그인</th><th>상태</th><th>액션</th></tr></thead>
-              <tbody id="user-table-body"><tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text-muted)">로딩 중...</td></tr></tbody>
+              <thead><tr><th>ID</th><th>Name</th><th>Company</th><th>Role</th><th>Email</th><th>Last Login</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="user-table-body"><tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text-muted)">Loading...</td></tr></tbody>
             </table>
           </div>
         </div>
 
         <!-- Role Permissions reference -->
         <div class="card mt24">
-          <div class="card-header"><div class="card-title">역할별 권한</div></div>
+          <div class="card-header"><div class="card-title">Role Permissions</div></div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>모듈</th><th>Admin</th><th>Manager</th><th>Editor</th><th>Viewer</th></tr></thead>
+              <thead><tr><th>Module</th><th>Admin</th><th>Manager</th><th>Editor</th><th>Viewer</th></tr></thead>
               <tbody>
                 <tr><td>Dashboard</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
-                <tr><td>General Info / Contract</td><td>✅ 편집</td><td>✅ 편집</td><td>👁️ 조회</td><td>👁️ 조회</td></tr>
-                <tr><td>Progress / Workforce / Photos</td><td>✅ 편집</td><td>✅ 편집</td><td>✅ 편집</td><td>👁️ 조회</td></tr>
-                <tr><td>Deliverables / Issues</td><td>✅ 편집</td><td>✅ 편집</td><td>✅ 편집</td><td>👁️ 조회</td></tr>
-                <tr><td>Document Approval</td><td>✅ 승인</td><td>✅ 승인</td><td>📤 제출</td><td>❌</td></tr>
-                <tr><td>Notice / Schedule / File Storage</td><td>✅</td><td>✅</td><td>✅</td><td>👁️ 조회</td></tr>
-                <tr><td>User Management</td><td>✅ 관리</td><td>👁️ 조회</td><td>❌</td><td>❌</td></tr>
+                <tr><td>General Info / Contract</td><td>✅ Edit</td><td>✅ Edit</td><td>👁️ View</td><td>👁️ View</td></tr>
+                <tr><td>Progress / Workforce / Photos</td><td>✅ Edit</td><td>✅ Edit</td><td>✅ Edit</td><td>👁️ View</td></tr>
+                <tr><td>Deliverables / Issues</td><td>✅ Edit</td><td>✅ Edit</td><td>✅ Edit</td><td>👁️ View</td></tr>
+                <tr><td>Document Approval</td><td>✅ Approve</td><td>✅ Approve</td><td>📤 Submit</td><td>❌</td></tr>
+                <tr><td>Notice / Schedule / File Storage</td><td>✅</td><td>✅</td><td>✅</td><td>👁️ View</td></tr>
+                <tr><td>User Management</td><td>✅ Manage</td><td>👁️ View</td><td>❌</td><td>❌</td></tr>
               </tbody>
             </table>
           </div>
@@ -1092,22 +1092,22 @@ canvas.chart { max-width: 100%; }
 <div class="modal-bg" id="modal-deliv-new">
   <div class="modal" style="width:660px;max-width:97vw">
     <div class="modal-header">
-      <div class="modal-title">🎯 산출물 추가</div>
+      <div class="modal-title">🎯 Add Deliverable</div>
       <button class="modal-close" onclick="closeModal('modal-deliv-new')">✕</button>
     </div>
     <div class="form-row">
       <div class="form-group" style="grid-column:1/-1">
-        <label class="form-label">산출물명 (영문) <span style="color:var(--danger)">*</span></label>
-        <input class="form-input" id="dn-title-en" placeholder="예: Topographic Survey Report – Panay River">
+        <label class="form-label">Title (English) <span style="color:var(--danger)">*</span></label>
+        <input class="form-input" id="dn-title-en" placeholder="e.g. Topographic Survey Report – Panay River">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">산출물명 (국문)</label>
-        <input class="form-input" id="dn-title-ko" placeholder="예: 지형측량 보고서 – 파나이강">
+        <label class="form-label">Title (Korean)</label>
+        <input class="form-input" id="dn-title-ko" placeholder="e.g. Topographic Survey Report – Panay River">
       </div>
       <div class="form-group">
-        <label class="form-label">분류</label>
+        <label class="form-label">Category</label>
         <select class="form-input" id="dn-cat">
           <option>Report</option><option>Design / Drawing</option><option>Survey</option>
           <option>Environmental</option><option>Social</option>
@@ -1116,36 +1116,36 @@ canvas.chart { max-width: 100%; }
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">제출 시점</label>
-        <input class="form-input" id="dn-deadline-desc" placeholder="예: 착수 후 14개월">
+        <label class="form-label">Submission Timing</label>
+        <input class="form-input" id="dn-deadline-desc" placeholder="e.g. Within 14 months of commencement">
       </div>
       <div class="form-group">
-        <label class="form-label">제출 예정일</label>
+        <label class="form-label">Due Date</label>
         <input class="form-input" id="dn-deadline-date" type="date">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">제출 부수</label>
-        <input class="form-input" id="dn-copies" placeholder="예: 10부">
+        <label class="form-label">Copies</label>
+        <input class="form-input" id="dn-copies" placeholder="e.g. 10 copies">
       </div>
       <div class="form-group">
-        <label class="form-label">상태</label>
+        <label class="form-label">Status</label>
         <select class="form-input" id="dn-status">
-          <option value="not_started">미착수</option>
-          <option value="in_progress">작성 중</option>
-          <option value="submitted">제출 완료</option>
-          <option value="approved">승인 완료</option>
+          <option value="not_started">Not Started</option>
+          <option value="in_progress">In Progress</option>
+          <option value="submitted">Submitted</option>
+          <option value="approved">Approved</option>
         </select>
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">비고</label>
-      <input class="form-input" id="dn-note" placeholder="계약 특기사항 등">
+      <label class="form-label">Remarks</label>
+      <input class="form-input" id="dn-note" placeholder="Contract notes, etc.">
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
-      <button class="btn btn-outline" onclick="closeModal('modal-deliv-new')">취소</button>
-      <button class="btn btn-primary" onclick="saveNewDeliverable()">등록</button>
+      <button class="btn btn-outline" onclick="closeModal('modal-deliv-new')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveNewDeliverable()">Register</button>
     </div>
   </div>
 </div>
@@ -1154,7 +1154,7 @@ canvas.chart { max-width: 100%; }
 <div class="modal-bg" id="modal-deliv-submit">
   <div class="modal" style="width:640px;max-width:97vw">
     <div class="modal-header">
-      <div class="modal-title">📤 제출 기록 추가</div>
+      <div class="modal-title">📤 Add Submission Record</div>
       <button class="modal-close" onclick="closeModal('modal-deliv-submit')">✕</button>
     </div>
     <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px">
@@ -1162,49 +1162,49 @@ canvas.chart { max-width: 100%; }
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">제출 버전</label>
-        <input class="form-input" id="ds-ver" placeholder="예: Draft R0, Final, Rev.1">
+        <label class="form-label">Submission Version</label>
+        <input class="form-input" id="ds-ver" placeholder="e.g. Draft R0, Final, Rev.1">
       </div>
       <div class="form-group">
-        <label class="form-label">제출일</label>
+        <label class="form-label">Submission Date</label>
         <input class="form-input" id="ds-date" type="date">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">공문번호 (커버레터)</label>
-        <input class="form-input" id="ds-letter" placeholder="예: KECC-SU26-001">
+        <label class="form-label">Letter No. (Cover Letter)</label>
+        <input class="form-input" id="ds-letter" placeholder="e.g. KECC-SU26-001">
       </div>
       <div class="form-group">
-        <label class="form-label">제출 부수</label>
-        <input class="form-input" id="ds-copies" placeholder="예: 10부">
+        <label class="form-label">Copies</label>
+        <input class="form-input" id="ds-copies" placeholder="e.g. 10 copies">
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">비고</label>
-      <input class="form-input" id="ds-note" placeholder="검토 의견, 수정 사항 등">
+      <label class="form-label">Remarks</label>
+      <input class="form-input" id="ds-note" placeholder="Review comments, revisions, etc.">
     </div>
     <div class="form-group">
-      <label class="form-label">파일 첨부 (Google Drive 업로드)</label>
+      <label class="form-label">Attach Files (Google Drive Upload)</label>
       <div class="upload-area" id="ds-upload-area" style="cursor:pointer" onclick="delivUploadToDrive()">
         <div class="upload-icon">☁️</div>
-        <div style="font-weight:600;margin-bottom:4px">클릭하여 Drive에 업로드</div>
-        <div style="font-size:12px;color:var(--text-muted)">PDF, DOCX, DWG, XLSX 지원</div>
+        <div style="font-weight:600;margin-bottom:4px">Click to upload to Drive</div>
+        <div style="font-size:12px;color:var(--text-muted)">Supports PDF, DOCX, DWG, XLSX</div>
       </div>
       <div id="ds-uploaded-files" style="margin-top:8px"></div>
     </div>
     <div class="form-group">
-      <label class="form-label">상태 업데이트</label>
+      <label class="form-label">Status Update</label>
       <select class="form-input" id="ds-status">
-        <option value="submitted">제출 완료</option>
-        <option value="under_review">검토 중</option>
-        <option value="approved">승인 완료</option>
-        <option value="revision">수정 요청</option>
+        <option value="submitted">Submitted</option>
+        <option value="under_review">Under Review</option>
+        <option value="approved">Approved</option>
+        <option value="revision">Revision Required</option>
       </select>
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
-      <button class="btn btn-outline" onclick="closeModal('modal-deliv-submit')">취소</button>
-      <button class="btn btn-primary" onclick="saveDelivSubmission()">저장</button>
+      <button class="btn btn-outline" onclick="closeModal('modal-deliv-submit')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveDelivSubmission()">Save</button>
     </div>
   </div>
 </div>
@@ -1213,85 +1213,85 @@ canvas.chart { max-width: 100%; }
 <div class="modal-bg" id="modal-issue-new">
   <div class="modal" style="width:680px;max-width:97vw">
     <div class="modal-header">
-      <div class="modal-title">📋 신규 이슈 등록</div>
+      <div class="modal-title">📋 New Issue</div>
       <button class="modal-close" onclick="closeModal('modal-issue-new')">✕</button>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">분류 (Category) <span style="color:var(--danger)">*</span></label>
+        <label class="form-label">Category <span style="color:var(--danger)">*</span></label>
         <select class="form-input" id="ni-cat">
-          <option value="">-- 선택 --</option>
-          <option>Letter (공문)</option><option>Report (보고서)</option><option>VO (Variation Order)</option>
-          <option>Claim</option><option>EOT</option><option>기성 (IPC)</option>
+          <option value="">-- Select --</option>
+          <option>Letter</option><option>Report</option><option>VO (Variation Order)</option>
+          <option>Claim</option><option>EOT</option><option>IPC (Payment)</option>
           <option>Programme / Schedule</option><option>Method Statement</option>
           <option>Drawing</option><option>Survey</option><option>Meeting (MOM)</option>
-          <option>subcon</option><option>Bond</option><option>AP (선급금)</option>
+          <option>subcon</option><option>Bond</option><option>AP (Advance Payment)</option>
           <option>Force Majeure</option><option>land acquisition</option>
-          <option>Insurance</option><option>본사보고</option><option>Others</option>
+          <option>Insurance</option><option>HQ Report</option><option>Others</option>
         </select>
       </div>
       <div class="form-group">
-        <label class="form-label">I / O / 내부</label>
+        <label class="form-label">I / O / Internal</label>
         <select class="form-input" id="ni-dir">
-          <option value="O">O – 발신 (Outgoing)</option>
-          <option value="I">I – 수신 (Incoming)</option>
-          <option value="-">– 내부 (Internal)</option>
+          <option value="O">O – Outgoing</option>
+          <option value="I">I – Incoming</option>
+          <option value="-">– Internal</option>
         </select>
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">제목 (TITLE & KEY WORD) <span style="color:var(--danger)">*</span></label>
-      <input class="form-input" id="ni-title" placeholder="이슈 제목 또는 키워드 입력">
+      <label class="form-label">TITLE & KEY WORD <span style="color:var(--danger)">*</span></label>
+      <input class="form-input" id="ni-title" placeholder="Enter issue title or keyword">
     </div>
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">From</label>
         <select class="form-input" id="ni-from">
-          <option>KECC JV</option><option>WCI</option><option>DPWH</option><option>ENG</option><option>DP</option><option>Omega Group</option><option>기타</option>
+          <option>KECC JV</option><option>WCI</option><option>DPWH</option><option>ENG</option><option>DP</option><option>Omega Group</option><option>Others</option>
         </select>
       </div>
       <div class="form-group">
         <label class="form-label">To</label>
         <select class="form-input" id="ni-to">
-          <option>DPWH</option><option>KECC JV</option><option>WCI</option><option>ENG</option><option>DP</option><option>Omega Group</option><option>기타</option>
+          <option>DPWH</option><option>KECC JV</option><option>WCI</option><option>ENG</option><option>DP</option><option>Omega Group</option><option>Others</option>
         </select>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">문서번호 (Doc. No.)</label>
-        <input class="form-input" id="ni-docno" placeholder="예: PA-LTR-029">
+        <label class="form-label">Doc. No. (Doc. No.)</label>
+        <input class="form-input" id="ni-docno" placeholder="e.g. PA-LTR-029">
       </div>
       <div class="form-group">
-        <label class="form-label">날짜</label>
+        <label class="form-label">Date</label>
         <input class="form-input" id="ni-date" type="date">
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">내용 (첫 번째 항목)</label>
-      <textarea class="form-input" id="ni-content" rows="3" placeholder="이슈 내용 또는 최초 발생 상황을 입력하세요"></textarea>
+      <label class="form-label">Content (First Entry)</label>
+      <textarea class="form-input" id="ni-content" rows="3" placeholder="Describe the issue or initial situation"></textarea>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">다음 진행 (Next Action)</label>
-        <input class="form-input" id="ni-next" placeholder="다음 조치 사항">
+        <label class="form-label">Next Action</label>
+        <input class="form-input" id="ni-next" placeholder="Next action">
       </div>
       <div class="form-group">
-        <label class="form-label">진행 상태</label>
+        <label class="form-label">Progress Status</label>
         <select class="form-input" id="ni-status">
-          <option value="progress">▽ 진행 중</option>
-          <option value="complete">● 완료</option>
-          <option value="closed">✕ 종료</option>
+          <option value="progress">▽ In Progress</option>
+          <option value="complete">● Complete</option>
+          <option value="closed">✕ Closed</option>
         </select>
       </div>
     </div>
     <div class="form-group">
       <label class="form-label">Remark</label>
-      <input class="form-input" id="ni-remark" placeholder="비고">
+      <input class="form-input" id="ni-remark" placeholder="Remarks">
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
-      <button class="btn btn-outline" onclick="closeModal('modal-issue-new')">취소</button>
-      <button class="btn btn-primary" onclick="saveNewIssue()">등록</button>
+      <button class="btn btn-outline" onclick="closeModal('modal-issue-new')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveNewIssue()">Register</button>
     </div>
   </div>
 </div>
@@ -1300,7 +1300,7 @@ canvas.chart { max-width: 100%; }
 <div class="modal-bg" id="modal-issue-entry">
   <div class="modal" style="width:600px;max-width:97vw">
     <div class="modal-header">
-      <div class="modal-title">✏️ 진행 내용 추가</div>
+      <div class="modal-title">✏️ Add Progress Entry</div>
       <button class="modal-close" onclick="closeModal('modal-issue-entry')">✕</button>
     </div>
     <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px">
@@ -1308,42 +1308,42 @@ canvas.chart { max-width: 100%; }
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">날짜</label>
+        <label class="form-label">Date</label>
         <input class="form-input" id="entry-date" type="date">
       </div>
       <div class="form-group">
         <label class="form-label">From</label>
         <select class="form-input" id="entry-from">
-          <option>KECC JV</option><option>WCI</option><option>DPWH</option><option>ENG</option><option>DP</option><option>Omega Group</option><option>기타</option>
+          <option>KECC JV</option><option>WCI</option><option>DPWH</option><option>ENG</option><option>DP</option><option>Omega Group</option><option>Others</option>
         </select>
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">내용</label>
-      <textarea class="form-input" id="entry-content" rows="4" placeholder="진행 내용, 회의 요약, 수신 문서 내용 등"></textarea>
+      <label class="form-label">Content</label>
+      <textarea class="form-input" id="entry-content" rows="4" placeholder="Progress details, meeting summary, received document content, etc."></textarea>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">문서번호 (이번 항목용)</label>
-        <input class="form-input" id="entry-docno" placeholder="해당 시 입력">
+        <label class="form-label">Doc. No. (this entry)</label>
+        <input class="form-input" id="entry-docno" placeholder="If applicable">
       </div>
       <div class="form-group">
-        <label class="form-label">상태 업데이트</label>
+        <label class="form-label">Status Update</label>
         <select class="form-input" id="entry-status">
-          <option value="">변경 없음</option>
-          <option value="progress">▽ 진행 중</option>
-          <option value="complete">● 완료</option>
-          <option value="closed">✕ 종료</option>
+          <option value="">No Change</option>
+          <option value="progress">▽ In Progress</option>
+          <option value="complete">● Complete</option>
+          <option value="closed">✕ Closed</option>
         </select>
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">다음 진행 (Next Action)</label>
-      <input class="form-input" id="entry-next" placeholder="다음 조치 사항 업데이트">
+      <label class="form-label">Next Action</label>
+      <input class="form-input" id="entry-next" placeholder="Update next action">
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
-      <button class="btn btn-outline" onclick="closeModal('modal-issue-entry')">취소</button>
-      <button class="btn btn-primary" onclick="saveIssueEntry()">저장</button>
+      <button class="btn btn-outline" onclick="closeModal('modal-issue-entry')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveIssueEntry()">Save</button>
     </div>
   </div>
 </div>
@@ -1352,13 +1352,13 @@ canvas.chart { max-width: 100%; }
 <div class="modal-bg" id="modal-issue-detail">
   <div class="modal" style="width:760px;max-width:97vw">
     <div class="modal-header">
-      <div class="modal-title" id="detail-title">이슈 상세</div>
+      <div class="modal-title" id="detail-title">Issue Detail</div>
       <button class="modal-close" onclick="closeModal('modal-issue-detail')">✕</button>
     </div>
     <div id="detail-body"></div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
-      <button class="btn btn-outline btn-sm" onclick="closeModal('modal-issue-detail');openEntryModal(currentDetailId)">✏️ 진행 내용 추가</button>
-      <button class="btn btn-outline" onclick="closeModal('modal-issue-detail')">닫기</button>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('modal-issue-detail');openEntryModal(currentDetailId)">✏️ Add Progress Entry</button>
+      <button class="btn btn-outline" onclick="closeModal('modal-issue-detail')">Close</button>
     </div>
   </div>
 </div>
@@ -1410,13 +1410,13 @@ canvas.chart { max-width: 100%; }
     </div>
     <div class="form-group"><label class="form-label">Approval Line</label>
       <div class="approval-flow" style="margin-top:8px">
-        <div class="approval-step"><div class="approval-step-box done">작성<br><small>KK Shin</small></div></div>
+        <div class="approval-step"><div class="approval-step-box done">Draft<br><small>KK Shin</small></div></div>
         <div class="approval-arrow">→</div>
-        <div class="approval-step"><div class="approval-step-box current">검토<br><small>PM</small></div></div>
+        <div class="approval-step"><div class="approval-step-box current">Review<br><small>PM</small></div></div>
         <div class="approval-arrow">→</div>
-        <div class="approval-step"><div class="approval-step-box pending">승인<br><small>Director</small></div></div>
+        <div class="approval-step"><div class="approval-step-box pending">Approval<br><small>Director</small></div></div>
         <div class="approval-arrow">→</div>
-        <div class="approval-step"><div class="approval-step-box pending">발신<br><small>DPWH</small></div></div>
+        <div class="approval-step"><div class="approval-step-box pending">Issue<br><small>DPWH</small></div></div>
       </div>
     </div>
     <div class="form-group"><label class="form-label">Attach File</label>
@@ -1551,16 +1551,16 @@ canvas.chart { max-width: 100%; }
 <div class="modal-bg" id="modal-upload">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title">☁️ Google Drive에 파일 업로드</div>
+      <div class="modal-title">☁️ Upload Files to Google Drive</div>
       <button class="modal-close" onclick="closeModal('modal-upload')">✕</button>
     </div>
     <div style="background:#e8f0fb;border-radius:8px;padding:12px 16px;font-size:13px;color:var(--primary);margin-bottom:16px">
-      <strong>📁 저장 위치:</strong> Google Drive &rsaquo; Panay-Agusan PMIS &rsaquo; <span id="upload-folder-display">선택된 폴더</span>
+      <strong>📁 Save location:</strong> Google Drive &rsaquo; Panay-Agusan PMIS &rsaquo; <span id="upload-folder-display">Selected folder</span>
     </div>
     <div class="form-group">
-      <label class="form-label">업로드 폴더 선택</label>
-      <select class="form-input" id="upload-folder-select" onchange="document.getElementById('upload-folder-display').textContent=this.value||'루트'">
-        <option value="">📁 루트 (전체)</option>
+      <label class="form-label">Select Upload Folder</label>
+      <select class="form-input" id="upload-folder-select" onchange="document.getElementById('upload-folder-display').textContent=this.value||'Root'">
+        <option value="">📁 Root (All)</option>
         <option value="01. Reports">01. Reports</option>
         <option value="02. Drawings">02. Drawings</option>
         <option value="03. Survey Data">03. Survey Data</option>
@@ -1572,8 +1572,8 @@ canvas.chart { max-width: 100%; }
     </div>
     <div class="upload-area" onclick="openGDrivePicker(document.getElementById('upload-folder-select').value)" style="cursor:pointer">
       <div class="upload-icon">☁️</div>
-      <div style="font-weight:600;margin-bottom:4px">클릭하여 파일 선택 후 Drive에 업로드</div>
-      <div style="font-size:12px;color:var(--text-muted)">PDF, DWG, XLSX, DOCX, JPG, ZIP 지원 · 복수 선택 가능</div>
+      <div style="font-weight:600;margin-bottom:4px">Click to select files and upload to Drive</div>
+      <div style="font-size:12px;color:var(--text-muted)">Supports PDF, DWG, XLSX, DOCX, JPG, ZIP · Multiple selection</div>
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
       <button class="btn btn-outline" onclick="closeModal('modal-upload')">Cancel</button>
@@ -1581,44 +1581,44 @@ canvas.chart { max-width: 100%; }
   </div>
 </div>
 
-<!-- Google Drive 설정 안내 모달 -->
+<!-- Google Drive setup guide modal -->
 <div class="modal-bg" id="modal-gdrive-setup">
   <div class="modal" style="max-width:620px">
     <div class="modal-header">
-      <div class="modal-title">🔑 Google Drive API 설정 방법</div>
+      <div class="modal-title">🔑 Google Drive API Setup Guide</div>
       <button class="modal-close" onclick="closeModal('modal-gdrive-setup')">✕</button>
     </div>
     <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">
-      아래 단계를 따라 Google Cloud Console에서 Client ID를 발급받고 <code>index.html</code> 상단의 값을 교체하세요.
+      Follow the steps below to obtain a Client ID from Google Cloud Console and replace the values at the top of <code>index.html</code>.
     </p>
     <div style="counter-reset:step">
       <div style="display:flex;gap:12px;margin-bottom:16px">
         <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">1</div>
         <div>
-          <div style="font-weight:600;font-size:14px;margin-bottom:4px">Google Cloud Console 접속</div>
-          <div style="font-size:13px;color:var(--text-muted)"><a href="https://console.cloud.google.com" target="_blank" style="color:var(--primary-light)">console.cloud.google.com</a> → 새 프로젝트 생성 (<strong>Panay-PMIS</strong>)</div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:4px">Open Google Cloud Console</div>
+          <div style="font-size:13px;color:var(--text-muted)"><a href="https://console.cloud.google.com" target="_blank" style="color:var(--primary-light)">console.cloud.google.com</a> → Create a new project (<strong>Panay-PMIS</strong>)</div>
         </div>
       </div>
       <div style="display:flex;gap:12px;margin-bottom:16px">
         <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">2</div>
         <div>
-          <div style="font-weight:600;font-size:14px;margin-bottom:4px">API 활성화</div>
-          <div style="font-size:13px;color:var(--text-muted)">API 및 서비스 → 라이브러리 → <strong>Google Drive API</strong> 활성화</div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:4px">Enable API</div>
+          <div style="font-size:13px;color:var(--text-muted)">APIs & Services → Library → <strong>Google Drive API</strong> Enable</div>
         </div>
       </div>
       <div style="display:flex;gap:12px;margin-bottom:16px">
         <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">3</div>
         <div>
-          <div style="font-weight:600;font-size:14px;margin-bottom:4px">OAuth 동의 화면 설정</div>
-          <div style="font-size:13px;color:var(--text-muted)">OAuth 동의 화면 → 외부 선택 → 앱 이름 <strong>Panay-Agusan PMIS</strong> → 저장</div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:4px">Configure OAuth Consent Screen</div>
+          <div style="font-size:13px;color:var(--text-muted)">OAuth consent screen → External → App name <strong>Panay-Agusan PMIS</strong> → Save</div>
         </div>
       </div>
       <div style="display:flex;gap:12px;margin-bottom:16px">
         <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">4</div>
         <div>
-          <div style="font-weight:600;font-size:14px;margin-bottom:4px">사용자 인증 정보 생성</div>
-          <div style="font-size:13px;color:var(--text-muted)">사용자 인증 정보 → + 만들기 → <strong>OAuth 클라이언트 ID</strong> → 웹 애플리케이션 선택<br>
-          승인된 JavaScript 출처에 추가:<br>
+          <div style="font-weight:600;font-size:14px;margin-bottom:4px">Create Credentials</div>
+          <div style="font-size:13px;color:var(--text-muted)">Credentials → + Create → <strong>OAuth Client ID</strong> → Select Web Application<br>
+          Add to Authorized JavaScript origins:<br>
           <code style="background:#f0f3f8;padding:2px 6px;border-radius:4px">https://kevinshin2378.github.io</code><br>
           <code style="background:#f0f3f8;padding:2px 6px;border-radius:4px">http://localhost:8080</code></div>
         </div>
@@ -1626,17 +1626,17 @@ canvas.chart { max-width: 100%; }
       <div style="display:flex;gap:12px;margin-bottom:16px">
         <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">5</div>
         <div>
-          <div style="font-weight:600;font-size:14px;margin-bottom:4px">Client ID / API Key를 코드에 입력</div>
-          <div style="font-size:13px;color:var(--text-muted)"><code>index.html</code> 상단 스크립트에서:<br>
-          <code style="background:#f0f3f8;padding:4px 8px;border-radius:4px;display:block;margin-top:6px">const GDRIVE_CLIENT_ID = '발급받은_Client_ID';<br>const GDRIVE_API_KEY = '발급받은_API_Key';</code></div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:4px">Enter Client ID / API Key in Code</div>
+          <div style="font-size:13px;color:var(--text-muted)"><code>index.html</code> in the script at the top:<br>
+          <code style="background:#f0f3f8;padding:4px 8px;border-radius:4px;display:block;margin-top:6px">const GDRIVE_CLIENT_ID = 'YOUR_CLIENT_ID';<br>const GDRIVE_API_KEY = 'YOUR_API_KEY';</code></div>
         </div>
       </div>
     </div>
     <div style="background:#fef3d0;border-radius:8px;padding:12px 16px;font-size:13px;color:#7d5a00;margin-top:4px">
-      💡 API Key는 사용자 인증 정보 → + 만들기 → <strong>API 키</strong>로 별도 생성합니다. Drive API로 제한 설정을 권장합니다.
+      💡 Create the API Key separately via Credentials → + Create → <strong>API Key</strong>. Restricting it to the Drive API is recommended.
     </div>
     <div style="display:flex;justify-content:flex-end;margin-top:20px">
-      <button class="btn btn-primary" onclick="closeModal('modal-gdrive-setup')">확인</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-gdrive-setup')">OK</button>
     </div>
   </div>
 </div>
@@ -1644,29 +1644,29 @@ canvas.chart { max-width: 100%; }
 <div class="modal-bg" id="modal-user">
   <div class="modal" style="width:560px;max-width:97vw">
     <div class="modal-header">
-      <div class="modal-title" id="user-modal-title">사용자 추가</div>
+      <div class="modal-title" id="user-modal-title">Add User</div>
       <button class="modal-close" onclick="closeModal('modal-user')">✕</button>
     </div>
     <input type="hidden" id="um-edit-id">
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">User ID <span style="color:var(--danger)">*</span></label>
-        <input class="form-input" id="um-id" placeholder="예: kecc_eng1">
+        <input class="form-input" id="um-id" placeholder="e.g. kecc_eng1">
       </div>
       <div class="form-group">
-        <label class="form-label">이름 <span style="color:var(--danger)">*</span></label>
-        <input class="form-input" id="um-name" placeholder="홍길동 (Gil-dong Hong)">
+        <label class="form-label">Name <span style="color:var(--danger)">*</span></label>
+        <input class="form-input" id="um-name" placeholder="e.g. Gil-dong Hong">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">소속</label>
+        <label class="form-label">Company</label>
         <select class="form-input" id="um-company">
           <option>KECC JV</option><option>WCI</option><option>DPWH</option><option>Omega Group</option>
         </select>
       </div>
       <div class="form-group">
-        <label class="form-label">역할</label>
+        <label class="form-label">Role</label>
         <select class="form-input" id="um-role">
           <option value="admin">Admin</option>
           <option value="manager">Manager</option>
@@ -1677,17 +1677,17 @@ canvas.chart { max-width: 100%; }
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">이메일</label>
+        <label class="form-label">Email</label>
         <input class="form-input" id="um-email" type="email" placeholder="user@company.com">
       </div>
       <div class="form-group">
-        <label class="form-label" id="um-pw-label">비밀번호 <span style="color:var(--danger)">*</span></label>
-        <input class="form-input" id="um-pw" type="password" placeholder="초기 비밀번호">
+        <label class="form-label" id="um-pw-label">Password <span style="color:var(--danger)">*</span></label>
+        <input class="form-input" id="um-pw" type="password" placeholder="Initial password">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group" style="grid-column:1/-1">
-        <label class="form-label">상태</label>
+        <label class="form-label">Status</label>
         <select class="form-input" id="um-status">
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
@@ -1696,8 +1696,8 @@ canvas.chart { max-width: 100%; }
     </div>
     <div id="um-error" style="color:var(--danger);font-size:12px;margin-bottom:8px;display:none"></div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
-      <button class="btn btn-outline" onclick="closeModal('modal-user')">취소</button>
-      <button class="btn btn-primary" onclick="saveUser()">저장</button>
+      <button class="btn btn-outline" onclick="closeModal('modal-user')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveUser()">Save</button>
     </div>
   </div>
 </div>
@@ -1753,7 +1753,7 @@ const FOLDERS = ['01. Reports', '02. Drawings', '03. Survey Data', '04. Correspo
 // USER DATABASE  (localStorage: pmis_users)
 // ══════════════════════════════════════════════
 const DEFAULT_USERS = [
-  { id:'kecc_admin', name:'신광균 (KK Shin)',      company:'KECC JV',    role:'admin',   email:'kkshin@keccjv.com',           pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
+  { id:'kecc_admin', name:'KK Shin',      company:'KECC JV',    role:'admin',   email:'kkshin@keccjv.com',           pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
   { id:'kecc_pm',   name:'Project Manager',        company:'KECC JV',    role:'manager', email:'pm@keccjv.com',               pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
   { id:'wci_user',  name:'WCI Coordinator',         company:'WCI',        role:'editor',  email:'coord@wci.com',               pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
   { id:'wci_eng',   name:'WCI Engineer',            company:'WCI',        role:'editor',  email:'eng@wci.com',                 pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
@@ -1792,11 +1792,11 @@ function doLogin() {
   const pw  = document.getElementById('login-pw').value;
   const errEl = document.getElementById('login-error');
   errEl.style.display = 'none';
-  if (!uid) { errEl.textContent = '❌ User ID를 입력하세요.'; errEl.style.display = 'block'; return; }
+  if (!uid) { errEl.textContent = '❌ Please enter your User ID.'; errEl.style.display = 'block'; return; }
   loadUsers();
   const user = USERS.find(u => u.id === uid && u.status === 'active');
   if (!user || user.pwHash !== pwHash(pw)) {
-    errEl.textContent = '❌ 아이디 또는 비밀번호가 올바르지 않습니다.';
+    errEl.textContent = '❌ Invalid user ID or password.';
     errEl.style.display = 'block';
     return;
   }
@@ -1820,7 +1820,7 @@ function applyRoleNav() {
 }
 
 function doLogout() {
-  if (!confirm('로그아웃 하시겠습니까?')) return;
+  if (!confirm('Log out?')) return;
   currentUser = null;
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('app').style.display = 'none';
@@ -1848,8 +1848,8 @@ function renderUserTable() {
       <td>${u.email || '-'}</td>
       <td>${u.lastLogin || '-'}</td>
       <td><span class="tag ${u.status==='active'?'tag-green':'tag-gray'}">${u.status==='active'?'Active':'Inactive'}</span></td>
-      <td>${isAdmin ? `<button class="btn btn-outline btn-sm" onclick="openUserModal('${u.id}')">편집</button>
-           ${u.id!=='kecc_admin'?`<button class="btn btn-outline btn-sm" style="color:var(--danger)" onclick="deleteUser('${u.id}')">삭제</button>`:''}` : '-'}</td>
+      <td>${isAdmin ? `<button class="btn btn-outline btn-sm" onclick="openUserModal('${u.id}')">Edit</button>
+           ${u.id!=='kecc_admin'?`<button class="btn btn-outline btn-sm" style="color:var(--danger)" onclick="deleteUser('${u.id}')">Delete</button>`:''}` : '-'}</td>
     </tr>`).join('');
 }
 
@@ -1859,7 +1859,7 @@ function openUserModal(editId) {
     loadUsers();
     const u = USERS.find(x => x.id === editId);
     if (!u) return;
-    document.getElementById('user-modal-title').textContent = '사용자 편집';
+    document.getElementById('user-modal-title').textContent = 'Edit User';
     document.getElementById('um-edit-id').value = u.id;
     document.getElementById('um-id').value = u.id;
     document.getElementById('um-id').disabled = true;
@@ -1868,10 +1868,10 @@ function openUserModal(editId) {
     document.getElementById('um-role').value = u.role;
     document.getElementById('um-email').value = u.email || '';
     document.getElementById('um-pw').value = '';
-    document.getElementById('um-pw-label').innerHTML = '비밀번호 <span style="color:var(--text-muted);font-weight:400">(변경 시에만 입력)</span>';
+    document.getElementById('um-pw-label').innerHTML = 'Password <span style="color:var(--text-muted);font-weight:400">(only if changing)</span>';
     document.getElementById('um-status').value = u.status;
   } else {
-    document.getElementById('user-modal-title').textContent = '사용자 추가';
+    document.getElementById('user-modal-title').textContent = 'Add User';
     document.getElementById('um-edit-id').value = '';
     document.getElementById('um-id').value = '';
     document.getElementById('um-id').disabled = false;
@@ -1880,7 +1880,7 @@ function openUserModal(editId) {
     document.getElementById('um-role').value = 'editor';
     document.getElementById('um-email').value = '';
     document.getElementById('um-pw').value = '';
-    document.getElementById('um-pw-label').innerHTML = '비밀번호 <span style="color:var(--danger)">*</span>';
+    document.getElementById('um-pw-label').innerHTML = 'Password <span style="color:var(--danger)">*</span>';
     document.getElementById('um-status').value = 'active';
   }
   openModal('modal-user');
@@ -1897,11 +1897,11 @@ function saveUser() {
   const email = document.getElementById('um-email').value.trim();
   const pw = document.getElementById('um-pw').value;
   const status = document.getElementById('um-status').value;
-  if (!id || !name) { errEl.textContent = 'ID와 이름은 필수입니다.'; errEl.style.display = 'block'; return; }
+  if (!id || !name) { errEl.textContent = 'ID and Name are required.'; errEl.style.display = 'block'; return; }
   loadUsers();
   if (!editId) {
-    if (!pw) { errEl.textContent = '초기 비밀번호를 입력하세요.'; errEl.style.display = 'block'; return; }
-    if (USERS.find(u => u.id === id)) { errEl.textContent = '이미 존재하는 ID입니다.'; errEl.style.display = 'block'; return; }
+    if (!pw) { errEl.textContent = 'Enter an initial password.'; errEl.style.display = 'block'; return; }
+    if (USERS.find(u => u.id === id)) { errEl.textContent = 'This ID already exists.'; errEl.style.display = 'block'; return; }
     USERS.push({ id, name, company, role, email, pwHash: pwHash(pw), status, lastLogin: '' });
   } else {
     const idx = USERS.findIndex(u => u.id === editId);
@@ -1912,24 +1912,24 @@ function saveUser() {
   saveUsers();
   closeModal('modal-user');
   renderUserTable();
-  showToast('사용자 정보가 저장되었습니다.');
+  showToast('User saved.');
 }
 
 function deleteUser(id) {
-  if (!confirm(`"${id}" 사용자를 삭제하시겠습니까?`)) return;
+  if (!confirm(`"${id}" Delete this user?`)) return;
   loadUsers();
   USERS = USERS.filter(u => u.id !== id);
   saveUsers();
   renderUserTable();
-  showToast('사용자가 삭제되었습니다.');
+  showToast('User deleted.');
 }
 
 function copyShareUrl() {
   const url = document.getElementById('share-url-input').value;
-  navigator.clipboard.writeText(url).then(() => showToast('링크가 복사되었습니다!')).catch(() => {
+  navigator.clipboard.writeText(url).then(() => showToast('Link copied!')).catch(() => {
     document.getElementById('share-url-input').select();
     document.execCommand('copy');
-    showToast('링크가 복사되었습니다!');
+    showToast('Link copied!');
   });
 }
 
@@ -2084,13 +2084,13 @@ function renderApprovalItems() {
         </div>
       </div>
       <div class="approval-flow">
-        <div class="approval-step"><div class="approval-step-box done">작성<br><small>${a.submitter}</small></div></div>
+        <div class="approval-step"><div class="approval-step-box done">Draft<br><small>${a.submitter}</small></div></div>
         <div class="approval-arrow">→</div>
-        <div class="approval-step"><div class="approval-step-box ${a.step === 'Review' ? 'current' : 'done'}">검토<br><small>PM</small></div></div>
+        <div class="approval-step"><div class="approval-step-box ${a.step === 'Review' ? 'current' : 'done'}">Review<br><small>PM</small></div></div>
         <div class="approval-arrow">→</div>
-        <div class="approval-step"><div class="approval-step-box ${a.step === 'Approval' ? 'current' : 'pending'}">승인<br><small>Director</small></div></div>
+        <div class="approval-step"><div class="approval-step-box ${a.step === 'Approval' ? 'current' : 'pending'}">Approval<br><small>Director</small></div></div>
         <div class="approval-arrow">→</div>
-        <div class="approval-step"><div class="approval-step-box pending">발신<br><small>DPWH</small></div></div>
+        <div class="approval-step"><div class="approval-step-box pending">Issue<br><small>DPWH</small></div></div>
       </div>
     </div>
   `).join('');
@@ -2321,12 +2321,12 @@ function gdriveSignIn(callback) {
   if (GDRIVE_CLIENT_ID === 'YOUR_CLIENT_ID.apps.googleusercontent.com') {
     document.getElementById('modal-gdrive-setup').classList.add('open'); return;
   }
-  if (typeof google === 'undefined') { alert('Google API 로드 중입니다. 잠시 후 다시 시도하세요.'); return; }
+  if (typeof google === 'undefined') { alert('Google API is loading. Please try again shortly.'); return; }
   const client = google.accounts.oauth2.initTokenClient({
     client_id: GDRIVE_CLIENT_ID,
     scope: SCOPES,
     callback: (resp) => {
-      if (resp.error) { alert('Google 로그인 실패: ' + resp.error); return; }
+      if (resp.error) { alert('Google sign-in failed: ' + resp.error); return; }
       gdriveToken = resp.access_token;
       updateGdriveStatus(true);
       if (callback) callback();
@@ -2347,7 +2347,7 @@ async function getOrCreatePMISFolder() {
     fields: 'id,name'
   });
   gdriveFolder = create.result;
-  showToast('📁 Google Drive에 "' + GDRIVE_FOLDER_NAME + '" 폴더를 생성했습니다.');
+  showToast('📁 Created "' + GDRIVE_FOLDER_NAME + '" folder in Google Drive.');
   return gdriveFolder;
 }
 
@@ -2364,7 +2364,7 @@ async function ensureSubFolders(parentId) {
       });
     }
   }
-  showToast('✅ Google Drive 폴더 구조 준비 완료!');
+  showToast('✅ Google Drive folder structure ready!');
   loadDriveFiles();
 }
 
@@ -2386,7 +2386,7 @@ async function openGDrivePicker(subfolder) {
       });
       if (sub.result.files.length > 0) targetFolderId = sub.result.files[0].id;
     }
-    showToast(`⬆️ ${files.length}개 파일 업로드 중...`);
+    showToast(`⬆️ ${files.length} file(s) uploading...`);
     for (const file of files) {
       const meta = JSON.stringify({ name: file.name, parents: [targetFolderId] });
       const form = new FormData();
@@ -2396,7 +2396,7 @@ async function openGDrivePicker(subfolder) {
         method: 'POST', headers: { Authorization: 'Bearer ' + gdriveToken }, body: form
       });
     }
-    showToast(`✅ ${files.length}개 파일 업로드 완료!`);
+    showToast(`✅ ${files.length} file(s) uploaded!`);
     loadDriveFiles();
   };
   input.click();
@@ -2424,7 +2424,7 @@ function renderDriveFileList(files) {
   const tbody = document.getElementById('file-list-body');
   if (!tbody) return;
   if (!files.length) {
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:30px">파일이 없습니다. 업로드를 시작하세요.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:30px">No files yet. Start uploading.</td></tr>';
     return;
   }
   tbody.innerHTML = files.map(f => {
@@ -2442,13 +2442,13 @@ function updateGdriveStatus(connected) {
   const status = document.getElementById('gdrive-status');
   if (!btn || !status) return;
   if (connected) {
-    btn.innerHTML = '✅ Google Drive 연결됨'; btn.style.background='var(--accent2)'; btn.style.color='#fff';
-    status.textContent = '연결됨 – Panay-Agusan PMIS 폴더 동기화 중';
+    btn.innerHTML = '✅ Google Drive Connected'; btn.style.background='var(--accent2)'; btn.style.color='#fff';
+    status.textContent = 'Connected – syncing Panay-Agusan PMIS folder';
     status.style.color = 'var(--accent2)';
     getOrCreatePMISFolder().then(f => ensureSubFolders(f.id));
   } else {
-    btn.innerHTML = '🔗 Google Drive 연결'; btn.style.background=''; btn.style.color='';
-    status.textContent = '연결되지 않음 – 버튼을 눌러 Google 계정으로 로그인하세요';
+    btn.innerHTML = '🔗 Connect Google Drive'; btn.style.background=''; btn.style.color='';
+    status.textContent = 'Not connected – click the button to sign in with Google';
     status.style.color = 'var(--text-muted)';
   }
 }
@@ -2489,214 +2489,252 @@ document.addEventListener('keydown', e => {
 // DELIVERABLES MANAGEMENT
 // ══════════════════════════════════════════════════
 
-const CONTRACT_START = new Date('2025-12-09'); // NTP 수령일
+const CONTRACT_START = new Date('2025-12-09'); // NTP receipt date
 
 const DELIV_STATUS = {
-  not_started:  { label: '미착수',    cls: 'tag-gray',   icon: '○' },
-  in_progress:  { label: '작성 중',   cls: 'tag-yellow', icon: '▷' },
-  submitted:    { label: '제출 완료', cls: 'tag-blue',   icon: '📤' },
-  under_review: { label: '검토 중',   cls: 'tag-yellow', icon: '🔍' },
-  approved:     { label: '승인 완료', cls: 'tag-green',  icon: '✅' },
-  revision:     { label: '수정 요청', cls: 'tag-red',    icon: '✏️' },
+  not_started:  { label: 'Not Started',    cls: 'tag-gray',   icon: '○' },
+  in_progress:  { label: 'In Progress',   cls: 'tag-yellow', icon: '▷' },
+  submitted:    { label: 'Submitted', cls: 'tag-blue',   icon: '📤' },
+  under_review: { label: 'Under Review',   cls: 'tag-yellow', icon: '🔍' },
+  approved:     { label: 'Approved', cls: 'tag-green',  icon: '✅' },
+  revision:     { label: 'Revision Required', cls: 'tag-red',    icon: '✏️' },
 };
 
-// 계약서 기준 산출물 마스터 데이터
+// Contract-based deliverables master data
 const DELIVERABLES_MASTER = [
   {
     id: 1, no: 1,
     titleEn: 'Inception Report',
-    titleKo: '착수보고서',
+    titleKo: 'Inception Report',
     cat: 'Report',
-    deadlineDesc: '착수 후 2.5개월 이내',
+    deadlineDesc: 'Within 2.5 months of commencement',
     deadlineDate: '2026-02-24',
-    copies: '10부',
-    note: '프로젝트 접근법, 일정, 초기 자료 검토',
+    copies: '10 copies',
+    note: 'Project approach, schedule, initial data review',
     status: 'approved',
     submissions: [
-      { ver: 'Draft R0', date: '2026-01-09', letter: 'KECC-SU26-001', copies: '10부', note: 'Draft 제출', driveFiles: [] },
-      { ver: 'Final (Rev.1)', date: '2026-02-10', letter: 'KECC-SU26-011', copies: '10부', note: 'DPWH 의견 반영 후 최종 제출', driveFiles: [] },
+      { ver: 'Draft R0', date: '2026-01-09', letter: 'KECC-SU26-001', copies: '10 copies', note: 'Draft submitted', driveFiles: [
+        { name: '[KECC JV] Submission of Inception Report(DRAFT)_260109.pdf', url: 'https://drive.google.com/file/d/10za7cSuYaQi1kGT4TO-PW73HKDSOXTCF/view' },
+      ] },
+      { ver: 'Rev.1', date: '2026-02-28', letter: 'WCI26-002', copies: '10 copies', note: 'Revision 1', driveFiles: [
+        { name: 'WCI26-002.Rev1.28Feb2026.PARB_InceptionReport.pdf', url: 'https://drive.google.com/file/d/1oHEwdPwHqOk6kFA1psm-JxqKLQA5QLMi/view' },
+      ] },
+      { ver: 'Rev.2', date: '2026-03-20', letter: 'WCI26-002', copies: '10 copies', note: 'Revision 2', driveFiles: [
+        { name: 'WCI26-002.Rev2.20Mar2026.PARB_InceptionReport.pdf', url: 'https://drive.google.com/file/d/1pIKQerI5SfsbwB74Y3jPvjlsx1Q83_sA/view' },
+      ] },
+      { ver: 'Rev.4', date: '2026-03-30', letter: 'WCI26-002', copies: '10 copies', note: 'Incorporating BOD-SID comments', driveFiles: [
+        { name: 'WCI26-002.Rev4.30Mar2026.PARB_InceptionReport.pdf', url: 'https://drive.google.com/file/d/1blpvoQutqgASVXRmJYB-JW5wG9Ck6xZb/view' },
+      ] },
+      { ver: 'Rev.6', date: '2026-05-11', letter: 'WCI26-002', copies: '10 copies', note: 'Incorporating DPWH comments on revised report', driveFiles: [
+        { name: 'WCI26-002.Rev6.11May26.PARB_InceptionReport.pdf', url: 'https://drive.google.com/file/d/1fMc9sewqV7uimnqx93nB9YnhgSoi9xI-/view' },
+      ] },
+      { ver: 'Rev.7', date: '2026-06-11', letter: 'WCI26-002', copies: '10 copies', note: 'Latest revision submitted by WCI (per email 2026-06-11)', driveFiles: [] },
     ]
   },
   {
     id: 2, no: 2,
     titleEn: 'Progress Reports (Monthly)',
-    titleKo: '월간 진도보고서',
+    titleKo: 'Monthly Progress Report',
     cat: 'Report',
-    deadlineDesc: '착수 2개월 후부터 매월',
+    deadlineDesc: 'Monthly from 2 months after commencement',
     deadlineDate: null,
-    copies: '5부',
-    note: '진행상황 및 문제점 보고',
+    copies: '5 copies',
+    note: 'Progress and issues reporting',
     status: 'in_progress',
     submissions: [
-      { ver: '1st (Jan 2026)', date: '2026-01-25', letter: 'KECC-SU26-005', copies: '5부', note: '1차 월간보고서 제출', driveFiles: [] },
-      { ver: '2nd (Feb 2026)', date: '2026-02-25', letter: 'KECC-SU26-010', copies: '5부', note: '2차 월간보고서 제출', driveFiles: [] },
+      { ver: '1st MPR (Jan 2026)', date: '2026-01-25', letter: 'KECC-SU26-005', copies: '5 copies', note: '1st monthly report submitted', driveFiles: [
+        { name: 'PARB 1st MPR January 2026.pdf', url: 'https://drive.google.com/file/d/1MVOKVFtUYdr-SN6qQ_M_PbWVc4fIdtmR/view' },
+        { name: 'KECC-SU26-005_Submission of progress report 1st.pdf', url: 'https://drive.google.com/file/d/1-EclByREQPJF79whIqJIsMrz5KdTdMt3/view' },
+      ] },
+      { ver: '1st MPR Rev.4', date: '2026-03-30', letter: 'WCI26-002', copies: '5 copies', note: 'Revised per DPWH comments (with CRM)', driveFiles: [
+        { name: 'WCI26-002.Rev4.30Mar2026.PARB1stMPR.pdf', url: 'https://drive.google.com/file/d/10etT3SsVbrdWP77cRpiAwMKajDS-EsJJ/view' },
+        { name: 'WCI26-002.Rev4.30Mar2026.PARB1stMPR_CRM.xlsx', url: 'https://drive.google.com/file/d/1gxIInOSciARR-9hUhPmI4Z5tDeOmsnsr/view' },
+      ] },
+      { ver: '2nd MPR Rev.1', date: '2026-02-28', letter: 'WCI26-002', copies: '5 copies', note: '2nd monthly report submitted', driveFiles: [
+        { name: 'WCI26-002.Rev1.28Feb2026.PARB_2ndMonthlyProgressReport.pdf', url: 'https://drive.google.com/file/d/1Ku2WsL_R-dqJAIjRuYu6I6vPDeCVxQrm/view' },
+      ] },
+      { ver: '2nd MPR Rev.3', date: '2026-03-30', letter: 'WCI26-002', copies: '5 copies', note: 'Revised per DPWH comments (with CRM)', driveFiles: [
+        { name: 'WCI26-002.Rev3.30Mar2026.PARB2ndMPR.pdf', url: 'https://drive.google.com/file/d/1BL0Qv7NLuuTbEmP8SqFyaJXIe_GmoHwF/view' },
+        { name: 'WCI26-002.Rev3.30Mar2026.2ndMPR_CRM.xlsx', url: 'https://drive.google.com/file/d/1CjTgoR2cus82GudagmM5Er8w9VYIldV7/view' },
+      ] },
+      { ver: '3rd MPR (Mar 2026)', date: '2026-04-07', letter: 'WCI26-002', copies: '5 copies', note: '3rd monthly report submitted', driveFiles: [
+        { name: '07Apr2026.PARB3rdMPR.pdf', url: 'https://drive.google.com/file/d/1RPWSTMyr999bJzr5RY_eMktAgG4OMYen/view' },
+      ] },
+      { ver: '3rd MPR Rev.1', date: '2026-05-05', letter: 'WCI26-002', copies: '5 copies', note: 'Revised per DPWH comments', driveFiles: [
+        { name: 'Rev1.05May26.PARB3rdMPR.docx', url: 'https://drive.google.com/file/d/1Mhp5m_iF1c5gBKbInktsdJsq9QPOvQax/view' },
+      ] },
+      { ver: '5th MPR (May 2026)', date: '2026-06-02', letter: 'WCI26-002', copies: '5 copies', note: '5th monthly report submitted by WCI (per email 2026-06-02)', driveFiles: [] },
     ]
   },
   {
     id: 3, no: 3,
     titleEn: 'Topographic / Hydrographic Survey Plans & Reports',
-    titleKo: '지형·수심 측량 계획 및 보고서',
+    titleKo: 'Topographic/Hydrographic Survey Plans & Reports',
     cat: 'Survey',
-    deadlineDesc: '조사 완료 후',
+    deadlineDesc: 'After completion of survey',
     deadlineDate: '2026-08-31',
-    copies: '7부',
-    note: '지형·수심측량 결과',
+    copies: '7 copies',
+    note: 'Topographic/hydrographic survey results',
     status: 'in_progress',
     submissions: []
   },
   {
     id: 4, no: 4,
     titleEn: 'Hydrologic & Hydraulic Report',
-    titleKo: '수문·수리 해석 보고서',
+    titleKo: 'Hydrologic & Hydraulic Report',
     cat: 'Report',
-    deadlineDesc: '조사 완료 후',
+    deadlineDesc: 'After completion of survey',
     deadlineDate: '2026-10-31',
-    copies: '7부',
-    note: '수문·수리 해석 보고',
+    copies: '7 copies',
+    note: 'Hydrologic and hydraulic analysis',
     status: 'not_started',
     submissions: []
   },
   {
     id: 5, no: 5,
     titleEn: 'Geotechnical Investigation Reports & Plans',
-    titleKo: '지반 조사 보고서 및 도면',
+    titleKo: 'Geotechnical Investigation Reports & Plans',
     cat: 'Survey',
-    deadlineDesc: '조사 완료 후',
+    deadlineDesc: 'After completion of survey',
     deadlineDate: '2026-09-30',
-    copies: '7부',
-    note: '지반조사 결과',
+    copies: '7 copies',
+    note: 'Geotechnical investigation results',
     status: 'in_progress',
-    submissions: []
+    submissions: [
+      { ver: 'GI PMR Rev.2', date: '2026-04-08', letter: 'GTED', copies: '7 copies', note: 'GI Plan & Methodology Report', driveFiles: [
+        { name: 'GTED.Rev2.08Apr26.Panay Agusan GI Plan & Methodology Report.pdf', url: 'https://drive.google.com/file/d/1_PYapsi_riFC_i8eB7P263pY0V8j_ZNH/view' },
+      ] },
+    ]
   },
   {
     id: 6, no: 6,
     titleEn: 'Geohazard Assessment Report',
-    titleKo: '지질재해 위험 평가 보고서',
+    titleKo: 'Geohazard Assessment Report',
     cat: 'Environmental',
-    deadlineDesc: '조사 완료 후',
+    deadlineDesc: 'After completion of survey',
     deadlineDate: '2026-09-30',
-    copies: '5부',
-    note: '지질재해 위험 평가',
+    copies: '5 copies',
+    note: 'Geohazard risk assessment',
     status: 'not_started',
     submissions: []
   },
   {
     id: 7, no: 7,
     titleEn: 'Environmental Baseline Report / EIA',
-    titleKo: '환경영향평가 보고서',
+    titleKo: 'Environmental Impact Assessment Report',
     cat: 'Environmental',
-    deadlineDesc: '조사 완료 후',
+    deadlineDesc: 'After completion of survey',
     deadlineDate: '2026-10-31',
-    copies: '7부',
-    note: '환경영향평가',
+    copies: '7 copies',
+    note: 'Environmental impact assessment',
     status: 'in_progress',
     submissions: []
   },
   {
     id: 8, no: 8,
     titleEn: 'Social Study Report',
-    titleKo: '사회 조사 보고서',
+    titleKo: 'Social Survey Report',
     cat: 'Social',
-    deadlineDesc: '조사 완료 후',
+    deadlineDesc: 'After completion of survey',
     deadlineDate: '2026-10-31',
-    copies: '5부',
-    note: '사회조사',
+    copies: '5 copies',
+    note: 'Social survey',
     status: 'not_started',
     submissions: []
   },
   {
     id: 9, no: 9,
     titleEn: 'Parcellary Survey Report',
-    titleKo: '필지별 측량 보고서',
+    titleKo: 'Parcellary Survey Report',
     cat: 'Survey',
-    deadlineDesc: '조사 완료 후',
+    deadlineDesc: 'After completion of survey',
     deadlineDate: '2026-12-31',
-    copies: '5부',
-    note: '필지별 측량 보고',
+    copies: '5 copies',
+    note: 'Parcellary survey report',
     status: 'not_started',
     submissions: []
   },
   {
     id: 10, no: 10,
     titleEn: 'Resettlement Action Plan (RAP) Report',
-    titleKo: '이주·보상 계획 보고서',
+    titleKo: 'Resettlement & Compensation Plan Report',
     cat: 'Social',
-    deadlineDesc: '조사 완료 후',
+    deadlineDesc: 'After completion of survey',
     deadlineDate: '2026-12-31',
-    copies: '5부',
-    note: '이주 및 보상 계획',
+    copies: '5 copies',
+    note: 'Resettlement and compensation plan',
     status: 'not_started',
     submissions: []
   },
   {
     id: 11, no: 11,
     titleEn: 'Value Engineering Report',
-    titleKo: '가치공학 보고서',
+    titleKo: 'Value Engineering Report',
     cat: 'Report',
-    deadlineDesc: '필요시',
+    deadlineDesc: 'As needed',
     deadlineDate: null,
-    copies: '2부',
-    note: '가치공학 보고',
+    copies: '2 copies',
+    note: 'Value engineering report',
     status: 'not_started',
     submissions: []
   },
   {
     id: 12, no: 12,
     titleEn: 'Transfer of Knowledge Documentation Report',
-    titleKo: '기술이전 문서 보고서',
+    titleKo: 'Technology Transfer Documentation Report',
     cat: 'Report',
-    deadlineDesc: '사업 완료 시',
+    deadlineDesc: 'At project completion',
     deadlineDate: '2027-06-30',
-    copies: '2부',
-    note: '기술이전 문서',
+    copies: '2 copies',
+    note: 'Technology transfer documents',
     status: 'not_started',
     submissions: []
   },
   {
     id: 13, no: 13,
     titleEn: 'Definitive Plan Report',
-    titleKo: '기본설계 계획 보고서',
+    titleKo: 'Definitive Plan Report',
     cat: 'Design / Drawing',
-    deadlineDesc: '착수 후 6.5개월',
+    deadlineDesc: '6.5 months after commencement',
     deadlineDate: '2026-06-22',
-    copies: '10부',
-    note: '설계 대안, 경제성 분석',
+    copies: '10 copies',
+    note: 'Design alternatives, economic analysis',
     status: 'in_progress',
     submissions: []
   },
   {
     id: 14, no: 14,
     titleEn: 'Draft Design Plan & Reports',
-    titleKo: '설계도서(초안)',
+    titleKo: 'Design Documents (Draft)',
     cat: 'Design / Drawing',
-    deadlineDesc: '착수 후 14개월',
+    deadlineDesc: '14 months after commencement',
     deadlineDate: '2027-02-09',
-    copies: '10부',
-    note: '설계(검토용)',
+    copies: '10 copies',
+    note: 'Design (for review)',
     status: 'not_started',
     submissions: []
   },
   {
     id: 15, no: 15,
     titleEn: 'Final Design Plan & Reports',
-    titleKo: '최종 설계도서',
+    titleKo: 'Final Design Documents',
     cat: 'Design / Drawing',
-    deadlineDesc: 'Draft 의견 수령 후 15일 내',
+    deadlineDesc: 'Within 15 days of receiving draft comments',
     deadlineDate: '2027-03-31',
-    copies: '20부',
-    note: '최종 설계도서',
+    copies: '20 copies',
+    note: 'Final Design Documents',
     status: 'not_started',
     submissions: []
   },
   {
     id: 16, no: 16,
     titleEn: 'Parcellary Survey & Design Plans',
-    titleKo: '필지별 측량 및 설계 도면',
+    titleKo: 'Parcellary Survey & Design Drawings',
     cat: 'Design / Drawing',
-    deadlineDesc: '착수 후 14개월 이내',
+    deadlineDesc: 'Within 14 months of commencement',
     deadlineDate: '2027-02-09',
-    copies: '1부',
-    note: '토지보상 계획 포함',
+    copies: '1 copy',
+    note: 'Including land compensation plan',
     status: 'not_started',
     submissions: []
   },
@@ -2708,13 +2746,13 @@ let delivUploadedFiles = []; // temp files for current submission
 
 function loadDeliverables() {
   try {
-    const saved = JSON.parse(localStorage.getItem('pmis_deliverables') || 'null');
+    const saved = JSON.parse(localStorage.getItem('pmis_deliverables_v2') || 'null');
     DELIVERABLES = saved || JSON.parse(JSON.stringify(DELIVERABLES_MASTER));
   } catch { DELIVERABLES = JSON.parse(JSON.stringify(DELIVERABLES_MASTER)); }
 }
 
 function saveDeliverables() {
-  localStorage.setItem('pmis_deliverables', JSON.stringify(DELIVERABLES));
+  localStorage.setItem('pmis_deliverables_v2', JSON.stringify(DELIVERABLES));
 }
 
 function initDeliverables() {
@@ -2744,26 +2782,26 @@ function renderDelivStats() {
 
   el.innerHTML = `
     <div class="stat-card">
-      <div class="stat-label">🎯 전체 산출물</div>
+      <div class="stat-label">🎯 Total Deliverables</div>
       <div class="stat-value">${total}</div>
-      <div class="stat-sub">계약 기준 ${total}개 산출물</div>
+      <div class="stat-sub">${total} deliverables per contract</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">✅ 승인 완료</div>
+      <div class="stat-label">✅ Approved</div>
       <div class="stat-value" style="color:var(--accent2)">${approved}</div>
-      <div class="stat-sub">제출 완료: ${submitted}개 포함</div>
+      <div class="stat-sub">Incl. ${submitted} submitted</div>
       <div class="stat-bar"><div class="stat-bar-fill" style="width:${Math.round((approved+submitted)/total*100)}%;background:var(--accent2)"></div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">▷ 진행 중</div>
+      <div class="stat-label">▷ In Progress</div>
       <div class="stat-value" style="color:var(--accent)">${inprog}</div>
-      <div class="stat-sub">미착수: ${notstart}개</div>
+      <div class="stat-sub">Not started: ${notstart}</div>
       <div class="stat-bar"><div class="stat-bar-fill" style="width:${Math.round(inprog/total*100)}%;background:var(--accent)"></div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">⚠️ 기한 초과</div>
+      <div class="stat-label">⚠️ Overdue</div>
       <div class="stat-value" style="color:var(--danger)">${overdue}</div>
-      <div class="stat-sub">기한 내 미제출 항목</div>
+      <div class="stat-sub">Items not submitted by deadline</div>
     </div>`;
 }
 
@@ -2784,7 +2822,7 @@ function renderDeliverables() {
   });
 
   if (!filtered.length) {
-    el.innerHTML = '<div class="card" style="text-align:center;padding:40px;color:var(--text-muted)">검색 결과가 없습니다.</div>';
+    el.innerHTML = '<div class="card" style="text-align:center;padding:40px;color:var(--text-muted)">No results found.</div>';
     return;
   }
 
@@ -2817,20 +2855,20 @@ function renderDeliverables() {
             <span style="font-size:13px;color:var(--text-muted)">${d.titleKo}</span>
             <span class="tag ${sm.cls}">${sm.icon} ${sm.label}</span>
             <span style="background:${catColor};color:${catTextColor};font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600">${d.cat}</span>
-            ${isOverdue ? '<span class="tag tag-red">⚠️ 기한 초과</span>' : ''}
+            ${isOverdue ? '<span class="tag tag-red">⚠️ Overdue</span>' : ''}
           </div>
 
           <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:12px;color:var(--text-muted);margin-bottom:10px">
-            <span>📅 <strong>제출 시점:</strong> ${d.deadlineDesc}</span>
-            ${d.deadlineDate ? `<span>🗓️ <strong>예정일:</strong> <span style="color:${isOverdue?'var(--danger)':daysLeft!==null&&daysLeft<=30?'var(--accent)':'inherit'};font-weight:${isOverdue||daysLeft<=30?'700':'400'}">${d.deadlineDate}${daysLeft !== null ? ` (D${daysLeft>0?'-'+daysLeft:'+'+Math.abs(daysLeft)})` : ''}</span></span>` : ''}
-            <span>📋 <strong>제출 부수:</strong> ${d.copies}</span>
+            <span>📅 <strong>Submission Timing:</strong> ${d.deadlineDesc}</span>
+            ${d.deadlineDate ? `<span>🗓️ <strong>Due:</strong> <span style="color:${isOverdue?'var(--danger)':daysLeft!==null&&daysLeft<=30?'var(--accent)':'inherit'};font-weight:${isOverdue||daysLeft<=30?'700':'400'}">${d.deadlineDate}${daysLeft !== null ? ` (D${daysLeft>0?'-'+daysLeft:'+'+Math.abs(daysLeft)})` : ''}</span></span>` : ''}
+            <span>📋 <strong>Copies:</strong> ${d.copies}</span>
             ${d.note ? `<span>💬 ${d.note}</span>` : ''}
           </div>
 
           <!-- Submission history -->
           ${d.submissions.length ? `
           <div style="background:#f8faff;border-radius:8px;padding:10px 14px;margin-bottom:10px">
-            <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">제출 이력 (${d.submissions.length}회)</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Submission History (${d.submissions.length})</div>
             <div style="display:flex;flex-direction:column;gap:6px">
               ${d.submissions.map((s, i) => `
                 <div style="display:flex;align-items:center;gap:10px;font-size:12px">
@@ -2850,9 +2888,9 @@ function renderDeliverables() {
 
         <!-- Actions -->
         <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
-          <button class="btn btn-primary btn-sm" onclick="openDelivSubmitModal(${d.id})">📤 제출 기록</button>
-          <button class="btn btn-outline btn-sm" onclick="openDelivUploadOnly(${d.id})">☁️ Drive 업로드</button>
-          ${d.status !== 'approved' ? `<button class="btn btn-outline btn-sm" style="border-color:var(--accent2);color:var(--accent2)" onclick="quickApprove(${d.id})">✅ 승인처리</button>` : ''}
+          <button class="btn btn-primary btn-sm" onclick="openDelivSubmitModal(${d.id})">📤 Record Submission</button>
+          <button class="btn btn-outline btn-sm" onclick="openDelivUploadOnly(${d.id})">☁️ Upload to Drive</button>
+          ${d.status !== 'approved' ? `<button class="btn btn-outline btn-sm" style="border-color:var(--accent2);color:var(--accent2)" onclick="quickApprove(${d.id})">✅ Approve</button>` : ''}
         </div>
       </div>
     </div>`;
@@ -2877,7 +2915,7 @@ function openDelivSubmitModal(id) {
 
 function saveDelivSubmission() {
   const ver = document.getElementById('ds-ver').value.trim();
-  if (!ver) { alert('버전을 입력하세요. (예: Draft R0, Final)'); return; }
+  if (!ver) { alert('Enter a version. (e.g. Draft R0, Final)'); return; }
   const d = DELIVERABLES.find(x => x.id === delivSubmitTargetId);
   if (!d) return;
   d.submissions.push({
@@ -2894,10 +2932,10 @@ function saveDelivSubmission() {
   closeModal('modal-deliv-submit');
   renderDelivStats();
   renderDeliverables();
-  showToast(`✅ [No.${d.no}] ${ver} 제출 기록 저장 완료`);
+  showToast(`✅ [No.${d.no}] ${ver} submission recorded`);
 }
 
-// ── Drive Upload (Deliverables용) ───────────────
+// ── Drive Upload (for Deliverables) ───────────────
 function openDelivUploadOnly(id) {
   delivSubmitTargetId = id;
   if (!gdriveToken) { gdriveSignIn(() => openDelivUploadOnly(id)); return; }
@@ -2909,7 +2947,7 @@ function openDelivUploadOnly(id) {
     const files = Array.from(input.files);
     if (!files.length) return;
     const folder = await getOrCreatePMISFolder();
-    // 산출물 전용 subfolder
+    // deliverable-specific subfolder
     let subfolder = d.cat === 'Design / Drawing' ? '02. Drawings' :
                     d.cat === 'Survey'            ? '03. Survey Data' : '01. Reports';
     const sub = await gapi.client.drive.files.list({
@@ -2917,7 +2955,7 @@ function openDelivUploadOnly(id) {
       fields: 'files(id)'
     });
     const targetId = sub.result.files.length ? sub.result.files[0].id : folder.id;
-    showToast(`⬆️ ${files.length}개 파일 업로드 중...`);
+    showToast(`⬆️ ${files.length} file(s) uploading...`);
     for (const file of files) {
       const meta = JSON.stringify({ name: file.name, parents: [targetId] });
       const form = new FormData();
@@ -2934,7 +2972,7 @@ function openDelivUploadOnly(id) {
           delivUploadedFiles.map(f => `<div style="font-size:12px;margin-top:4px">☁️ <a href="${f.url}" target="_blank" style="color:var(--primary-light)">${f.name}</a></div>`).join('');
       }
     }
-    showToast(`✅ ${files.length}개 파일 업로드 완료!`);
+    showToast(`✅ ${files.length} file(s) uploaded!`);
   };
   input.click();
 }
@@ -2948,18 +2986,18 @@ function delivUploadToDrive() {
 function quickApprove(id) {
   const d = DELIVERABLES.find(x => x.id === id);
   if (!d) return;
-  if (!confirm(`[No.${d.no}] ${d.titleEn}\n→ 승인 완료로 처리하시겠습니까?`)) return;
+  if (!confirm(`[No.${d.no}] ${d.titleEn}\n→ Mark as Approved?`)) return;
   d.status = 'approved';
   saveDeliverables();
   renderDelivStats();
   renderDeliverables();
-  showToast(`✅ [No.${d.no}] 승인 완료 처리`);
+  showToast(`✅ [No.${d.no}] Approved`);
 }
 
 // ── New Deliverable ─────────────────────────────
 function saveNewDeliverable() {
   const titleEn = document.getElementById('dn-title-en').value.trim();
-  if (!titleEn) { alert('산출물명(영문)을 입력하세요.'); return; }
+  if (!titleEn) { alert('Enter the deliverable title (English).'); return; }
   const d = {
     id: Date.now(),
     no: DELIVERABLES.length + 1,
@@ -2981,12 +3019,12 @@ function saveNewDeliverable() {
   ['dn-title-en','dn-title-ko','dn-deadline-desc','dn-copies','dn-note'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
-  showToast(`✅ 산출물 No.${d.no} 등록 완료`);
+  showToast(`✅ Deliverable No.${d.no} registered`);
 }
 
 // ── CSV Export ──────────────────────────────────
 function exportDelivCSV() {
-  const rows = [['No','영문명','국문명','분류','제출시점','예정일','제출부수','상태','제출횟수','최근제출일','최근공문번호','비고']];
+  const rows = [['No','Title (EN)','Title (KO)','Category','Timing','Due Date','Copies','Status','Submissions','Last Submitted','Last Letter No.','Remarks']];
   DELIVERABLES.forEach(d => {
     const last = d.submissions[d.submissions.length - 1];
     rows.push([d.no, `"${d.titleEn}"`, `"${d.titleKo}"`, d.cat, d.deadlineDesc,
@@ -2998,7 +3036,7 @@ function exportDelivCSV() {
   a.href = 'data:text/csv;charset=utf-8,﻿' + encodeURIComponent(csv);
   a.download = 'Deliverables_' + new Date().toISOString().split('T')[0] + '.csv';
   a.click();
-  showToast('⬇️ CSV 다운로드 완료');
+  showToast('⬇️ CSV downloaded');
 }
 
 // ══════════════════════════════════════════════════
@@ -3006,16 +3044,16 @@ function exportDelivCSV() {
 // ══════════════════════════════════════════════════
 
 const ISSUE_CATEGORIES = [
-  'Letter (공문)','Report (보고서)','VO (Variation Order)','Claim','EOT',
-  '기성 (IPC)','Programme / Schedule','Method Statement','Drawing','Survey',
-  'Meeting (MOM)','subcon','Bond','AP (선급금)','Force Majeure',
-  'land acquisition','Insurance','본사보고','Others'
+  'Letter','Report','VO (Variation Order)','Claim','EOT',
+  'IPC (Payment)','Programme / Schedule','Method Statement','Drawing','Survey',
+  'Meeting (MOM)','subcon','Bond','AP (Advance Payment)','Force Majeure',
+  'land acquisition','Insurance','HQ Report','Others'
 ];
 
 const STATUS_META = {
-  progress: { icon: '▽', label: '진행 중', cls: 'tag-yellow' },
-  complete:  { icon: '●', label: '완료',   cls: 'tag-green'  },
-  closed:    { icon: '✕', label: '종료',   cls: 'tag-gray'   },
+  progress: { icon: '▽', label: 'In Progress', cls: 'tag-yellow' },
+  complete:  { icon: '●', label: 'Complete',   cls: 'tag-green'  },
+  closed:    { icon: '✕', label: 'Closed',   cls: 'tag-gray'   },
 };
 
 // In-memory store (localStorage-backed)
@@ -3036,64 +3074,68 @@ function getSampleIssues() {
   const today = new Date().toISOString().split('T')[0];
   return [
     {
-      id: 1, no: 1, title: 'Monthly Progress Report Submission', cat: 'Report (보고서)',
+      id: 1, no: 1, title: 'Monthly Progress Report Submission', cat: 'Report',
       dir: 'O', from: 'KECC JV', to: 'DPWH', docno: 'PA-RPT-014',
-      date: '2026-06-05', next: '다음 월 보고서 제출 (7월)', status: 'progress',
-      remark: '매월 5일 제출',
+      date: '2026-06-05', next: 'Submit next monthly report (July)', status: 'progress',
+      remark: 'Submitted on the 5th of each month',
       entries: [
-        { date: '2026-06-05', from: 'KECC JV', docno: 'PA-RPT-014', content: 'May 2026 Monthly Progress Report 제출\n- 전체 진도율: 34.2% (계획: 38.5%)\n- 지연 원인: 강우로 인한 현장 조사 지연', next: '6월 보고서 준비' },
-        { date: '2026-06-10', from: 'DPWH', docno: '', content: 'DPWH 검토 의견 접수\n- 수자원 분석 보완 요청\n- 다음 보고 시 반영', next: 'DPWH 의견 반영 후 재제출 검토' },
+        { date: '2026-06-05', from: 'KECC JV', docno: 'PA-RPT-014', content: 'Submitted May 2026 Monthly Progress Report\n- Overall progress: 34.2% (planned: 38.5%)\n- Delay cause: field survey delays due to rainfall', next: 'Prepare June report' },
+        { date: '2026-06-10', from: 'DPWH', docno: '', content: 'Received DPWH review comments\n- Requested supplementary water resources analysis\n- To be reflected in next report', next: 'Review resubmission after incorporating DPWH comments' },
       ]
     },
     {
       id: 2, no: 2, title: 'Extension of Time (EOT) – Rainy Season Delay', cat: 'EOT',
       dir: 'O', from: 'KECC JV', to: 'DPWH', docno: 'PA-LTR-025',
-      date: '2026-03-15', next: 'DPWH 승인 대기', status: 'progress',
+      date: '2026-03-15', next: 'Awaiting DPWH approval', status: 'progress',
       remark: '',
       entries: [
-        { date: '2026-03-15', from: 'KECC JV', docno: 'PA-LTR-025', content: 'EOT 신청 제출\n- 사유: 2025년 태풍 Odette로 인한 현장 접근 불가 (45일)\n- 요청 기간 연장: 45 Calendar Days', next: 'DPWH 검토 의견 대기' },
-        { date: '2026-04-02', from: 'DPWH', docno: 'DPWH-2026-088', content: 'DPWH 추가 증빙자료 요청\n- 기상청 강우 기록 (공식 문서)\n- 현장 사진 및 일보', next: '증빙자료 준비 후 재제출' },
-        { date: '2026-04-20', from: 'KECC JV', docno: 'PA-LTR-026', content: '보완 자료 제출\n- 기상청 확인서 첨부\n- 현장 침수 사진 38장 첨부', next: 'DPWH 최종 승인 대기' },
+        { date: '2026-03-15', from: 'KECC JV', docno: 'PA-LTR-025', content: 'Submitted EOT application\n- Reason: site inaccessible due to Typhoon Odette 2025 (45 days)\n- Requested extension: 45 Calendar Days', next: 'Awaiting DPWH review comments' },
+        { date: '2026-04-02', from: 'DPWH', docno: 'DPWH-2026-088', content: 'DPWH requested additional supporting documents\n- Official PAGASA rainfall records\n- Site photos and daily reports', next: 'Resubmit after preparing supporting documents' },
+        { date: '2026-04-20', from: 'KECC JV', docno: 'PA-LTR-026', content: 'Submitted supplementary documents\n- PAGASA certification attached\n- 38 site flooding photos attached', next: 'Awaiting DPWH final approval' },
       ]
     },
     {
       id: 3, no: 3, title: 'Variation Order No.01 – Additional Flood Gate Structure at Sta. 12+500', cat: 'VO (Variation Order)',
       dir: 'I', from: 'DPWH', to: 'KECC JV', docno: 'DPWH-VO-001',
-      date: '2025-11-10', next: '견적 제출 완료 – 협의 중', status: 'progress',
-      remark: '예산 영향: ₱ 85M 추정',
+      date: '2025-11-10', next: 'Quotation submitted – under negotiation', status: 'progress',
+      remark: 'Budget impact: est. ₱ 85M',
       entries: [
-        { date: '2025-11-10', from: 'DPWH', docno: 'DPWH-VO-001', content: 'DPWH Flood Gate 추가 설치 지시\n- 위치: Sta. 12+500 (Panay River)\n- 규모: 2 Bays × 5m × 4m', next: '기술 검토 및 견적 준비' },
-        { date: '2025-12-05', from: 'KECC JV', docno: 'PA-VO-001', content: '기술 검토 완료 및 견적 제출\n- 예상 금액: ₱ 85,200,000\n- 예상 공기: 90 Calendar Days\n- WCI 협의 완료', next: 'DPWH 견적 검토 대기' },
-        { date: '2026-02-15', from: 'DPWH', docno: '', content: 'DPWH 금액 협의 요청\n- 일부 단가 조정 필요\n- 회의 일정 조율 중', next: '협의 회의 일정 확정' },
+        { date: '2025-11-10', from: 'DPWH', docno: 'DPWH-VO-001', content: 'DPWH instructed additional Flood Gate installation
+- Location: Sta. 12+500 (Panay River)
+- Size: 2 Bays x 5m x 4m', next: 'Technical review and quotation preparation' },
+        { date: '2025-12-05', from: 'KECC JV', docno: 'PA-VO-001', content: 'Technical review completed, quotation submitted\n- Estimated amount: ₱ 85,200,000\n- Estimated duration: 90 Calendar Days\n- Coordinated with WCI', next: 'Awaiting DPWH quotation review' },
+        { date: '2026-02-15', from: 'DPWH', docno: '', content: 'DPWH requested price negotiation\n- Some unit rates need adjustment\n- Scheduling meeting', next: 'Confirm negotiation meeting schedule' },
       ]
     },
     {
-      id: 4, no: 4, title: 'Geotechnical Investigation Report – Agusan River Section', cat: 'Report (보고서)',
+      id: 4, no: 4, title: 'Geotechnical Investigation Report – Agusan River Section', cat: 'Report',
       dir: 'O', from: 'KECC JV', to: 'DPWH', docno: 'PA-RPT-012',
-      date: '2026-01-20', next: '완료', status: 'complete',
+      date: '2026-01-20', next: 'Complete', status: 'complete',
       remark: '',
       entries: [
-        { date: '2026-01-20', from: 'KECC JV', docno: 'PA-RPT-012', content: '지반 조사 보고서 제출\n- 시추 조사: 24공\n- 표준관입시험(SPT): 240회\n- 실내 토질 시험: 72건', next: 'DPWH 검토 대기' },
-        { date: '2026-02-28', from: 'DPWH', docno: 'DPWH-2026-042', content: 'DPWH 검토 의견 없음 – 승인 완료', next: '완료' },
+        { date: '2026-01-20', from: 'KECC JV', docno: 'PA-RPT-012', content: 'Submitted geotechnical investigation report\n- Boreholes: 24\n- SPT: 240 tests\n- Laboratory soil tests: 72', next: 'Awaiting DPWH review' },
+        { date: '2026-02-28', from: 'DPWH', docno: 'DPWH-2026-042', content: 'No DPWH comments – approved', next: 'Complete' },
       ]
     },
     {
-      id: 5, no: 5, title: 'Key Personnel Mobilization – Additional Hydraulic Engineer', cat: 'Letter (공문)',
+      id: 5, no: 5, title: 'Key Personnel Mobilization – Additional Hydraulic Engineer', cat: 'Letter',
       dir: 'O', from: 'KECC JV', to: 'DPWH', docno: 'PA-LTR-027',
-      date: '2026-05-01', next: 'DPWH 승인 후 동원', status: 'progress',
-      remark: 'WCI 제공 인원',
+      date: '2026-05-01', next: 'Mobilize after DPWH approval', status: 'progress',
+      remark: 'Personnel provided by WCI',
       entries: [
-        { date: '2026-05-01', from: 'KECC JV', docno: 'PA-LTR-027', content: '수리 엔지니어 추가 동원 신청\n- 성명: J. Park (박정수)\n- 소속: WCI\n- 투입 예정: 2026-06-01', next: 'DPWH 승인 대기' },
+        { date: '2026-05-01', from: 'KECC JV', docno: 'PA-LTR-027', content: 'Applied for additional hydraulic engineer mobilization\n- Name: J. Park\n- Company: WCI\n- Planned input: 2026-06-01', next: 'Awaiting DPWH approval' },
       ]
     },
     {
       id: 6, no: 6, title: 'Claim No.01 – Foundation Treatment of Existing Ground', cat: 'Claim',
       dir: 'I', from: 'DPWH', to: 'KECC JV', docno: 'DPWH-CLM-001',
-      date: '2026-04-05', next: '기술·비용 분석 중', status: 'progress',
-      remark: '추가 단가 요청',
+      date: '2026-04-05', next: 'Technical/cost analysis in progress', status: 'progress',
+      remark: 'Additional unit rate requested',
       entries: [
-        { date: '2026-04-05', from: 'DPWH', docno: 'DPWH-CLM-001', content: 'DPWH로부터 성토 전 원지반 처리 추가 단가 요청\n- 해당 구간: Sta. 5+000 ~ 8+200\n- 사유: 당초 설계에 미포함', next: 'KECC JV 기술 검토' },
-        { date: '2026-05-10', from: 'KECC JV', docno: '', content: '기술 검토 완료\n- 추가 물량: 12,500 m³\n- 비용 분석 진행 중\n- WCI 의견 수렴 중', next: '비용 분석 완료 후 협의' },
+        { date: '2026-04-05', from: 'DPWH', docno: 'DPWH-CLM-001', content: 'DPWH requested additional unit rate for ground treatment before embankment
+- Section: Sta. 5+000 ~ 8+200
+- Reason: not included in original design', next: 'KECC JV technical review' },
+        { date: '2026-05-10', from: 'KECC JV', docno: '', content: 'Technical review completed\n- Additional quantity: 12,500 m³\n- Cost analysis in progress\n- Collecting WCI input', next: 'Negotiate after completing cost analysis' },
       ]
     },
   ];
@@ -3125,10 +3167,10 @@ function renderIssueStats() {
   const complete = ISSUES.filter(i => i.status === 'complete').length;
   const closed   = ISSUES.filter(i => i.status === 'closed').length;
   el.innerHTML = `
-    <div class="stat-card"><div class="stat-label">📋 전체 이슈</div><div class="stat-value">${total}</div><div class="stat-sub">등록된 전체 이슈 수</div></div>
-    <div class="stat-card"><div class="stat-label">▽ 진행 중</div><div class="stat-value" style="color:var(--accent)">${progress}</div><div class="stat-sub">처리 중인 이슈</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${total?Math.round(progress/total*100):0}%;background:var(--accent)"></div></div></div>
-    <div class="stat-card"><div class="stat-label">● 완료</div><div class="stat-value" style="color:var(--accent2)">${complete}</div><div class="stat-sub">처리 완료된 이슈</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${total?Math.round(complete/total*100):0}%;background:var(--accent2)"></div></div></div>
-    <div class="stat-card"><div class="stat-label">📥 미처리 수신</div><div class="stat-value" style="color:var(--danger)">${ISSUES.filter(i=>i.dir==='I'&&i.status==='progress').length}</div><div class="stat-sub">Incoming 미처리</div></div>
+    <div class="stat-card"><div class="stat-label">📋 Total Issues</div><div class="stat-value">${total}</div><div class="stat-sub">Total registered issues</div></div>
+    <div class="stat-card"><div class="stat-label">▽ In Progress</div><div class="stat-value" style="color:var(--accent)">${progress}</div><div class="stat-sub">Issues in progress</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${total?Math.round(progress/total*100):0}%;background:var(--accent)"></div></div></div>
+    <div class="stat-card"><div class="stat-label">● Complete</div><div class="stat-value" style="color:var(--accent2)">${complete}</div><div class="stat-sub">Completed issues</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${total?Math.round(complete/total*100):0}%;background:var(--accent2)"></div></div></div>
+    <div class="stat-card"><div class="stat-label">📥 Pending Incoming</div><div class="stat-value" style="color:var(--danger)">${ISSUES.filter(i=>i.dir==='I'&&i.status==='progress').length}</div><div class="stat-sub">Unprocessed incoming</div></div>
   `;
 }
 
@@ -3179,15 +3221,15 @@ function renderIssueTable() {
         <td style="font-size:12px;color:var(--text-muted)">${issue.next||'–'}</td>
         <td onclick="event.stopPropagation()">
           <div style="display:flex;gap:4px">
-            <button class="btn btn-outline btn-sm" title="진행 내용 추가" onclick="openEntryModal(${issue.id})">+</button>
-            <button class="btn btn-outline btn-sm" title="상세 보기" onclick="openDetailModal(${issue.id})">👁</button>
+            <button class="btn btn-outline btn-sm" title="Add Progress Entry" onclick="openEntryModal(${issue.id})">+</button>
+            <button class="btn btn-outline btn-sm" title="View detail" onclick="openDetailModal(${issue.id})">👁</button>
           </div>
         </td>
       </tr>
       <tr id="issue-expand-${issue.id}" style="display:none;background:#f8faff">
         <td colspan="12" style="padding:0">
           <div style="padding:12px 20px 16px 52px">
-            <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">진행 이력 (${entryCount}건)</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">History (${entryCount})</div>
             ${issue.entries.map((e,idx) => `
               <div style="display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);${idx===issue.entries.length-1?'border-bottom:none':''}">
                 <div style="width:88px;flex-shrink:0;font-size:12px;color:var(--text-muted);padding-top:2px">${e.date||'–'}</div>
@@ -3199,7 +3241,7 @@ function renderIssueTable() {
                 </div>
               </div>
             `).join('')}
-            <button class="btn btn-primary btn-sm" style="margin-top:10px" onclick="openEntryModal(${issue.id})">✏️ 진행 내용 추가</button>
+            <button class="btn btn-primary btn-sm" style="margin-top:10px" onclick="openEntryModal(${issue.id})">✏️ Add Progress Entry</button>
           </div>
         </td>
       </tr>
@@ -3207,7 +3249,7 @@ function renderIssueTable() {
   }).join('');
 
   if (!filtered.length) {
-    tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;padding:40px;color:var(--text-muted)">검색 결과가 없습니다.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;padding:40px;color:var(--text-muted)">No results found.</td></tr>';
   }
 }
 
@@ -3221,7 +3263,7 @@ function toggleIssueExpand(id, e) {
 function saveNewIssue() {
   const title = document.getElementById('ni-title').value.trim();
   const cat   = document.getElementById('ni-cat').value;
-  if (!title || !cat) { alert('제목과 분류는 필수입니다.'); return; }
+  if (!title || !cat) { alert('Title and category are required.'); return; }
 
   const today = new Date().toISOString().split('T')[0];
   const newIssue = {
@@ -3260,7 +3302,7 @@ function saveNewIssue() {
   ['ni-title','ni-docno','ni-date','ni-next','ni-remark','ni-content'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
-  showToast('✅ 이슈 No.' + newIssue.no + ' 등록 완료');
+  showToast('✅ Issue No.' + newIssue.no + ' registered');
 }
 
 // ── Add Entry ────────────────────────────────────
@@ -3279,7 +3321,7 @@ function openEntryModal(issueId) {
 
 function saveIssueEntry() {
   const content = document.getElementById('entry-content').value.trim();
-  if (!content) { alert('내용을 입력하세요.'); return; }
+  if (!content) { alert('Enter the content.'); return; }
   const issue = ISSUES.find(i => i.id === entryTargetId);
   if (!issue) return;
 
@@ -3300,7 +3342,7 @@ function saveIssueEntry() {
   closeModal('modal-issue-entry');
   renderIssueStats();
   renderIssueTable();
-  showToast('✅ 진행 내용 추가 완료');
+  showToast('✅ Progress entry added');
 }
 
 // ── Detail Modal ─────────────────────────────────
@@ -3313,7 +3355,7 @@ function openDetailModal(issueId) {
   document.getElementById('detail-body').innerHTML = `
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
       <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px">
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">분류</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">Category</div>
         <div style="font-weight:600;font-size:13px">${issue.cat}</div>
       </div>
       <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px">
@@ -3321,26 +3363,26 @@ function openDetailModal(issueId) {
         <div style="font-weight:600;font-size:13px">${issue.from} → ${issue.to}</div>
       </div>
       <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px">
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">상태</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">Status</div>
         <div style="font-weight:600;font-size:13px"><span class="tag ${sm.cls}">${sm.icon} ${sm.label}</span></div>
       </div>
       <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px">
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">문서번호</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">Doc. No.</div>
         <div style="font-weight:600;font-size:13px;font-family:monospace">${issue.docno||'–'}</div>
       </div>
       <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px">
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">최초 날짜</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">First Date</div>
         <div style="font-weight:600;font-size:13px">${issue.date||'–'}</div>
       </div>
       <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px">
         <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">I/O</div>
-        <div style="font-weight:600;font-size:13px">${issue.dir === 'I' ? '수신 (Incoming)' : issue.dir === 'O' ? '발신 (Outgoing)' : '내부 (Internal)'}</div>
+        <div style="font-weight:600;font-size:13px">${issue.dir === 'I' ? 'Incoming' : issue.dir === 'O' ? 'Outgoing' : 'Internal'}</div>
       </div>
     </div>
     ${issue.remark ? `<div style="background:#fef3d0;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px"><strong>Remark:</strong> ${issue.remark}</div>` : ''}
-    <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">다음 진행: <span style="color:var(--accent);text-transform:none;font-weight:600">${issue.next||'–'}</span></div>
+    <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Next Action: <span style="color:var(--accent);text-transform:none;font-weight:600">${issue.next||'–'}</span></div>
     <div style="border-top:2px solid var(--border);padding-top:14px">
-      <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">진행 이력 (${issue.entries.length}건)</div>
+      <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">History (${issue.entries.length})</div>
       ${issue.entries.map((e, idx) => `
         <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
           <div style="flex-shrink:0;text-align:center">
@@ -3376,7 +3418,7 @@ function exportIssueCSV() {
   a.href = 'data:text/csv;charset=utf-8,﻿' + encodeURIComponent(csv);
   a.download = 'PanayAgusan_IssueTracker_' + new Date().toISOString().split('T')[0] + '.csv';
   a.click();
-  showToast('⬇️ CSV 다운로드 완료');
+  showToast('⬇️ CSV downloaded');
 }
 </script>
 </body>
