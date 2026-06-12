@@ -344,7 +344,7 @@ canvas.chart { max-width: 100%; }
       <span onclick="quickFill('dpwh_view')">dpwh_view</span>
     </div>
     <div style="font-size:11px;color:var(--text-muted);margin-top:12px;text-align:center">
-      Admin initial password: <code style="background:#f0f3f8;padding:2px 6px;border-radius:3px">1234@@</code> &nbsp;|&nbsp; Others: <code style="background:#f0f3f8;padding:2px 6px;border-radius:3px">pmis2024</code>
+      Admin initial password: <code style="background:#f0f3f8;padding:2px 6px;border-radius:3px">1234@@</code> &nbsp;|&nbsp; Others: <code style="background:#f0f3f8;padding:2px 6px;border-radius:3px">1234@@</code>
     </div>
     </div><!-- /login-body -->
   </div>
@@ -1954,10 +1954,10 @@ const FOLDERS = ['01. Reports', '02. Drawings', '03. Survey Data', '04. Correspo
 // ══════════════════════════════════════════════
 const DEFAULT_USERS = [
   { id:'kecc_admin', name:'KK Shin',      company:'KECC JV',    role:'admin',   email:'kkshin@keccjv.com',           pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
-  { id:'kecc_pm',   name:'Project Manager',        company:'KECC JV',    role:'manager', email:'pm@keccjv.com',               pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
-  { id:'wci_user',  name:'WCI Coordinator',         company:'WCI',        role:'editor',  email:'coord@wci.com',               pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
-  { id:'wci_eng',   name:'WCI Engineer',            company:'WCI',        role:'editor',  email:'eng@wci.com',                 pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
-  { id:'dpwh_view', name:'DPWH Inspector',          company:'DPWH',       role:'viewer',  email:'inspector@dpwh.gov.ph',       pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
+  { id:'kecc_pm',   name:'Project Manager',        company:'KECC JV',    role:'manager', email:'pm@keccjv.com',               pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
+  { id:'wci_user',  name:'WCI Coordinator',         company:'WCI',        role:'editor',  email:'coord@wci.com',               pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
+  { id:'wci_eng',   name:'WCI Engineer',            company:'WCI',        role:'editor',  email:'eng@wci.com',                 pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
+  { id:'dpwh_view', name:'DPWH Inspector',          company:'DPWH',       role:'viewer',  email:'inspector@dpwh.gov.ph',       pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
 ];
 
 // Pages each role can see (nav item ids)
@@ -1991,7 +1991,7 @@ function togglePw(inputId, btn) {
 
 function quickFill(id) {
   document.getElementById('login-user').value = id;
-  document.getElementById('login-pw').value = 'pmis2024';
+  document.getElementById('login-pw').value = '1234@@';
 }
 
 function doLogin() {
