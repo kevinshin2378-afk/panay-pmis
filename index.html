@@ -320,6 +320,7 @@ canvas.chart { max-width: 100%; }
       <a class="nav-item" onclick="showPage('photos')"><span class="nav-icon">📷</span> Progress Photos</a>
 
       <div class="sidebar-section">Document</div>
+      <a class="nav-item" onclick="showPage('issues')"><span class="nav-icon">📋</span> Issue Tracker (KTS)</a>
       <a class="nav-item" onclick="showPage('documents')"><span class="nav-icon">📂</span> Official Documents</a>
       <a class="nav-item" onclick="showPage('approval')"><span class="nav-icon">✅</span> Doc Approval</a>
 
@@ -736,6 +737,69 @@ canvas.chart { max-width: 100%; }
         </div>
       </div>
 
+      <!-- ─── ISSUE TRACKER (KTS) ─── -->
+      <div class="page" id="page-issues">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>Issue Tracker</span></div>
+          <h1>Issue Tracker</h1>
+          <p>공문 및 업무 진행 현황 관리 – KTS Style</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid-4" id="issue-stats-row"></div>
+
+        <!-- Toolbar -->
+        <div class="card mt24" style="padding:14px 20px">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <input type="text" class="form-input" id="issue-search" placeholder="🔍  제목·내용·문서번호 검색..." style="width:220px;padding:8px 12px;font-size:13px" oninput="renderIssueTable()">
+            <select class="form-input" id="issue-filter-cat" style="width:160px;padding:8px 12px;font-size:13px" onchange="renderIssueTable()">
+              <option value="">전체 분류</option>
+            </select>
+            <select class="form-input" id="issue-filter-status" style="width:130px;padding:8px 12px;font-size:13px" onchange="renderIssueTable()">
+              <option value="">전체 상태</option>
+              <option value="progress">▽ 진행 중</option>
+              <option value="complete">● 완료</option>
+              <option value="closed">✕ 종료</option>
+            </select>
+            <select class="form-input" id="issue-filter-dir" style="width:130px;padding:8px 12px;font-size:13px" onchange="renderIssueTable()">
+              <option value="">I/O 전체</option>
+              <option value="I">I – 수신 (Incoming)</option>
+              <option value="O">O – 발신 (Outgoing)</option>
+              <option value="-">– 내부</option>
+            </select>
+            <div style="margin-left:auto;display:flex;gap:8px">
+              <button class="btn btn-outline btn-sm" onclick="exportIssueCSV()">⬇️ CSV 내보내기</button>
+              <button class="btn btn-primary" onclick="openModal('modal-issue-new')">+ 신규 이슈 등록</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Issue Table -->
+        <div class="card mt16" style="padding:0;overflow:hidden">
+          <div class="table-wrap">
+            <table id="issue-table" style="font-size:12.5px">
+              <thead>
+                <tr style="position:sticky;top:0;z-index:10">
+                  <th style="width:44px">No.</th>
+                  <th style="width:36px"></th>
+                  <th>제목 (TITLE & KEY WORD)</th>
+                  <th style="width:110px">분류</th>
+                  <th style="width:48px">I/O</th>
+                  <th style="width:72px">From</th>
+                  <th style="width:72px">To</th>
+                  <th style="width:90px">문서번호</th>
+                  <th style="width:88px">날짜</th>
+                  <th style="width:58px">진행</th>
+                  <th style="width:110px">다음 진행</th>
+                  <th style="width:64px">Action</th>
+                </tr>
+              </thead>
+              <tbody id="issue-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <!-- ─── DOCUMENTS ─── -->
       <div class="page" id="page-documents">
         <div class="page-header">
@@ -955,6 +1019,161 @@ canvas.chart { max-width: 100%; }
 </div><!-- /app -->
 
 <!-- ══════════════════ MODALS ══════════════════ -->
+
+<!-- Issue Tracker – New Issue -->
+<div class="modal-bg" id="modal-issue-new">
+  <div class="modal" style="width:680px;max-width:97vw">
+    <div class="modal-header">
+      <div class="modal-title">📋 신규 이슈 등록</div>
+      <button class="modal-close" onclick="closeModal('modal-issue-new')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">분류 (Category) <span style="color:var(--danger)">*</span></label>
+        <select class="form-input" id="ni-cat">
+          <option value="">-- 선택 --</option>
+          <option>Letter (공문)</option><option>Report (보고서)</option><option>VO (Variation Order)</option>
+          <option>Claim</option><option>EOT</option><option>기성 (IPC)</option>
+          <option>Programme / Schedule</option><option>Method Statement</option>
+          <option>Drawing</option><option>Survey</option><option>Meeting (MOM)</option>
+          <option>subcon</option><option>Bond</option><option>AP (선급금)</option>
+          <option>Force Majeure</option><option>land acquisition</option>
+          <option>Insurance</option><option>본사보고</option><option>Others</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">I / O / 내부</label>
+        <select class="form-input" id="ni-dir">
+          <option value="O">O – 발신 (Outgoing)</option>
+          <option value="I">I – 수신 (Incoming)</option>
+          <option value="-">– 내부 (Internal)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">제목 (TITLE & KEY WORD) <span style="color:var(--danger)">*</span></label>
+      <input class="form-input" id="ni-title" placeholder="이슈 제목 또는 키워드 입력">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">From</label>
+        <select class="form-input" id="ni-from">
+          <option>KECC JV</option><option>WCI</option><option>DPWH</option><option>ENG</option><option>DP</option><option>Omega Group</option><option>기타</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">To</label>
+        <select class="form-input" id="ni-to">
+          <option>DPWH</option><option>KECC JV</option><option>WCI</option><option>ENG</option><option>DP</option><option>Omega Group</option><option>기타</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">문서번호 (Doc. No.)</label>
+        <input class="form-input" id="ni-docno" placeholder="예: PA-LTR-029">
+      </div>
+      <div class="form-group">
+        <label class="form-label">날짜</label>
+        <input class="form-input" id="ni-date" type="date">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">내용 (첫 번째 항목)</label>
+      <textarea class="form-input" id="ni-content" rows="3" placeholder="이슈 내용 또는 최초 발생 상황을 입력하세요"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">다음 진행 (Next Action)</label>
+        <input class="form-input" id="ni-next" placeholder="다음 조치 사항">
+      </div>
+      <div class="form-group">
+        <label class="form-label">진행 상태</label>
+        <select class="form-input" id="ni-status">
+          <option value="progress">▽ 진행 중</option>
+          <option value="complete">● 완료</option>
+          <option value="closed">✕ 종료</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Remark</label>
+      <input class="form-input" id="ni-remark" placeholder="비고">
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-issue-new')">취소</button>
+      <button class="btn btn-primary" onclick="saveNewIssue()">등록</button>
+    </div>
+  </div>
+</div>
+
+<!-- Issue Tracker – Add Entry -->
+<div class="modal-bg" id="modal-issue-entry">
+  <div class="modal" style="width:600px;max-width:97vw">
+    <div class="modal-header">
+      <div class="modal-title">✏️ 진행 내용 추가</div>
+      <button class="modal-close" onclick="closeModal('modal-issue-entry')">✕</button>
+    </div>
+    <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px">
+      <span id="entry-issue-title" style="font-weight:600;color:var(--primary)"></span>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">날짜</label>
+        <input class="form-input" id="entry-date" type="date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">From</label>
+        <select class="form-input" id="entry-from">
+          <option>KECC JV</option><option>WCI</option><option>DPWH</option><option>ENG</option><option>DP</option><option>Omega Group</option><option>기타</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">내용</label>
+      <textarea class="form-input" id="entry-content" rows="4" placeholder="진행 내용, 회의 요약, 수신 문서 내용 등"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">문서번호 (이번 항목용)</label>
+        <input class="form-input" id="entry-docno" placeholder="해당 시 입력">
+      </div>
+      <div class="form-group">
+        <label class="form-label">상태 업데이트</label>
+        <select class="form-input" id="entry-status">
+          <option value="">변경 없음</option>
+          <option value="progress">▽ 진행 중</option>
+          <option value="complete">● 완료</option>
+          <option value="closed">✕ 종료</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">다음 진행 (Next Action)</label>
+      <input class="form-input" id="entry-next" placeholder="다음 조치 사항 업데이트">
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-issue-entry')">취소</button>
+      <button class="btn btn-primary" onclick="saveIssueEntry()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- Issue Tracker – Detail View -->
+<div class="modal-bg" id="modal-issue-detail">
+  <div class="modal" style="width:760px;max-width:97vw">
+    <div class="modal-header">
+      <div class="modal-title" id="detail-title">이슈 상세</div>
+      <button class="modal-close" onclick="closeModal('modal-issue-detail')">✕</button>
+    </div>
+    <div id="detail-body"></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline btn-sm" onclick="closeModal('modal-issue-detail');openEntryModal(currentDetailId)">✏️ 진행 내용 추가</button>
+      <button class="btn btn-outline" onclick="closeModal('modal-issue-detail')">닫기</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-bg" id="modal-contract">
   <div class="modal">
     <div class="modal-header">
@@ -1347,6 +1566,7 @@ function showPage(id) {
   // draw charts lazily
   if (id === 'progress') { setTimeout(() => drawSCurveBig(), 100); setTimeout(() => drawGantt(), 50); }
   if (id === 'workforce') setTimeout(() => drawWorkforceChart(), 100);
+  if (id === 'issues') { initIssueTracker(); }
 }
 
 // ── MODALS ────────────────────────────────────
@@ -1857,6 +2077,384 @@ function initApp() {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') document.querySelectorAll('.modal-bg.open').forEach(m => m.classList.remove('open'));
 });
+
+// ══════════════════════════════════════════════════
+// ISSUE TRACKER (KTS Style)
+// ══════════════════════════════════════════════════
+
+const ISSUE_CATEGORIES = [
+  'Letter (공문)','Report (보고서)','VO (Variation Order)','Claim','EOT',
+  '기성 (IPC)','Programme / Schedule','Method Statement','Drawing','Survey',
+  'Meeting (MOM)','subcon','Bond','AP (선급금)','Force Majeure',
+  'land acquisition','Insurance','본사보고','Others'
+];
+
+const STATUS_META = {
+  progress: { icon: '▽', label: '진행 중', cls: 'tag-yellow' },
+  complete:  { icon: '●', label: '완료',   cls: 'tag-green'  },
+  closed:    { icon: '✕', label: '종료',   cls: 'tag-gray'   },
+};
+
+// In-memory store (localStorage-backed)
+let ISSUES = [];
+let currentDetailId = null;
+
+function loadIssues() {
+  try { ISSUES = JSON.parse(localStorage.getItem('pmis_issues') || '[]'); }
+  catch { ISSUES = []; }
+  if (!ISSUES.length) ISSUES = getSampleIssues();
+}
+
+function saveIssues() {
+  localStorage.setItem('pmis_issues', JSON.stringify(ISSUES));
+}
+
+function getSampleIssues() {
+  const today = new Date().toISOString().split('T')[0];
+  return [
+    {
+      id: 1, no: 1, title: 'Monthly Progress Report Submission', cat: 'Report (보고서)',
+      dir: 'O', from: 'KECC JV', to: 'DPWH', docno: 'PA-RPT-014',
+      date: '2026-06-05', next: '다음 월 보고서 제출 (7월)', status: 'progress',
+      remark: '매월 5일 제출',
+      entries: [
+        { date: '2026-06-05', from: 'KECC JV', docno: 'PA-RPT-014', content: 'May 2026 Monthly Progress Report 제출\n- 전체 진도율: 34.2% (계획: 38.5%)\n- 지연 원인: 강우로 인한 현장 조사 지연', next: '6월 보고서 준비' },
+        { date: '2026-06-10', from: 'DPWH', docno: '', content: 'DPWH 검토 의견 접수\n- 수자원 분석 보완 요청\n- 다음 보고 시 반영', next: 'DPWH 의견 반영 후 재제출 검토' },
+      ]
+    },
+    {
+      id: 2, no: 2, title: 'Extension of Time (EOT) – Rainy Season Delay', cat: 'EOT',
+      dir: 'O', from: 'KECC JV', to: 'DPWH', docno: 'PA-LTR-025',
+      date: '2026-03-15', next: 'DPWH 승인 대기', status: 'progress',
+      remark: '',
+      entries: [
+        { date: '2026-03-15', from: 'KECC JV', docno: 'PA-LTR-025', content: 'EOT 신청 제출\n- 사유: 2025년 태풍 Odette로 인한 현장 접근 불가 (45일)\n- 요청 기간 연장: 45 Calendar Days', next: 'DPWH 검토 의견 대기' },
+        { date: '2026-04-02', from: 'DPWH', docno: 'DPWH-2026-088', content: 'DPWH 추가 증빙자료 요청\n- 기상청 강우 기록 (공식 문서)\n- 현장 사진 및 일보', next: '증빙자료 준비 후 재제출' },
+        { date: '2026-04-20', from: 'KECC JV', docno: 'PA-LTR-026', content: '보완 자료 제출\n- 기상청 확인서 첨부\n- 현장 침수 사진 38장 첨부', next: 'DPWH 최종 승인 대기' },
+      ]
+    },
+    {
+      id: 3, no: 3, title: 'Variation Order No.01 – Additional Flood Gate Structure at Sta. 12+500', cat: 'VO (Variation Order)',
+      dir: 'I', from: 'DPWH', to: 'KECC JV', docno: 'DPWH-VO-001',
+      date: '2025-11-10', next: '견적 제출 완료 – 협의 중', status: 'progress',
+      remark: '예산 영향: ₱ 85M 추정',
+      entries: [
+        { date: '2025-11-10', from: 'DPWH', docno: 'DPWH-VO-001', content: 'DPWH Flood Gate 추가 설치 지시\n- 위치: Sta. 12+500 (Panay River)\n- 규모: 2 Bays × 5m × 4m', next: '기술 검토 및 견적 준비' },
+        { date: '2025-12-05', from: 'KECC JV', docno: 'PA-VO-001', content: '기술 검토 완료 및 견적 제출\n- 예상 금액: ₱ 85,200,000\n- 예상 공기: 90 Calendar Days\n- WCI 협의 완료', next: 'DPWH 견적 검토 대기' },
+        { date: '2026-02-15', from: 'DPWH', docno: '', content: 'DPWH 금액 협의 요청\n- 일부 단가 조정 필요\n- 회의 일정 조율 중', next: '협의 회의 일정 확정' },
+      ]
+    },
+    {
+      id: 4, no: 4, title: 'Geotechnical Investigation Report – Agusan River Section', cat: 'Report (보고서)',
+      dir: 'O', from: 'KECC JV', to: 'DPWH', docno: 'PA-RPT-012',
+      date: '2026-01-20', next: '완료', status: 'complete',
+      remark: '',
+      entries: [
+        { date: '2026-01-20', from: 'KECC JV', docno: 'PA-RPT-012', content: '지반 조사 보고서 제출\n- 시추 조사: 24공\n- 표준관입시험(SPT): 240회\n- 실내 토질 시험: 72건', next: 'DPWH 검토 대기' },
+        { date: '2026-02-28', from: 'DPWH', docno: 'DPWH-2026-042', content: 'DPWH 검토 의견 없음 – 승인 완료', next: '완료' },
+      ]
+    },
+    {
+      id: 5, no: 5, title: 'Key Personnel Mobilization – Additional Hydraulic Engineer', cat: 'Letter (공문)',
+      dir: 'O', from: 'KECC JV', to: 'DPWH', docno: 'PA-LTR-027',
+      date: '2026-05-01', next: 'DPWH 승인 후 동원', status: 'progress',
+      remark: 'WCI 제공 인원',
+      entries: [
+        { date: '2026-05-01', from: 'KECC JV', docno: 'PA-LTR-027', content: '수리 엔지니어 추가 동원 신청\n- 성명: J. Park (박정수)\n- 소속: WCI\n- 투입 예정: 2026-06-01', next: 'DPWH 승인 대기' },
+      ]
+    },
+    {
+      id: 6, no: 6, title: 'Claim No.01 – Foundation Treatment of Existing Ground', cat: 'Claim',
+      dir: 'I', from: 'DPWH', to: 'KECC JV', docno: 'DPWH-CLM-001',
+      date: '2026-04-05', next: '기술·비용 분석 중', status: 'progress',
+      remark: '추가 단가 요청',
+      entries: [
+        { date: '2026-04-05', from: 'DPWH', docno: 'DPWH-CLM-001', content: 'DPWH로부터 성토 전 원지반 처리 추가 단가 요청\n- 해당 구간: Sta. 5+000 ~ 8+200\n- 사유: 당초 설계에 미포함', next: 'KECC JV 기술 검토' },
+        { date: '2026-05-10', from: 'KECC JV', docno: '', content: '기술 검토 완료\n- 추가 물량: 12,500 m³\n- 비용 분석 진행 중\n- WCI 의견 수렴 중', next: '비용 분석 완료 후 협의' },
+      ]
+    },
+  ];
+}
+
+function initIssueTracker() {
+  loadIssues();
+  populateCategoryFilter();
+  renderIssueStats();
+  renderIssueTable();
+}
+
+function populateCategoryFilter() {
+  const sel = document.getElementById('issue-filter-cat');
+  if (!sel) return;
+  const cats = [...new Set(ISSUES.map(i => i.cat))].sort();
+  cats.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    sel.appendChild(o);
+  });
+}
+
+function renderIssueStats() {
+  const el = document.getElementById('issue-stats-row');
+  if (!el) return;
+  const total = ISSUES.length;
+  const progress = ISSUES.filter(i => i.status === 'progress').length;
+  const complete = ISSUES.filter(i => i.status === 'complete').length;
+  const closed   = ISSUES.filter(i => i.status === 'closed').length;
+  el.innerHTML = `
+    <div class="stat-card"><div class="stat-label">📋 전체 이슈</div><div class="stat-value">${total}</div><div class="stat-sub">등록된 전체 이슈 수</div></div>
+    <div class="stat-card"><div class="stat-label">▽ 진행 중</div><div class="stat-value" style="color:var(--accent)">${progress}</div><div class="stat-sub">처리 중인 이슈</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${total?Math.round(progress/total*100):0}%;background:var(--accent)"></div></div></div>
+    <div class="stat-card"><div class="stat-label">● 완료</div><div class="stat-value" style="color:var(--accent2)">${complete}</div><div class="stat-sub">처리 완료된 이슈</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${total?Math.round(complete/total*100):0}%;background:var(--accent2)"></div></div></div>
+    <div class="stat-card"><div class="stat-label">📥 미처리 수신</div><div class="stat-value" style="color:var(--danger)">${ISSUES.filter(i=>i.dir==='I'&&i.status==='progress').length}</div><div class="stat-sub">Incoming 미처리</div></div>
+  `;
+}
+
+function renderIssueTable() {
+  const tbody = document.getElementById('issue-tbody');
+  if (!tbody) return;
+  const q      = (document.getElementById('issue-search')?.value||'').toLowerCase();
+  const fCat   = document.getElementById('issue-filter-cat')?.value||'';
+  const fStat  = document.getElementById('issue-filter-status')?.value||'';
+  const fDir   = document.getElementById('issue-filter-dir')?.value||'';
+
+  const filtered = ISSUES.filter(i => {
+    if (fCat  && i.cat    !== fCat)   return false;
+    if (fStat && i.status !== fStat)  return false;
+    if (fDir  && i.dir    !== fDir)   return false;
+    if (q) {
+      const blob = [i.title, i.docno, i.cat, i.from, i.to, i.remark,
+                    ...i.entries.map(e=>e.content+e.docno)].join(' ').toLowerCase();
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+
+  tbody.innerHTML = filtered.map(issue => {
+    const sm = STATUS_META[issue.status] || STATUS_META.progress;
+    const dirBadge = issue.dir === 'I'
+      ? `<span style="background:#ddeeff;color:#1a5ca8;font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px">I</span>`
+      : issue.dir === 'O'
+        ? `<span style="background:#d4f4dd;color:#186a30;font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px">O</span>`
+        : `<span style="background:#e8edf5;color:#4a5568;font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px">–</span>`;
+    const lastEntry = issue.entries[issue.entries.length - 1];
+    const entryCount = issue.entries.length;
+    return `
+      <tr style="cursor:pointer" id="issue-row-${issue.id}" onclick="toggleIssueExpand(${issue.id}, event)">
+        <td style="font-weight:700;color:var(--primary)">${issue.no}</td>
+        <td style="text-align:center"><span style="font-size:11px;background:#e8edf5;border-radius:10px;padding:2px 6px;color:var(--text-muted)">${entryCount}</span></td>
+        <td>
+          <div style="font-weight:600;font-size:13px">${issue.title}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">${lastEntry ? lastEntry.content.split('\n')[0].slice(0,60) : ''}${lastEntry?.content.length>60?'…':''}</div>
+        </td>
+        <td><span style="background:#e8f0fb;color:var(--primary-light);font-size:11px;padding:3px 8px;border-radius:12px;white-space:nowrap">${issue.cat}</span></td>
+        <td style="text-align:center">${dirBadge}</td>
+        <td style="font-size:12px">${issue.from}</td>
+        <td style="font-size:12px">${issue.to}</td>
+        <td style="font-size:12px;font-family:monospace">${issue.docno||'–'}</td>
+        <td style="font-size:12px">${issue.date||'–'}</td>
+        <td style="text-align:center"><span class="tag ${sm.cls}">${sm.icon} ${sm.label}</span></td>
+        <td style="font-size:12px;color:var(--text-muted)">${issue.next||'–'}</td>
+        <td onclick="event.stopPropagation()">
+          <div style="display:flex;gap:4px">
+            <button class="btn btn-outline btn-sm" title="진행 내용 추가" onclick="openEntryModal(${issue.id})">+</button>
+            <button class="btn btn-outline btn-sm" title="상세 보기" onclick="openDetailModal(${issue.id})">👁</button>
+          </div>
+        </td>
+      </tr>
+      <tr id="issue-expand-${issue.id}" style="display:none;background:#f8faff">
+        <td colspan="12" style="padding:0">
+          <div style="padding:12px 20px 16px 52px">
+            <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">진행 이력 (${entryCount}건)</div>
+            ${issue.entries.map((e,idx) => `
+              <div style="display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);${idx===issue.entries.length-1?'border-bottom:none':''}">
+                <div style="width:88px;flex-shrink:0;font-size:12px;color:var(--text-muted);padding-top:2px">${e.date||'–'}</div>
+                <div style="width:70px;flex-shrink:0;font-size:12px;font-weight:600;color:var(--primary)">${e.from||''}</div>
+                <div style="flex:1">
+                  <div style="font-size:12px;white-space:pre-line">${e.content}</div>
+                  ${e.docno?`<div style="font-size:11px;color:var(--text-muted);margin-top:3px;font-family:monospace">📄 ${e.docno}</div>`:''}
+                  ${e.next?`<div style="font-size:11px;color:var(--accent);margin-top:3px">▶ ${e.next}</div>`:''}
+                </div>
+              </div>
+            `).join('')}
+            <button class="btn btn-primary btn-sm" style="margin-top:10px" onclick="openEntryModal(${issue.id})">✏️ 진행 내용 추가</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;padding:40px;color:var(--text-muted)">검색 결과가 없습니다.</td></tr>';
+  }
+}
+
+function toggleIssueExpand(id, e) {
+  const row = document.getElementById('issue-expand-' + id);
+  if (!row) return;
+  row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+}
+
+// ── New Issue ────────────────────────────────────
+function saveNewIssue() {
+  const title = document.getElementById('ni-title').value.trim();
+  const cat   = document.getElementById('ni-cat').value;
+  if (!title || !cat) { alert('제목과 분류는 필수입니다.'); return; }
+
+  const today = new Date().toISOString().split('T')[0];
+  const newIssue = {
+    id: Date.now(),
+    no: ISSUES.length ? Math.max(...ISSUES.map(i=>i.no)) + 1 : 1,
+    title,
+    cat,
+    dir:    document.getElementById('ni-dir').value,
+    from:   document.getElementById('ni-from').value,
+    to:     document.getElementById('ni-to').value,
+    docno:  document.getElementById('ni-docno').value.trim(),
+    date:   document.getElementById('ni-date').value || today,
+    next:   document.getElementById('ni-next').value.trim(),
+    status: document.getElementById('ni-status').value,
+    remark: document.getElementById('ni-remark').value.trim(),
+    entries: [],
+  };
+
+  const content = document.getElementById('ni-content').value.trim();
+  if (content) {
+    newIssue.entries.push({
+      date: newIssue.date,
+      from: newIssue.from,
+      docno: newIssue.docno,
+      content,
+      next: newIssue.next,
+    });
+  }
+
+  ISSUES.unshift(newIssue);
+  saveIssues();
+  closeModal('modal-issue-new');
+  renderIssueStats();
+  renderIssueTable();
+  // reset
+  ['ni-title','ni-docno','ni-date','ni-next','ni-remark','ni-content'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  showToast('✅ 이슈 No.' + newIssue.no + ' 등록 완료');
+}
+
+// ── Add Entry ────────────────────────────────────
+let entryTargetId = null;
+
+function openEntryModal(issueId) {
+  entryTargetId = issueId;
+  const issue = ISSUES.find(i => i.id === issueId);
+  if (!issue) return;
+  document.getElementById('entry-issue-title').textContent = `[No.${issue.no}] ${issue.title}`;
+  document.getElementById('entry-date').value = new Date().toISOString().split('T')[0];
+  ['entry-content','entry-docno','entry-next'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('entry-status').value = '';
+  openModal('modal-issue-entry');
+}
+
+function saveIssueEntry() {
+  const content = document.getElementById('entry-content').value.trim();
+  if (!content) { alert('내용을 입력하세요.'); return; }
+  const issue = ISSUES.find(i => i.id === entryTargetId);
+  if (!issue) return;
+
+  const entry = {
+    date:    document.getElementById('entry-date').value,
+    from:    document.getElementById('entry-from').value,
+    docno:   document.getElementById('entry-docno').value.trim(),
+    content,
+    next:    document.getElementById('entry-next').value.trim(),
+  };
+  issue.entries.push(entry);
+  if (entry.next)  issue.next = entry.next;
+
+  const newStatus = document.getElementById('entry-status').value;
+  if (newStatus) issue.status = newStatus;
+
+  saveIssues();
+  closeModal('modal-issue-entry');
+  renderIssueStats();
+  renderIssueTable();
+  showToast('✅ 진행 내용 추가 완료');
+}
+
+// ── Detail Modal ─────────────────────────────────
+function openDetailModal(issueId) {
+  currentDetailId = issueId;
+  const issue = ISSUES.find(i => i.id === issueId);
+  if (!issue) return;
+  const sm = STATUS_META[issue.status] || STATUS_META.progress;
+  document.getElementById('detail-title').textContent = `[No.${issue.no}] ${issue.title}`;
+  document.getElementById('detail-body').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+      <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">분류</div>
+        <div style="font-weight:600;font-size:13px">${issue.cat}</div>
+      </div>
+      <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">From → To</div>
+        <div style="font-weight:600;font-size:13px">${issue.from} → ${issue.to}</div>
+      </div>
+      <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">상태</div>
+        <div style="font-weight:600;font-size:13px"><span class="tag ${sm.cls}">${sm.icon} ${sm.label}</span></div>
+      </div>
+      <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">문서번호</div>
+        <div style="font-weight:600;font-size:13px;font-family:monospace">${issue.docno||'–'}</div>
+      </div>
+      <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">최초 날짜</div>
+        <div style="font-weight:600;font-size:13px">${issue.date||'–'}</div>
+      </div>
+      <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px">I/O</div>
+        <div style="font-weight:600;font-size:13px">${issue.dir === 'I' ? '수신 (Incoming)' : issue.dir === 'O' ? '발신 (Outgoing)' : '내부 (Internal)'}</div>
+      </div>
+    </div>
+    ${issue.remark ? `<div style="background:#fef3d0;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px"><strong>Remark:</strong> ${issue.remark}</div>` : ''}
+    <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">다음 진행: <span style="color:var(--accent);text-transform:none;font-weight:600">${issue.next||'–'}</span></div>
+    <div style="border-top:2px solid var(--border);padding-top:14px">
+      <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">진행 이력 (${issue.entries.length}건)</div>
+      ${issue.entries.map((e, idx) => `
+        <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+          <div style="flex-shrink:0;text-align:center">
+            <div style="width:28px;height:28px;border-radius:50%;background:${idx===issue.entries.length-1?'var(--primary)':'#e8edf5'};color:${idx===issue.entries.length-1?'#fff':'var(--text-muted)'};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">${idx+1}</div>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;gap:12px;font-size:12px;color:var(--text-muted);margin-bottom:5px">
+              <span style="font-weight:600;color:var(--primary)">${e.from||''}</span>
+              <span>${e.date||''}</span>
+              ${e.docno?`<span style="font-family:monospace">📄 ${e.docno}</span>`:''}
+            </div>
+            <div style="font-size:13px;white-space:pre-line;line-height:1.6">${e.content}</div>
+            ${e.next?`<div style="margin-top:6px;font-size:12px;color:var(--accent);padding:4px 8px;background:#fef3d0;border-radius:4px;display:inline-block">▶ ${e.next}</div>`:''}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  openModal('modal-issue-detail');
+}
+
+// ── CSV Export ───────────────────────────────────
+function exportIssueCSV() {
+  const rows = [['No','Title','Category','I/O','From','To','Doc No','Date','Status','Next Action','Remark','Entries']];
+  ISSUES.forEach(i => {
+    rows.push([
+      i.no, `"${i.title.replace(/"/g,'""')}"`, i.cat, i.dir, i.from, i.to,
+      i.docno, i.date, STATUS_META[i.status]?.label||i.status, i.next, i.remark, i.entries.length
+    ]);
+  });
+  const csv = rows.map(r => r.join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,﻿' + encodeURIComponent(csv);
+  a.download = 'PanayAgusan_IssueTracker_' + new Date().toISOString().split('T')[0] + '.csv';
+  a.click();
+  showToast('⬇️ CSV 다운로드 완료');
+}
 </script>
 </body>
 </html>
