@@ -359,6 +359,7 @@ canvas.chart { max-width: 100%; }
       <div><strong>DED of Flood Control Projects – Package II</strong> (Panay &amp; Agusan River Basins)</div>
       <div>Client: DPWH &nbsp;|&nbsp; Contract ID: 24CSZ020 &nbsp;|&nbsp; <span id="today-date"></span></div>
     </div>
+    <button class="btn btn-outline btn-sm" style="margin-right:10px" onclick="openModal('modal-help')">❓ Guide</button>
     <div class="topbar-user" onclick="doLogout()">
       <div class="user-avatar" id="user-avatar">A</div>
       <div>
@@ -1648,6 +1649,71 @@ canvas.chart { max-width: 100%; }
 </div>
 
 <!-- Google Drive setup guide modal -->
+<!-- Attach File (per item) -->
+<div class="modal-bg" id="modal-attach">
+  <div class="modal" style="width:520px;max-width:96vw">
+    <div class="modal-header">
+      <div class="modal-title">📎 Attach File</div>
+      <button class="modal-close" onclick="closeModal('modal-attach')">✕</button>
+    </div>
+    <input type="hidden" id="att-type"><input type="hidden" id="att-id">
+    <div style="font-size:12px;background:#eef5fb;border:1px solid #cfe0ef;border-radius:3px;padding:10px 12px;margin-bottom:14px;line-height:1.6">
+      <strong>How it works:</strong> Upload your file to the project Google Drive folder, then paste its share link here.<br>
+      <a href="https://drive.google.com/drive/folders/1yTh5rcViJQqZbRyoVVj0AHFBVmc2m-Rr" target="_blank" style="color:var(--primary);font-weight:700">📂 Open "Panay-Agusan PMIS" Drive Folder →</a>
+      <span style="color:var(--text-muted)"> (right-click file → Share → Copy link)</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">File Name <span style="color:var(--danger)">*</span></label>
+      <input class="form-input" id="att-name" placeholder="e.g. WCI26-002.Rev7.PARB_InceptionReport.pdf">
+    </div>
+    <div class="form-group">
+      <label class="form-label">File Link (Google Drive URL) <span style="color:var(--danger)">*</span></label>
+      <input class="form-input" id="att-url" placeholder="https://drive.google.com/file/d/...">
+    </div>
+    <div id="att-error" style="color:var(--danger);font-size:12px;margin-bottom:8px;display:none"></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
+      <button class="btn btn-outline" onclick="closeModal('modal-attach')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveAttachment()">Attach</button>
+    </div>
+  </div>
+</div>
+
+<!-- User Guide -->
+<div class="modal-bg" id="modal-help">
+  <div class="modal" style="width:680px;max-width:96vw">
+    <div class="modal-header">
+      <div class="modal-title">❓ PMIS User Guide</div>
+      <button class="modal-close" onclick="closeModal('modal-help')">✕</button>
+    </div>
+    <div style="font-size:13px;line-height:1.7">
+      <h3 style="font-size:14px;color:var(--primary);margin:6px 0 6px">1. Getting Started</h3>
+      <p>Access the system anywhere at <strong>kevinshin2378-afk.github.io/panay-pmis</strong> and log in with the ID/password issued by the administrator. Use the 👁️ icon to show/hide your password.</p>
+      <h3 style="font-size:14px;color:var(--primary);margin:14px 0 6px">2. Menu Overview</h3>
+      <table style="font-size:12px;margin-bottom:6px"><tbody>
+        <tr><td style="font-weight:700;width:170px">GENERAL</td><td>Dashboard (project KPIs, D-day, milestones) and General Information</td></tr>
+        <tr><td style="font-weight:700">CONTRACT STATUS</td><td>Contract amount, period, parties and payment terms</td></tr>
+        <tr><td style="font-weight:700">PROGRESS MANAGEMENT</td><td>S-Curve (from OPPM), Gantt chart, workforce, site photos</td></tr>
+        <tr><td style="font-weight:700">DOCUMENTS</td><td>Deliverables (16 contract items), Issue Tracker (KTS), official documents, approval</td></tr>
+        <tr><td style="font-weight:700">COLLABORATION</td><td>Notice board, schedule, File Storage linked to Google Drive</td></tr>
+        <tr><td style="font-weight:700">SETTINGS</td><td>User management, share link &amp; QR code (Admin only)</td></tr>
+      </tbody></table>
+      <h3 style="font-size:14px;color:var(--primary);margin:14px 0 6px">3. Uploading Files to an Item</h3>
+      <p>Every deliverable and issue has a <strong>📎 Attach File</strong> button.<br>
+      ① Click it → ② open the project Drive folder from the link in the dialog → ③ upload your file there → ④ copy its share link → ⑤ paste the name and link, then click <strong>Attach</strong>. The file appears under the item and opens directly in Google Drive.</p>
+      <h3 style="font-size:14px;color:var(--primary);margin:14px 0 6px">4. Recording a Deliverable Submission</h3>
+      <p>On the Deliverables page, click <strong>📤 Record Submission</strong> on the item, enter version (e.g. Rev.7), date, cover-letter number, and update the status (Submitted / Under Review / Approved).</p>
+      <h3 style="font-size:14px;color:var(--primary);margin:14px 0 6px">5. Issue Tracker (KTS style)</h3>
+      <p>Register correspondence and tasks with <strong>+ New Issue</strong>. Click a row to expand its history. Status symbols: <strong>▽ In Progress · ● Complete · ✕ Closed</strong>. Use <strong>✏️ Add Progress Entry</strong> as events occur.</p>
+      <h3 style="font-size:14px;color:var(--primary);margin:14px 0 6px">6. Roles</h3>
+      <p><strong>Admin</strong> manages users and all data · <strong>Manager</strong> all functions except user admin · <strong>Editor</strong> edits progress/documents · <strong>Viewer</strong> read-only.</p>
+      <p style="margin-top:12px;color:var(--text-muted);font-size:12px">Questions? Contact the administrator (kecc_admin).</p>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:14px">
+      <button class="btn btn-primary" onclick="closeModal('modal-help')">OK</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-bg" id="modal-gdrive-setup">
   <div class="modal" style="max-width:620px">
     <div class="modal-header">
@@ -3003,6 +3069,18 @@ function renderDeliverables() {
             ${d.note ? `<span>💬 ${d.note}</span>` : ''}
           </div>
 
+          <!-- Attachments -->
+          ${d.attachments && d.attachments.length ? `
+          <div style="background:#f4f9f4;border:1px solid #cfe5cf;border-radius:3px;padding:8px 12px;margin-bottom:10px">
+            <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">📎 Attached Files (${d.attachments.length})</div>
+            ${d.attachments.map((a,ai) => `
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;padding:2px 0">
+                <a href="${a.url}" target="_blank" style="color:var(--primary);font-weight:600">📄 ${a.name}</a>
+                <span style="color:var(--text-muted)">${a.date}${a.by ? ' · ' + a.by : ''}</span>
+                <button onclick="removeAttachment('deliv',${d.id},${ai})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:11px">✕</button>
+              </div>`).join('')}
+          </div>` : ''}
+
           <!-- Submission history -->
           ${d.submissions.length ? `
           <div style="background:#f8faff;border-radius:8px;padding:10px 14px;margin-bottom:10px">
@@ -3027,6 +3105,7 @@ function renderDeliverables() {
         <!-- Actions -->
         <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
           <button class="btn btn-primary btn-sm" onclick="openDelivSubmitModal(${d.id})">📤 Record Submission</button>
+          <button class="btn btn-outline btn-sm" onclick="openAttachModal('deliv',${d.id})">📎 Attach File</button>
           <button class="btn btn-outline btn-sm" onclick="openDelivUploadOnly(${d.id})">☁️ Upload to Drive</button>
           ${d.status !== 'approved' ? `<button class="btn btn-outline btn-sm" style="border-color:var(--accent2);color:var(--accent2)" onclick="quickApprove(${d.id})">✅ Approve</button>` : ''}
         </div>
@@ -3204,6 +3283,60 @@ function loadIssues() {
   if (!ISSUES.length) ISSUES = getSampleIssues();
 }
 
+// ── PER-ITEM ATTACHMENTS ─────────────────────────
+function openAttachModal(type, id) {
+  document.getElementById('att-type').value = type;
+  document.getElementById('att-id').value = id;
+  document.getElementById('att-name').value = '';
+  document.getElementById('att-url').value = '';
+  document.getElementById('att-error').style.display = 'none';
+  openModal('modal-attach');
+}
+
+function saveAttachment() {
+  const type = document.getElementById('att-type').value;
+  const id = +document.getElementById('att-id').value;
+  const name = document.getElementById('att-name').value.trim();
+  const url = document.getElementById('att-url').value.trim();
+  const errEl = document.getElementById('att-error');
+  errEl.style.display = 'none';
+  if (!name || !url) { errEl.textContent = 'File name and link are both required.'; errEl.style.display = 'block'; return; }
+  if (!/^https?:\/\//.test(url)) { errEl.textContent = 'Link must start with http:// or https://'; errEl.style.display = 'block'; return; }
+  const att = { name, url, date: new Date().toISOString().split('T')[0], by: currentUser ? currentUser.name : '' };
+  if (type === 'deliv') {
+    const d = DELIVERABLES.find(x => x.id === id);
+    if (!d) return;
+    (d.attachments = d.attachments || []).push(att);
+    saveDeliverables(); renderDeliverables();
+  } else {
+    const it = ISSUES.find(x => x.id === id);
+    if (!it) return;
+    (it.attachments = it.attachments || []).push(att);
+    saveIssues(); renderIssueTable();
+    const row = document.getElementById('issue-expand-' + id);
+    if (row) row.style.display = 'table-row';
+  }
+  closeModal('modal-attach');
+  showToast('📎 File attached.');
+}
+
+function removeAttachment(type, id, idx) {
+  if (!confirm('Remove this attachment link? (The file itself stays in Google Drive.)')) return;
+  if (type === 'deliv') {
+    const d = DELIVERABLES.find(x => x.id === id);
+    if (!d || !d.attachments) return;
+    d.attachments.splice(idx, 1);
+    saveDeliverables(); renderDeliverables();
+  } else {
+    const it = ISSUES.find(x => x.id === id);
+    if (!it || !it.attachments) return;
+    it.attachments.splice(idx, 1);
+    saveIssues(); renderIssueTable();
+    const row = document.getElementById('issue-expand-' + id);
+    if (row) row.style.display = 'table-row';
+  }
+}
+
 function saveIssues() {
   localStorage.setItem('pmis_issues', JSON.stringify(ISSUES));
 }
@@ -3375,7 +3508,20 @@ function renderIssueTable() {
                 </div>
               </div>
             `).join('')}
-            <button class="btn btn-primary btn-sm" style="margin-top:10px" onclick="openEntryModal(${issue.id})">✏️ Add Progress Entry</button>
+            ${issue.attachments && issue.attachments.length ? `
+            <div style="background:#f4f9f4;border:1px solid #cfe5cf;border-radius:3px;padding:8px 12px;margin-top:10px">
+              <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">📎 Attached Files (${issue.attachments.length})</div>
+              ${issue.attachments.map((a,ai) => `
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px;padding:2px 0">
+                  <a href="${a.url}" target="_blank" style="color:var(--primary);font-weight:600">📄 ${a.name}</a>
+                  <span style="color:var(--text-muted)">${a.date}${a.by ? ' · ' + a.by : ''}</span>
+                  <button onclick="removeAttachment('issue',${issue.id},${ai})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:11px">✕</button>
+                </div>`).join('')}
+            </div>` : ''}
+            <div style="margin-top:10px;display:flex;gap:8px">
+              <button class="btn btn-primary btn-sm" onclick="openEntryModal(${issue.id})">✏️ Add Progress Entry</button>
+              <button class="btn btn-outline btn-sm" onclick="openAttachModal('issue',${issue.id})">📎 Attach File</button>
+            </div>
           </div>
         </td>
       </tr>
