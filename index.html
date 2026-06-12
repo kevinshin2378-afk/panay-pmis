@@ -2226,7 +2226,7 @@ function updateDDay() {
   const today = new Date();
   const diff = Math.ceil((PROJECT_END - today) / 86400000);
   document.getElementById('dday-num').textContent = diff > 0 ? 'D-' + diff : 'D+' + Math.abs(diff);
-  document.getElementById('dday-dates').textContent = '2024.01.15 ~ 2027.06.30';
+  document.getElementById('dday-dates').textContent = '2025.11.25 ~ 2027.06.30';
   document.getElementById('today-date').textContent = today.toISOString().split('T')[0];
 }
 
