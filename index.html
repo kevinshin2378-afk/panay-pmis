@@ -434,9 +434,9 @@ canvas.chart { max-width: 100%; }
           <!-- Overall Progress -->
           <div class="stat-card">
             <div class="stat-label">📈 Overall Progress</div>
-            <div class="stat-value">14.29%</div>
-            <div class="stat-sub">Planned: 17.74% &nbsp; Slippage: <span style="color:var(--danger)">-3.45%</span> &nbsp; (As of Feb 2026, OPPM)</div>
-            <div class="stat-bar"><div class="stat-bar-fill" style="width:14.29%;background:var(--primary-light)"></div></div>
+            <div class="stat-value">17.44%</div>
+            <div class="stat-sub">Planned: 17.11% &nbsp; Slippage: <span style="color:var(--accent2)">+0.33%</span> &nbsp; (As of Mar 2026, 3rd MPR)</div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:17.44%;background:var(--primary-light)"></div></div>
           </div>
           <!-- Workforce -->
           <div class="stat-card">
@@ -459,7 +459,7 @@ canvas.chart { max-width: 100%; }
           <div class="card">
             <div class="card-header">
               <div class="card-title">Progress S-Curve</div>
-              <div class="card-badge">As of Jun 2026</div>
+              <div class="card-badge">As of Mar 2026</div>
             </div>
             <canvas id="scurve-chart" height="180" class="chart"></canvas>
           </div>
@@ -684,9 +684,9 @@ canvas.chart { max-width: 100%; }
         <div class="grid-3">
           <div class="stat-card">
             <div class="stat-label">📊 Overall Progress</div>
-            <div class="stat-value">14.29%</div>
-            <div class="stat-sub">Plan: 17.74% &nbsp;<span style="color:var(--danger)">▼ -3.45%</span></div>
-            <div class="stat-bar"><div class="stat-bar-fill" style="width:14.29%;background:var(--primary-light)"></div></div>
+            <div class="stat-value">17.44%</div>
+            <div class="stat-sub">Plan: 17.11% &nbsp;<span style="color:var(--accent2)">▲ +0.33%</span></div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:17.44%;background:var(--primary-light)"></div></div>
           </div>
           <div class="stat-card">
             <div class="stat-label">📋 Survey &amp; Investigation</div>
@@ -1692,7 +1692,7 @@ canvas.chart { max-width: 100%; }
       <table style="font-size:12px;margin-bottom:6px"><tbody>
         <tr><td style="font-weight:700;width:170px">GENERAL</td><td>Dashboard (project KPIs, D-day, milestones) and General Information</td></tr>
         <tr><td style="font-weight:700">CONTRACT STATUS</td><td>Contract amount, period, parties and payment terms</td></tr>
-        <tr><td style="font-weight:700">PROGRESS MANAGEMENT</td><td>S-Curve (from OPPM), Gantt chart, workforce, site photos</td></tr>
+        <tr><td style="font-weight:700">PROGRESS MANAGEMENT</td><td>S-Curve (Bi-Weekly official schedule + 3rd MPR actuals), Gantt chart, workforce, site photos</td></tr>
         <tr><td style="font-weight:700">DOCUMENTS</td><td>Deliverables (16 contract items), Issue Tracker (KTS), official documents, approval</td></tr>
         <tr><td style="font-weight:700">COLLABORATION</td><td>Notice board, schedule, File Storage linked to Google Drive</td></tr>
         <tr><td style="font-weight:700">SETTINGS</td><td>User management, share link &amp; QR code (Admin only)</td></tr>
@@ -2308,16 +2308,19 @@ function drawGantt() {
 // ── S-CURVE CHARTS ────────────────────────────
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-// Source: OPPM Panay Agusan IR_260220.xlsm (WCI_OPPM sheet, rows 180-181)
-// Monthly weights (%), Nov 2025 – Mar 2027. As of: Feb 2026.
+// Source: WCI26-002.Rev1.28Feb2026.PARB_Feb2026_Bi-MonthlyS-Curve.xlsm (chart series)
+// + 3rd Monthly Progress Report March 2026 (Apr 1 2026, actual through Mar 2026)
+// Plan: cumulative % sampled at month-end from 34-period bi-weekly S-curve (NTP Nov 25 2025)
+// Actual through Mar 2026 confirmed: 17.44% (Plan 17.11%, Slippage +0.33%) per 3rd MPR
 const SCURVE = (() => {
-  const labels = ['Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26','Nov-26','Dec-26','Jan-27','Feb-27','Mar-27'];
-  const planMonthly   = [0.2304,2.9954,7.1429,7.3733,8.9862,9.2166,7.6037,5.5300,5.5300,5.5300,5.2995,7.3733,7.3733,6.4516,6.4516,2.7650,4.1475];
-  const actualMonthly = [0.2304,2.9954,7.1429,3.9171]; // reported through Feb 2026
+  const labels = ['Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26','Nov-26','Dec-26','Jan-27','Feb-27'];
+  const planMonthly   = [2.41,7.88,2.49,1.57,10.15,5.28,6.26,10.43,7.03,8.84,11.98,13.43,7.15,1.55,1.40,2.15];
+  const actualMonthly = [1.69,1.70,5.76,2.08,6.21]; // through Mar 2026 (3rd MPR)
   const cum = arr => { let s = 0; return arr.map(v => +( (s += v).toFixed(2) )); };
   const cumPlan = cum(planMonthly);
   const cumActual = cum(actualMonthly);
-  return { labels, planMonthly, actualMonthly, cumPlan, cumActual, asOfIdx: actualMonthly.length - 1, asOfLabel: 'Feb 2026' };
+  // asOf = Mar 2026: actual 17.44% vs MPR plan 17.11% = +0.33% (period 7, Mar 2)
+  return { labels, planMonthly, actualMonthly, cumPlan, cumActual, asOfIdx: actualMonthly.length - 1, asOfLabel: 'Mar 2026', asOfActual: 17.44, asOfPlan: 17.11 };
 })();
 
 function drawSCurve(canvasId, small = false) {
@@ -2384,8 +2387,9 @@ function drawSCurve(canvasId, small = false) {
     ctx.fillStyle = '#14649e'; ctx.fill();
   });
 
-  // slippage callout at as-of point
-  const planNow = planData[ai], actNow = SCURVE.cumActual[ai];
+  // slippage callout at as-of point (use MPR-reported values for accuracy)
+  const actNow = SCURVE.asOfActual !== undefined ? SCURVE.asOfActual : SCURVE.cumActual[ai];
+  const planNow = SCURVE.asOfPlan !== undefined ? SCURVE.asOfPlan : planData[ai];
   const slip = +(actNow - planNow).toFixed(2);
   if (!small) {
     ctx.fillStyle = slip < 0 ? '#c0392b' : '#27ae60';
