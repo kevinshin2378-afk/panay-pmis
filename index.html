@@ -320,6 +320,7 @@ canvas.chart { max-width: 100%; }
       <a class="nav-item" onclick="showPage('photos')"><span class="nav-icon">📷</span> Progress Photos</a>
 
       <div class="sidebar-section">Document</div>
+      <a class="nav-item" onclick="showPage('deliverables')"><span class="nav-icon">🎯</span> Deliverables</a>
       <a class="nav-item" onclick="showPage('issues')"><span class="nav-icon">📋</span> Issue Tracker (KTS)</a>
       <a class="nav-item" onclick="showPage('documents')"><span class="nav-icon">📂</span> Official Documents</a>
       <a class="nav-item" onclick="showPage('approval')"><span class="nav-icon">✅</span> Doc Approval</a>
@@ -737,6 +738,49 @@ canvas.chart { max-width: 100%; }
         </div>
       </div>
 
+      <!-- ─── DELIVERABLES ─── -->
+      <div class="page" id="page-deliverables">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>Deliverables</span></div>
+          <h1>산출물 관리 (Deliverables)</h1>
+          <p>계약 산출물 제출 현황 – Consulting Services for the Detailed Engineering Design of Flood Control Projects in Panay and Agusan River Basins (Package II)</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid-4" id="deliv-stats"></div>
+
+        <!-- Toolbar -->
+        <div class="card mt24" style="padding:14px 20px">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <input type="text" id="deliv-search" class="form-input" placeholder="🔍  산출물명 검색..." style="width:220px;padding:8px 12px;font-size:13px" oninput="renderDeliverables()">
+            <select id="deliv-filter-status" class="form-input" style="width:160px;padding:8px 12px;font-size:13px" onchange="renderDeliverables()">
+              <option value="">전체 상태</option>
+              <option value="not_started">미착수</option>
+              <option value="in_progress">작성 중</option>
+              <option value="submitted">제출 완료</option>
+              <option value="under_review">검토 중</option>
+              <option value="approved">승인 완료</option>
+              <option value="revision">수정 요청</option>
+            </select>
+            <select id="deliv-filter-cat" class="form-input" style="width:150px;padding:8px 12px;font-size:13px" onchange="renderDeliverables()">
+              <option value="">전체 분류</option>
+              <option>Report</option>
+              <option>Design / Drawing</option>
+              <option>Survey</option>
+              <option>Environmental</option>
+              <option>Social</option>
+            </select>
+            <div style="margin-left:auto;display:flex;gap:8px">
+              <button class="btn btn-outline btn-sm" onclick="exportDelivCSV()">⬇️ CSV</button>
+              <button class="btn btn-primary" onclick="openModal('modal-deliv-new')">+ 산출물 추가</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deliverables Cards -->
+        <div id="deliv-list" class="mt16"></div>
+      </div>
+
       <!-- ─── ISSUE TRACKER (KTS) ─── -->
       <div class="page" id="page-issues">
         <div class="page-header">
@@ -1019,6 +1063,127 @@ canvas.chart { max-width: 100%; }
 </div><!-- /app -->
 
 <!-- ══════════════════ MODALS ══════════════════ -->
+
+<!-- Deliverables – New Deliverable -->
+<div class="modal-bg" id="modal-deliv-new">
+  <div class="modal" style="width:660px;max-width:97vw">
+    <div class="modal-header">
+      <div class="modal-title">🎯 산출물 추가</div>
+      <button class="modal-close" onclick="closeModal('modal-deliv-new')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="grid-column:1/-1">
+        <label class="form-label">산출물명 (영문) <span style="color:var(--danger)">*</span></label>
+        <input class="form-input" id="dn-title-en" placeholder="예: Topographic Survey Report – Panay River">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">산출물명 (국문)</label>
+        <input class="form-input" id="dn-title-ko" placeholder="예: 지형측량 보고서 – 파나이강">
+      </div>
+      <div class="form-group">
+        <label class="form-label">분류</label>
+        <select class="form-input" id="dn-cat">
+          <option>Report</option><option>Design / Drawing</option><option>Survey</option>
+          <option>Environmental</option><option>Social</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">제출 시점</label>
+        <input class="form-input" id="dn-deadline-desc" placeholder="예: 착수 후 14개월">
+      </div>
+      <div class="form-group">
+        <label class="form-label">제출 예정일</label>
+        <input class="form-input" id="dn-deadline-date" type="date">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">제출 부수</label>
+        <input class="form-input" id="dn-copies" placeholder="예: 10부">
+      </div>
+      <div class="form-group">
+        <label class="form-label">상태</label>
+        <select class="form-input" id="dn-status">
+          <option value="not_started">미착수</option>
+          <option value="in_progress">작성 중</option>
+          <option value="submitted">제출 완료</option>
+          <option value="approved">승인 완료</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">비고</label>
+      <input class="form-input" id="dn-note" placeholder="계약 특기사항 등">
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-deliv-new')">취소</button>
+      <button class="btn btn-primary" onclick="saveNewDeliverable()">등록</button>
+    </div>
+  </div>
+</div>
+
+<!-- Deliverables – Submit Modal -->
+<div class="modal-bg" id="modal-deliv-submit">
+  <div class="modal" style="width:640px;max-width:97vw">
+    <div class="modal-header">
+      <div class="modal-title">📤 제출 기록 추가</div>
+      <button class="modal-close" onclick="closeModal('modal-deliv-submit')">✕</button>
+    </div>
+    <div style="background:#f0f3f8;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px">
+      <span id="ds-deliv-title" style="font-weight:600;color:var(--primary)"></span>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">제출 버전</label>
+        <input class="form-input" id="ds-ver" placeholder="예: Draft R0, Final, Rev.1">
+      </div>
+      <div class="form-group">
+        <label class="form-label">제출일</label>
+        <input class="form-input" id="ds-date" type="date">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">공문번호 (커버레터)</label>
+        <input class="form-input" id="ds-letter" placeholder="예: KECC-SU26-001">
+      </div>
+      <div class="form-group">
+        <label class="form-label">제출 부수</label>
+        <input class="form-input" id="ds-copies" placeholder="예: 10부">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">비고</label>
+      <input class="form-input" id="ds-note" placeholder="검토 의견, 수정 사항 등">
+    </div>
+    <div class="form-group">
+      <label class="form-label">파일 첨부 (Google Drive 업로드)</label>
+      <div class="upload-area" id="ds-upload-area" style="cursor:pointer" onclick="delivUploadToDrive()">
+        <div class="upload-icon">☁️</div>
+        <div style="font-weight:600;margin-bottom:4px">클릭하여 Drive에 업로드</div>
+        <div style="font-size:12px;color:var(--text-muted)">PDF, DOCX, DWG, XLSX 지원</div>
+      </div>
+      <div id="ds-uploaded-files" style="margin-top:8px"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">상태 업데이트</label>
+      <select class="form-input" id="ds-status">
+        <option value="submitted">제출 완료</option>
+        <option value="under_review">검토 중</option>
+        <option value="approved">승인 완료</option>
+        <option value="revision">수정 요청</option>
+      </select>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-deliv-submit')">취소</button>
+      <button class="btn btn-primary" onclick="saveDelivSubmission()">저장</button>
+    </div>
+  </div>
+</div>
 
 <!-- Issue Tracker – New Issue -->
 <div class="modal-bg" id="modal-issue-new">
@@ -1567,6 +1732,7 @@ function showPage(id) {
   if (id === 'progress') { setTimeout(() => drawSCurveBig(), 100); setTimeout(() => drawGantt(), 50); }
   if (id === 'workforce') setTimeout(() => drawWorkforceChart(), 100);
   if (id === 'issues') { initIssueTracker(); }
+  if (id === 'deliverables') { initDeliverables(); }
 }
 
 // ── MODALS ────────────────────────────────────
@@ -2077,6 +2243,522 @@ function initApp() {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') document.querySelectorAll('.modal-bg.open').forEach(m => m.classList.remove('open'));
 });
+
+// ══════════════════════════════════════════════════
+// DELIVERABLES MANAGEMENT
+// ══════════════════════════════════════════════════
+
+const CONTRACT_START = new Date('2025-12-09'); // NTP 수령일
+
+const DELIV_STATUS = {
+  not_started:  { label: '미착수',    cls: 'tag-gray',   icon: '○' },
+  in_progress:  { label: '작성 중',   cls: 'tag-yellow', icon: '▷' },
+  submitted:    { label: '제출 완료', cls: 'tag-blue',   icon: '📤' },
+  under_review: { label: '검토 중',   cls: 'tag-yellow', icon: '🔍' },
+  approved:     { label: '승인 완료', cls: 'tag-green',  icon: '✅' },
+  revision:     { label: '수정 요청', cls: 'tag-red',    icon: '✏️' },
+};
+
+// 계약서 기준 산출물 마스터 데이터
+const DELIVERABLES_MASTER = [
+  {
+    id: 1, no: 1,
+    titleEn: 'Inception Report',
+    titleKo: '착수보고서',
+    cat: 'Report',
+    deadlineDesc: '착수 후 2.5개월 이내',
+    deadlineDate: '2026-02-24',
+    copies: '10부',
+    note: '프로젝트 접근법, 일정, 초기 자료 검토',
+    status: 'approved',
+    submissions: [
+      { ver: 'Draft R0', date: '2026-01-09', letter: 'KECC-SU26-001', copies: '10부', note: 'Draft 제출', driveFiles: [] },
+      { ver: 'Final (Rev.1)', date: '2026-02-10', letter: 'KECC-SU26-011', copies: '10부', note: 'DPWH 의견 반영 후 최종 제출', driveFiles: [] },
+    ]
+  },
+  {
+    id: 2, no: 2,
+    titleEn: 'Progress Reports (Monthly)',
+    titleKo: '월간 진도보고서',
+    cat: 'Report',
+    deadlineDesc: '착수 2개월 후부터 매월',
+    deadlineDate: null,
+    copies: '5부',
+    note: '진행상황 및 문제점 보고',
+    status: 'in_progress',
+    submissions: [
+      { ver: '1st (Jan 2026)', date: '2026-01-25', letter: 'KECC-SU26-005', copies: '5부', note: '1차 월간보고서 제출', driveFiles: [] },
+      { ver: '2nd (Feb 2026)', date: '2026-02-25', letter: 'KECC-SU26-010', copies: '5부', note: '2차 월간보고서 제출', driveFiles: [] },
+    ]
+  },
+  {
+    id: 3, no: 3,
+    titleEn: 'Topographic / Hydrographic Survey Plans & Reports',
+    titleKo: '지형·수심 측량 계획 및 보고서',
+    cat: 'Survey',
+    deadlineDesc: '조사 완료 후',
+    deadlineDate: '2026-08-31',
+    copies: '7부',
+    note: '지형·수심측량 결과',
+    status: 'in_progress',
+    submissions: []
+  },
+  {
+    id: 4, no: 4,
+    titleEn: 'Hydrologic & Hydraulic Report',
+    titleKo: '수문·수리 해석 보고서',
+    cat: 'Report',
+    deadlineDesc: '조사 완료 후',
+    deadlineDate: '2026-10-31',
+    copies: '7부',
+    note: '수문·수리 해석 보고',
+    status: 'not_started',
+    submissions: []
+  },
+  {
+    id: 5, no: 5,
+    titleEn: 'Geotechnical Investigation Reports & Plans',
+    titleKo: '지반 조사 보고서 및 도면',
+    cat: 'Survey',
+    deadlineDesc: '조사 완료 후',
+    deadlineDate: '2026-09-30',
+    copies: '7부',
+    note: '지반조사 결과',
+    status: 'in_progress',
+    submissions: []
+  },
+  {
+    id: 6, no: 6,
+    titleEn: 'Geohazard Assessment Report',
+    titleKo: '지질재해 위험 평가 보고서',
+    cat: 'Environmental',
+    deadlineDesc: '조사 완료 후',
+    deadlineDate: '2026-09-30',
+    copies: '5부',
+    note: '지질재해 위험 평가',
+    status: 'not_started',
+    submissions: []
+  },
+  {
+    id: 7, no: 7,
+    titleEn: 'Environmental Baseline Report / EIA',
+    titleKo: '환경영향평가 보고서',
+    cat: 'Environmental',
+    deadlineDesc: '조사 완료 후',
+    deadlineDate: '2026-10-31',
+    copies: '7부',
+    note: '환경영향평가',
+    status: 'in_progress',
+    submissions: []
+  },
+  {
+    id: 8, no: 8,
+    titleEn: 'Social Study Report',
+    titleKo: '사회 조사 보고서',
+    cat: 'Social',
+    deadlineDesc: '조사 완료 후',
+    deadlineDate: '2026-10-31',
+    copies: '5부',
+    note: '사회조사',
+    status: 'not_started',
+    submissions: []
+  },
+  {
+    id: 9, no: 9,
+    titleEn: 'Parcellary Survey Report',
+    titleKo: '필지별 측량 보고서',
+    cat: 'Survey',
+    deadlineDesc: '조사 완료 후',
+    deadlineDate: '2026-12-31',
+    copies: '5부',
+    note: '필지별 측량 보고',
+    status: 'not_started',
+    submissions: []
+  },
+  {
+    id: 10, no: 10,
+    titleEn: 'Resettlement Action Plan (RAP) Report',
+    titleKo: '이주·보상 계획 보고서',
+    cat: 'Social',
+    deadlineDesc: '조사 완료 후',
+    deadlineDate: '2026-12-31',
+    copies: '5부',
+    note: '이주 및 보상 계획',
+    status: 'not_started',
+    submissions: []
+  },
+  {
+    id: 11, no: 11,
+    titleEn: 'Value Engineering Report',
+    titleKo: '가치공학 보고서',
+    cat: 'Report',
+    deadlineDesc: '필요시',
+    deadlineDate: null,
+    copies: '2부',
+    note: '가치공학 보고',
+    status: 'not_started',
+    submissions: []
+  },
+  {
+    id: 12, no: 12,
+    titleEn: 'Transfer of Knowledge Documentation Report',
+    titleKo: '기술이전 문서 보고서',
+    cat: 'Report',
+    deadlineDesc: '사업 완료 시',
+    deadlineDate: '2027-06-30',
+    copies: '2부',
+    note: '기술이전 문서',
+    status: 'not_started',
+    submissions: []
+  },
+  {
+    id: 13, no: 13,
+    titleEn: 'Definitive Plan Report',
+    titleKo: '기본설계 계획 보고서',
+    cat: 'Design / Drawing',
+    deadlineDesc: '착수 후 6.5개월',
+    deadlineDate: '2026-06-22',
+    copies: '10부',
+    note: '설계 대안, 경제성 분석',
+    status: 'in_progress',
+    submissions: []
+  },
+  {
+    id: 14, no: 14,
+    titleEn: 'Draft Design Plan & Reports',
+    titleKo: '설계도서(초안)',
+    cat: 'Design / Drawing',
+    deadlineDesc: '착수 후 14개월',
+    deadlineDate: '2027-02-09',
+    copies: '10부',
+    note: '설계(검토용)',
+    status: 'not_started',
+    submissions: []
+  },
+  {
+    id: 15, no: 15,
+    titleEn: 'Final Design Plan & Reports',
+    titleKo: '최종 설계도서',
+    cat: 'Design / Drawing',
+    deadlineDesc: 'Draft 의견 수령 후 15일 내',
+    deadlineDate: '2027-03-31',
+    copies: '20부',
+    note: '최종 설계도서',
+    status: 'not_started',
+    submissions: []
+  },
+  {
+    id: 16, no: 16,
+    titleEn: 'Parcellary Survey & Design Plans',
+    titleKo: '필지별 측량 및 설계 도면',
+    cat: 'Design / Drawing',
+    deadlineDesc: '착수 후 14개월 이내',
+    deadlineDate: '2027-02-09',
+    copies: '1부',
+    note: '토지보상 계획 포함',
+    status: 'not_started',
+    submissions: []
+  },
+];
+
+let DELIVERABLES = [];
+let delivSubmitTargetId = null;
+let delivUploadedFiles = []; // temp files for current submission
+
+function loadDeliverables() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('pmis_deliverables') || 'null');
+    DELIVERABLES = saved || JSON.parse(JSON.stringify(DELIVERABLES_MASTER));
+  } catch { DELIVERABLES = JSON.parse(JSON.stringify(DELIVERABLES_MASTER)); }
+}
+
+function saveDeliverables() {
+  localStorage.setItem('pmis_deliverables', JSON.stringify(DELIVERABLES));
+}
+
+function initDeliverables() {
+  loadDeliverables();
+  renderDelivStats();
+  renderDeliverables();
+}
+
+// ── Stats ───────────────────────────────────────
+function renderDelivStats() {
+  const el = document.getElementById('deliv-stats');
+  if (!el) return;
+  const total = DELIVERABLES.length;
+  const byStatus = {};
+  DELIVERABLES.forEach(d => { byStatus[d.status] = (byStatus[d.status] || 0) + 1; });
+  const approved  = byStatus.approved  || 0;
+  const submitted = byStatus.submitted || 0;
+  const inprog    = byStatus.in_progress || 0;
+  const notstart  = byStatus.not_started || 0;
+
+  // D-day check: overdue items
+  const today = new Date();
+  const overdue = DELIVERABLES.filter(d =>
+    d.deadlineDate && new Date(d.deadlineDate) < today &&
+    !['approved','submitted'].includes(d.status)
+  ).length;
+
+  el.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-label">🎯 전체 산출물</div>
+      <div class="stat-value">${total}</div>
+      <div class="stat-sub">계약 기준 ${total}개 산출물</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">✅ 승인 완료</div>
+      <div class="stat-value" style="color:var(--accent2)">${approved}</div>
+      <div class="stat-sub">제출 완료: ${submitted}개 포함</div>
+      <div class="stat-bar"><div class="stat-bar-fill" style="width:${Math.round((approved+submitted)/total*100)}%;background:var(--accent2)"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">▷ 진행 중</div>
+      <div class="stat-value" style="color:var(--accent)">${inprog}</div>
+      <div class="stat-sub">미착수: ${notstart}개</div>
+      <div class="stat-bar"><div class="stat-bar-fill" style="width:${Math.round(inprog/total*100)}%;background:var(--accent)"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">⚠️ 기한 초과</div>
+      <div class="stat-value" style="color:var(--danger)">${overdue}</div>
+      <div class="stat-sub">기한 내 미제출 항목</div>
+    </div>`;
+}
+
+// ── Main List ───────────────────────────────────
+function renderDeliverables() {
+  const el = document.getElementById('deliv-list');
+  if (!el) return;
+  const q      = (document.getElementById('deliv-search')?.value || '').toLowerCase();
+  const fSt    = document.getElementById('deliv-filter-status')?.value || '';
+  const fCat   = document.getElementById('deliv-filter-cat')?.value || '';
+  const today  = new Date();
+
+  const filtered = DELIVERABLES.filter(d => {
+    if (fSt  && d.status !== fSt)  return false;
+    if (fCat && d.cat    !== fCat) return false;
+    if (q && !(d.titleEn.toLowerCase().includes(q) || d.titleKo.includes(q) || d.cat.toLowerCase().includes(q))) return false;
+    return true;
+  });
+
+  if (!filtered.length) {
+    el.innerHTML = '<div class="card" style="text-align:center;padding:40px;color:var(--text-muted)">검색 결과가 없습니다.</div>';
+    return;
+  }
+
+  el.innerHTML = filtered.map(d => {
+    const sm = DELIV_STATUS[d.status] || DELIV_STATUS.not_started;
+    const isOverdue = d.deadlineDate && new Date(d.deadlineDate) < today && !['approved','submitted'].includes(d.status);
+    const daysLeft  = d.deadlineDate ? Math.ceil((new Date(d.deadlineDate) - today) / 86400000) : null;
+    const lastSub   = d.submissions[d.submissions.length - 1];
+
+    const catColor = {
+      'Report':'#ddeeff','Design / Drawing':'#e8f0fb','Survey':'#d4f4dd',
+      'Environmental':'#e8f7e8','Social':'#fef3d0'
+    }[d.cat] || '#e8edf5';
+    const catTextColor = {
+      'Report':'#1a5ca8','Design / Drawing':'#1a3a6b','Survey':'#186a30',
+      'Environmental':'#1a5c1a','Social':'#7d5a00'
+    }[d.cat] || '#4a5568';
+
+    return `
+    <div class="card mt16" style="border-left:4px solid ${isOverdue ? 'var(--danger)' : sm.cls === 'tag-green' ? 'var(--accent2)' : sm.cls === 'tag-blue' ? 'var(--primary-light)' : sm.cls === 'tag-yellow' ? 'var(--accent)' : 'var(--border)'}">
+      <div style="display:flex;align-items:flex-start;gap:16px">
+
+        <!-- No. Circle -->
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0">${d.no}</div>
+
+        <!-- Main info -->
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px">
+            <span style="font-size:15px;font-weight:700;color:var(--primary)">${d.titleEn}</span>
+            <span style="font-size:13px;color:var(--text-muted)">${d.titleKo}</span>
+            <span class="tag ${sm.cls}">${sm.icon} ${sm.label}</span>
+            <span style="background:${catColor};color:${catTextColor};font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600">${d.cat}</span>
+            ${isOverdue ? '<span class="tag tag-red">⚠️ 기한 초과</span>' : ''}
+          </div>
+
+          <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:12px;color:var(--text-muted);margin-bottom:10px">
+            <span>📅 <strong>제출 시점:</strong> ${d.deadlineDesc}</span>
+            ${d.deadlineDate ? `<span>🗓️ <strong>예정일:</strong> <span style="color:${isOverdue?'var(--danger)':daysLeft!==null&&daysLeft<=30?'var(--accent)':'inherit'};font-weight:${isOverdue||daysLeft<=30?'700':'400'}">${d.deadlineDate}${daysLeft !== null ? ` (D${daysLeft>0?'-'+daysLeft:'+'+Math.abs(daysLeft)})` : ''}</span></span>` : ''}
+            <span>📋 <strong>제출 부수:</strong> ${d.copies}</span>
+            ${d.note ? `<span>💬 ${d.note}</span>` : ''}
+          </div>
+
+          <!-- Submission history -->
+          ${d.submissions.length ? `
+          <div style="background:#f8faff;border-radius:8px;padding:10px 14px;margin-bottom:10px">
+            <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">제출 이력 (${d.submissions.length}회)</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              ${d.submissions.map((s, i) => `
+                <div style="display:flex;align-items:center;gap:10px;font-size:12px">
+                  <span style="width:22px;height:22px;border-radius:50%;background:${i===d.submissions.length-1?'var(--primary)':'#e8edf5'};color:${i===d.submissions.length-1?'#fff':'var(--text-muted)'};display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>
+                  <span style="background:#e8f0fb;color:var(--primary-light);padding:2px 8px;border-radius:10px;font-weight:600">${s.ver}</span>
+                  <span style="color:var(--text-muted)">${s.date}</span>
+                  ${s.letter ? `<span style="font-family:monospace;color:var(--primary)">📄 ${s.letter}</span>` : ''}
+                  ${s.copies ? `<span>${s.copies}</span>` : ''}
+                  ${s.note ? `<span style="color:var(--text-muted)">– ${s.note}</span>` : ''}
+                  ${s.driveFiles && s.driveFiles.length ? s.driveFiles.map(f=>`<a href="${f.url}" target="_blank" style="color:var(--primary-light);font-size:11px">☁️${f.name}</a>`).join('') : ''}
+                </div>
+              `).join('')}
+            </div>
+          </div>` : ''}
+
+        </div>
+
+        <!-- Actions -->
+        <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+          <button class="btn btn-primary btn-sm" onclick="openDelivSubmitModal(${d.id})">📤 제출 기록</button>
+          <button class="btn btn-outline btn-sm" onclick="openDelivUploadOnly(${d.id})">☁️ Drive 업로드</button>
+          ${d.status !== 'approved' ? `<button class="btn btn-outline btn-sm" style="border-color:var(--accent2);color:var(--accent2)" onclick="quickApprove(${d.id})">✅ 승인처리</button>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Submit Modal ────────────────────────────────
+function openDelivSubmitModal(id) {
+  delivSubmitTargetId = id;
+  delivUploadedFiles = [];
+  const d = DELIVERABLES.find(x => x.id === id);
+  if (!d) return;
+  document.getElementById('ds-deliv-title').textContent = `[No.${d.no}] ${d.titleEn}`;
+  document.getElementById('ds-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('ds-ver').value = '';
+  document.getElementById('ds-letter').value = '';
+  document.getElementById('ds-copies').value = d.copies;
+  document.getElementById('ds-note').value = '';
+  document.getElementById('ds-uploaded-files').innerHTML = '';
+  openModal('modal-deliv-submit');
+}
+
+function saveDelivSubmission() {
+  const ver = document.getElementById('ds-ver').value.trim();
+  if (!ver) { alert('버전을 입력하세요. (예: Draft R0, Final)'); return; }
+  const d = DELIVERABLES.find(x => x.id === delivSubmitTargetId);
+  if (!d) return;
+  d.submissions.push({
+    ver,
+    date:   document.getElementById('ds-date').value,
+    letter: document.getElementById('ds-letter').value.trim(),
+    copies: document.getElementById('ds-copies').value.trim(),
+    note:   document.getElementById('ds-note').value.trim(),
+    driveFiles: [...delivUploadedFiles],
+  });
+  const newStatus = document.getElementById('ds-status').value;
+  if (newStatus) d.status = newStatus;
+  saveDeliverables();
+  closeModal('modal-deliv-submit');
+  renderDelivStats();
+  renderDeliverables();
+  showToast(`✅ [No.${d.no}] ${ver} 제출 기록 저장 완료`);
+}
+
+// ── Drive Upload (Deliverables용) ───────────────
+function openDelivUploadOnly(id) {
+  delivSubmitTargetId = id;
+  if (!gdriveToken) { gdriveSignIn(() => openDelivUploadOnly(id)); return; }
+  const d = DELIVERABLES.find(x => x.id === id);
+  const input = document.createElement('input');
+  input.type = 'file'; input.multiple = true;
+  input.accept = '.pdf,.dwg,.docx,.doc,.xlsx,.xls,.jpg,.png,.zip';
+  input.onchange = async () => {
+    const files = Array.from(input.files);
+    if (!files.length) return;
+    const folder = await getOrCreatePMISFolder();
+    // 산출물 전용 subfolder
+    let subfolder = d.cat === 'Design / Drawing' ? '02. Drawings' :
+                    d.cat === 'Survey'            ? '03. Survey Data' : '01. Reports';
+    const sub = await gapi.client.drive.files.list({
+      q: `name='${subfolder}' and '${folder.id}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`,
+      fields: 'files(id)'
+    });
+    const targetId = sub.result.files.length ? sub.result.files[0].id : folder.id;
+    showToast(`⬆️ ${files.length}개 파일 업로드 중...`);
+    for (const file of files) {
+      const meta = JSON.stringify({ name: file.name, parents: [targetId] });
+      const form = new FormData();
+      form.append('metadata', new Blob([meta], { type: 'application/json' }));
+      form.append('file', file);
+      const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name', {
+        method: 'POST', headers: { Authorization: 'Bearer ' + gdriveToken }, body: form
+      });
+      const data = await res.json();
+      if (data.id) {
+        delivUploadedFiles.push({ name: file.name, id: data.id, url: `https://drive.google.com/file/d/${data.id}/view` });
+        // also persist if there's an open submit modal
+        document.getElementById('ds-uploaded-files').innerHTML =
+          delivUploadedFiles.map(f => `<div style="font-size:12px;margin-top:4px">☁️ <a href="${f.url}" target="_blank" style="color:var(--primary-light)">${f.name}</a></div>`).join('');
+      }
+    }
+    showToast(`✅ ${files.length}개 파일 업로드 완료!`);
+  };
+  input.click();
+}
+
+function delivUploadToDrive() {
+  if (!gdriveToken) { gdriveSignIn(() => delivUploadToDrive()); return; }
+  openDelivUploadOnly(delivSubmitTargetId);
+}
+
+// ── Quick Approve ───────────────────────────────
+function quickApprove(id) {
+  const d = DELIVERABLES.find(x => x.id === id);
+  if (!d) return;
+  if (!confirm(`[No.${d.no}] ${d.titleEn}\n→ 승인 완료로 처리하시겠습니까?`)) return;
+  d.status = 'approved';
+  saveDeliverables();
+  renderDelivStats();
+  renderDeliverables();
+  showToast(`✅ [No.${d.no}] 승인 완료 처리`);
+}
+
+// ── New Deliverable ─────────────────────────────
+function saveNewDeliverable() {
+  const titleEn = document.getElementById('dn-title-en').value.trim();
+  if (!titleEn) { alert('산출물명(영문)을 입력하세요.'); return; }
+  const d = {
+    id: Date.now(),
+    no: DELIVERABLES.length + 1,
+    titleEn,
+    titleKo: document.getElementById('dn-title-ko').value.trim(),
+    cat: document.getElementById('dn-cat').value,
+    deadlineDesc: document.getElementById('dn-deadline-desc').value.trim(),
+    deadlineDate: document.getElementById('dn-deadline-date').value || null,
+    copies: document.getElementById('dn-copies').value.trim(),
+    note: document.getElementById('dn-note').value.trim(),
+    status: document.getElementById('dn-status').value,
+    submissions: [],
+  };
+  DELIVERABLES.push(d);
+  saveDeliverables();
+  closeModal('modal-deliv-new');
+  renderDelivStats();
+  renderDeliverables();
+  ['dn-title-en','dn-title-ko','dn-deadline-desc','dn-copies','dn-note'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  showToast(`✅ 산출물 No.${d.no} 등록 완료`);
+}
+
+// ── CSV Export ──────────────────────────────────
+function exportDelivCSV() {
+  const rows = [['No','영문명','국문명','분류','제출시점','예정일','제출부수','상태','제출횟수','최근제출일','최근공문번호','비고']];
+  DELIVERABLES.forEach(d => {
+    const last = d.submissions[d.submissions.length - 1];
+    rows.push([d.no, `"${d.titleEn}"`, `"${d.titleKo}"`, d.cat, d.deadlineDesc,
+      d.deadlineDate||'', d.copies, DELIV_STATUS[d.status]?.label||d.status,
+      d.submissions.length, last?.date||'', last?.letter||'', `"${d.note}"`]);
+  });
+  const csv = rows.map(r => r.join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,﻿' + encodeURIComponent(csv);
+  a.download = 'Deliverables_' + new Date().toISOString().split('T')[0] + '.csv';
+  a.click();
+  showToast('⬇️ CSV 다운로드 완료');
+}
 
 // ══════════════════════════════════════════════════
 // ISSUE TRACKER (KTS Style)
