@@ -528,7 +528,7 @@ canvas.chart { max-width: 100%; }
                 <tr><td class="text-muted">Division</td><td>Water Resources Div. 2</td></tr>
                 <tr><td class="text-muted">Team Leader</td><td>KWANG KYOON SHIN (Kevin Shin)</td></tr>
                 <tr><td class="text-muted">Contract Start</td><td>2024-01-15</td></tr>
-                <tr><td class="text-muted">Contract End</td><td>2027-06-30</td></tr>
+                <tr><td class="text-muted">Contract End</td><td>2027-03-25</td></tr>
                 <tr><td class="text-muted">Contract Amount</td><td>₱ 2,850,000,000 (PHP)</td></tr>
               </tbody>
             </table>
@@ -1905,7 +1905,7 @@ canvas.chart { max-width: 100%; }
 <!-- ══════════════════ SCRIPTS ══════════════════ -->
 <script>
 // ── DATA ──────────────────────────────────────
-const PROJECT_END = new Date('2027-06-30');
+const PROJECT_END = new Date('2027-03-25');
 
 const MILESTONES = [
   { title: 'Project Kick-off Meeting', date: '2024-01-20', pct: 100, color: '#27ae60' },
@@ -1918,7 +1918,7 @@ const MILESTONES = [
   { title: 'Basic Design – All Structures', date: '2026-06-30', pct: 20, color: '#e8a020' },
   { title: 'Pre-Final Design Report', date: '2026-12-31', pct: 0, color: '#6b7e96' },
   { title: 'Final Design Report Submission', date: '2027-04-30', pct: 0, color: '#6b7e96' },
-  { title: 'Project Completion', date: '2027-06-30', pct: 0, color: '#c0392b' },
+  { title: 'Project Completion', date: '2027-03-25', pct: 0, color: '#c0392b' },
 ];
 
 const NOTICES = [
@@ -2226,7 +2226,7 @@ function updateDDay() {
   const today = new Date();
   const diff = Math.ceil((PROJECT_END - today) / 86400000);
   document.getElementById('dday-num').textContent = diff > 0 ? 'D-' + diff : 'D+' + Math.abs(diff);
-  document.getElementById('dday-dates').textContent = '2025.11.25 ~ 2027.06.30';
+  document.getElementById('dday-dates').textContent = '2025.11.25 ~ 2027.03.25';
   document.getElementById('today-date').textContent = today.toISOString().split('T')[0];
 }
 
