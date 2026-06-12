@@ -360,6 +360,10 @@ canvas.chart { max-width: 100%; }
       <div>Client: DPWH &nbsp;|&nbsp; Contract ID: 24CSZ020 &nbsp;|&nbsp; <span id="today-date"></span></div>
     </div>
     <button class="btn btn-outline btn-sm" style="margin-right:10px" onclick="openModal('modal-help')">❓ Guide</button>
+    <button id="sync-btn" onclick="openModal('modal-sheets-setup')" style="margin-right:10px;display:flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid var(--border);border-radius:3px;background:#f2f5f9;cursor:pointer;font-size:12px;color:var(--text-muted)">
+      <span id="sync-dot" style="width:8px;height:8px;border-radius:50%;background:#ccc;display:inline-block"></span>
+      <span id="sync-label">Offline</span>
+    </button>
     <div class="topbar-user" onclick="doLogout()">
       <div class="user-avatar" id="user-avatar">A</div>
       <div>
@@ -1773,6 +1777,66 @@ canvas.chart { max-width: 100%; }
   </div>
 </div>
 
+<!-- ── SHEETS SYNC SETUP MODAL ── -->
+<div class="modal-bg" id="modal-sheets-setup">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header">
+      <div class="modal-title">☁️ Google Sheets 실시간 동기화</div>
+      <button class="modal-close" onclick="closeModal('modal-sheets-setup')">✕</button>
+    </div>
+    <div style="padding:20px 24px">
+
+      <!-- 연결 상태 -->
+      <div id="sheets-status-bar" style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:6px;background:#f5f7fa;border:1px solid var(--border);margin-bottom:20px">
+        <span id="sheets-status-dot" style="width:10px;height:10px;border-radius:50%;background:#ccc;flex-shrink:0"></span>
+        <div>
+          <div id="sheets-status-text" style="font-weight:600;font-size:13px">연결 안 됨</div>
+          <div id="sheets-status-sub" style="font-size:11.5px;color:var(--text-muted)">Google 로그인 후 Spreadsheet ID를 입력하세요</div>
+        </div>
+      </div>
+
+      <!-- Step 1: Google 로그인 -->
+      <div style="margin-bottom:18px">
+        <div style="font-weight:700;font-size:13px;margin-bottom:8px">① Google 계정 로그인</div>
+        <button class="btn btn-primary btn-sm" onclick="sheetsSignIn()" id="google-signin-btn">🔑 Google로 로그인</button>
+        <span id="google-signin-status" style="font-size:12px;color:var(--text-muted);margin-left:10px"></span>
+      </div>
+
+      <!-- Step 2: Spreadsheet ID -->
+      <div style="margin-bottom:18px">
+        <div style="font-weight:700;font-size:13px;margin-bottom:4px">② Spreadsheet ID 입력</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">팀장(관리자)에게 공유받은 ID를 입력하거나, 아래에서 새로 생성하세요.</div>
+        <div style="display:flex;gap:8px">
+          <input id="sheets-id-input" class="form-input" placeholder="예: 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms" style="flex:1;font-size:12px;font-family:monospace" oninput="validateSheetsId(this.value)">
+          <button class="btn btn-primary btn-sm" onclick="connectToSheet()" id="sheets-connect-btn" disabled>연결</button>
+        </div>
+        <div id="sheets-id-error" style="font-size:12px;color:var(--danger);margin-top:4px;display:none"></div>
+      </div>
+
+      <div style="text-align:center;color:var(--text-muted);font-size:12px;margin:12px 0">── 또는 ──</div>
+
+      <!-- Step 3: 새 DB 생성 (관리자용) -->
+      <div style="padding:14px 16px;background:#eef3fb;border-radius:6px;border:1px solid #c8d8f0">
+        <div style="font-weight:700;font-size:13px;margin-bottom:4px">🔧 관리자: 새 데이터베이스 생성</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">처음 설정할 때만 사용. Google Sheets에 PMIS 데이터베이스를 자동 생성합니다.</div>
+        <button class="btn btn-outline btn-sm" onclick="createPMISSpreadsheet()" id="create-sheet-btn" style="border-color:var(--primary);color:var(--primary)">+ 새 Spreadsheet 생성</button>
+      </div>
+
+      <!-- 생성 결과 -->
+      <div id="sheets-created-result" style="display:none;margin-top:16px;padding:14px 16px;background:#eafaf1;border-radius:6px;border:1px solid #a9dfbf">
+        <div style="font-weight:700;font-size:13px;margin-bottom:6px">✅ 생성 완료!</div>
+        <div style="font-size:12px;margin-bottom:6px">아래 ID를 팀원에게 공유하세요 (카카오톡, 이메일 등):</div>
+        <code id="created-sheet-id" style="display:block;background:#fff;padding:8px 10px;border-radius:4px;font-size:12px;word-break:break-all;border:1px solid #ddd;cursor:pointer" onclick="copySheetId()" title="클릭하여 복사"></code>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:6px">🔗 <a id="created-sheet-link" href="#" target="_blank" style="color:var(--primary)">Google Sheets에서 열기</a> → 우상단 Share → Anyone with the link → Editor 권한 설정</div>
+      </div>
+
+    </div>
+    <div style="padding:12px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end">
+      <button class="btn btn-outline" onclick="closeModal('modal-sheets-setup')">닫기</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-bg" id="modal-user">
   <div class="modal" style="width:560px;max-width:97vw">
     <div class="modal-header">
@@ -2506,22 +2570,217 @@ function showPhotoPreview(input) {
 }
 
 // ══════════════════════════════════════════════════
-// GOOGLE DRIVE INTEGRATION
+// GOOGLE DRIVE + SHEETS INTEGRATION
 // ══════════════════════════════════════════════════
 
-// ⚠️ Replace with your Google Cloud Console credentials
+// ⚠️ Google Cloud Console에서 발급한 자격증명 입력
 const GDRIVE_CLIENT_ID = 'YOUR_CLIENT_ID.apps.googleusercontent.com';
 const GDRIVE_API_KEY   = 'YOUR_API_KEY';
 const GDRIVE_FOLDER_NAME = 'Panay-Agusan PMIS';
 
-const SCOPES = 'https://www.googleapis.com/auth/drive';
+const SCOPES = [
+  'https://www.googleapis.com/auth/drive',
+  'https://www.googleapis.com/auth/spreadsheets'
+].join(' ');
+
 let gdriveToken = null;
 let gdriveFolder = null;
+
+// ── SHEETS SYNC ─────────────────────────────────
+let _syncTimer = null;
+let _sheetsId = localStorage.getItem('pmis_sheets_id') || '';
+
+function setSyncUI(state) {
+  // state: 'offline' | 'syncing' | 'synced' | 'error'
+  const dot   = document.getElementById('sync-dot');
+  const label = document.getElementById('sync-label');
+  if (!dot) return;
+  const map = {
+    offline: { color:'#bbb',   text:'Offline' },
+    syncing: { color:'#e8a020', text:'동기화 중...' },
+    synced:  { color:'#27ae60', text:'동기화됨 ✓' },
+    error:   { color:'#c0392b', text:'오류 ⚠' }
+  };
+  const s = map[state] || map.offline;
+  dot.style.background = s.color;
+  label.textContent = s.text;
+  label.style.color = s.color;
+  updateSheetStatusModal(state);
+}
+
+function updateSheetStatusModal(state) {
+  const dotEl = document.getElementById('sheets-status-dot');
+  const txtEl = document.getElementById('sheets-status-text');
+  const subEl = document.getElementById('sheets-status-sub');
+  if (!dotEl) return;
+  const map = {
+    offline: { color:'#bbb',    text:'연결 안 됨',    sub:'Google 로그인 후 Spreadsheet ID를 입력하세요' },
+    syncing: { color:'#e8a020', text:'동기화 중...',  sub:'Sheets에 데이터를 저장하고 있습니다' },
+    synced:  { color:'#27ae60', text:'실시간 동기화 중', sub:'Sheets ID: ' + _sheetsId.slice(0,20) + '...' },
+    error:   { color:'#c0392b', text:'동기화 오류',   sub:'네트워크 또는 권한을 확인하세요' }
+  };
+  const s = map[state] || map.offline;
+  dotEl.style.background = s.color;
+  txtEl.textContent = s.text; txtEl.style.color = s.color;
+  subEl.textContent = state === 'synced' ? ('Sheets ID: ' + _sheetsId.slice(0,24) + '...') : s.sub;
+}
+
+function scheduleSave() {
+  if (!gdriveToken || !_sheetsId) return;
+  setSyncUI('syncing');
+  clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(saveAllToSheets, 2000);
+}
+
+async function loadFromSheets() {
+  if (!gdriveToken || !_sheetsId) return false;
+  setSyncUI('syncing');
+  try {
+    const [issRes, delRes] = await Promise.all([
+      gapi.client.sheets.spreadsheets.values.get({ spreadsheetId: _sheetsId, range: 'ISSUES!A1' }),
+      gapi.client.sheets.spreadsheets.values.get({ spreadsheetId: _sheetsId, range: 'DELIVERABLES!A1' })
+    ]);
+    const issJSON = ((issRes.result.values || [[]])[0] || [])[0];
+    const delJSON = ((delRes.result.values || [[]])[0] || [])[0];
+    if (issJSON) { try { ISSUES = JSON.parse(issJSON); } catch(e) {} }
+    if (delJSON) { try { DELIVERABLES = JSON.parse(delJSON); } catch(e) {} }
+    setSyncUI('synced');
+    renderIssueList(); renderDelivStats(); renderDeliverables();
+    showToast('✅ Sheets에서 최신 데이터를 불러왔습니다.');
+    return true;
+  } catch(e) {
+    console.error('loadFromSheets:', e);
+    setSyncUI('error');
+    showToast('⚠️ Sheets 로드 실패 – 로컬 데이터를 사용합니다.');
+    return false;
+  }
+}
+
+async function saveAllToSheets() {
+  if (!gdriveToken || !_sheetsId) return;
+  try {
+    await Promise.all([
+      gapi.client.sheets.spreadsheets.values.update({
+        spreadsheetId: _sheetsId, range: 'ISSUES!A1',
+        valueInputOption: 'RAW',
+        resource: { values: [[JSON.stringify(ISSUES)]] }
+      }),
+      gapi.client.sheets.spreadsheets.values.update({
+        spreadsheetId: _sheetsId, range: 'DELIVERABLES!A1',
+        valueInputOption: 'RAW',
+        resource: { values: [[JSON.stringify(DELIVERABLES)]] }
+      })
+    ]);
+    setSyncUI('synced');
+  } catch(e) {
+    console.error('saveAllToSheets:', e);
+    setSyncUI('error');
+    showToast('⚠️ Sheets 저장 실패 – 로컬에만 저장됩니다.');
+  }
+}
+
+async function createPMISSpreadsheet() {
+  if (!gdriveToken) { showToast('먼저 Google 로그인을 해주세요.'); return; }
+  const btn = document.getElementById('create-sheet-btn');
+  btn.disabled = true; btn.textContent = '생성 중...';
+  try {
+    const res = await gapi.client.sheets.spreadsheets.create({
+      resource: {
+        properties: { title: 'Panay-Agusan PMIS Database' },
+        sheets: [
+          { properties: { title: 'ISSUES' } },
+          { properties: { title: 'DELIVERABLES' } }
+        ]
+      }
+    });
+    const id = res.result.spreadsheetId;
+    const url = `https://docs.google.com/spreadsheets/d/${id}`;
+    // initialize with current data
+    _sheetsId = id;
+    localStorage.setItem('pmis_sheets_id', id);
+    await saveAllToSheets();
+    // show result
+    document.getElementById('sheets-created-result').style.display = 'block';
+    const codeEl = document.getElementById('created-sheet-id');
+    codeEl.textContent = id;
+    document.getElementById('created-sheet-link').href = url;
+    document.getElementById('sheets-id-input').value = id;
+    document.getElementById('google-signin-status').textContent = '로그인됨 ✓';
+    setSyncUI('synced');
+    showToast('✅ 데이터베이스 생성 완료! ID를 팀원에게 공유하세요.');
+  } catch(e) {
+    console.error('createSpreadsheet:', e);
+    showToast('⚠️ 생성 실패: ' + (e.result?.error?.message || e.message));
+  }
+  btn.disabled = false; btn.textContent = '+ 새 Spreadsheet 생성';
+}
+
+function copySheetId() {
+  const id = document.getElementById('created-sheet-id').textContent;
+  navigator.clipboard.writeText(id).then(() => showToast('📋 ID 복사됨!'));
+}
+
+function validateSheetsId(val) {
+  const btn = document.getElementById('sheets-connect-btn');
+  const err = document.getElementById('sheets-id-error');
+  if (val.length > 20) {
+    btn.disabled = false; err.style.display = 'none';
+  } else {
+    btn.disabled = true;
+    if (val.length > 0) { err.textContent = 'ID가 너무 짧습니다. Google Sheets URL에서 복사해주세요.'; err.style.display = 'block'; }
+    else err.style.display = 'none';
+  }
+}
+
+async function connectToSheet() {
+  const id = document.getElementById('sheets-id-input').value.trim();
+  if (!id) return;
+  if (!gdriveToken) { showToast('먼저 Google 로그인을 해주세요.'); return; }
+  const btn = document.getElementById('sheets-connect-btn');
+  btn.disabled = true; btn.textContent = '연결 중...';
+  _sheetsId = id;
+  localStorage.setItem('pmis_sheets_id', id);
+  const ok = await loadFromSheets();
+  if (!ok) { _sheetsId = ''; localStorage.removeItem('pmis_sheets_id'); }
+  btn.disabled = false; btn.textContent = '연결';
+}
+
+function sheetsSignIn() {
+  if (GDRIVE_CLIENT_ID === 'YOUR_CLIENT_ID.apps.googleusercontent.com') {
+    document.getElementById('modal-gdrive-setup').classList.add('open'); return;
+  }
+  if (typeof google === 'undefined') { showToast('Google API 로딩 중입니다. 잠시 후 다시 시도하세요.'); return; }
+  const client = google.accounts.oauth2.initTokenClient({
+    client_id: GDRIVE_CLIENT_ID, scope: SCOPES,
+    callback: async (resp) => {
+      if (resp.error) { showToast('Google 로그인 실패: ' + resp.error); return; }
+      gdriveToken = resp.access_token;
+      document.getElementById('google-signin-btn').textContent = '✅ 로그인됨';
+      document.getElementById('google-signin-btn').style.background = 'var(--accent2)';
+      document.getElementById('google-signin-status').textContent = '로그인됨 ✓';
+      updateGdriveStatus(true);
+      // 저장된 Sheets ID가 있으면 자동 연결
+      if (_sheetsId) {
+        document.getElementById('sheets-id-input').value = _sheetsId;
+        await loadFromSheets();
+      }
+    }
+  });
+  client.requestAccessToken();
+}
 
 function initGoogleAPI() {
   if (typeof gapi === 'undefined') return;
   gapi.load('client', async () => {
-    await gapi.client.init({ apiKey: GDRIVE_API_KEY, discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'] });
+    await gapi.client.init({
+      apiKey: GDRIVE_API_KEY,
+      discoveryDocs: [
+        'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
+        'https://sheets.googleapis.com/$discovery/rest?version=v4'
+      ]
+    });
+    // 저장된 Sheets ID 표시
+    if (_sheetsId) document.getElementById('sheets-id-input') && (document.getElementById('sheets-id-input').value = _sheetsId);
   });
 }
 
@@ -2531,8 +2790,7 @@ function gdriveSignIn(callback) {
   }
   if (typeof google === 'undefined') { alert('Google API is loading. Please try again shortly.'); return; }
   const client = google.accounts.oauth2.initTokenClient({
-    client_id: GDRIVE_CLIENT_ID,
-    scope: SCOPES,
+    client_id: GDRIVE_CLIENT_ID, scope: SCOPES,
     callback: (resp) => {
       if (resp.error) { alert('Google sign-in failed: ' + resp.error); return; }
       gdriveToken = resp.access_token;
@@ -2961,6 +3219,7 @@ function loadDeliverables() {
 
 function saveDeliverables() {
   localStorage.setItem('pmis_deliverables_v3', JSON.stringify(DELIVERABLES));
+  scheduleSave();
 }
 
 function initDeliverables() {
@@ -3343,6 +3602,7 @@ function removeAttachment(type, id, idx) {
 
 function saveIssues() {
   localStorage.setItem('pmis_issues', JSON.stringify(ISSUES));
+  scheduleSave();
 }
 
 function getSampleIssues() {
