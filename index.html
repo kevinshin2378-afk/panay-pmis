@@ -274,8 +274,13 @@ canvas.chart { max-width: 100%; }
     <div class="login-sub">Project Management Information System<br>Flood Management Detailed Design – Philippines</div>
     <hr class="login-divider">
     <input type="text" id="login-user" placeholder="User ID" autocomplete="username">
-    <input type="password" id="login-pw" placeholder="Password" autocomplete="current-password"
-      onkeydown="if(event.key==='Enter')doLogin()">
+    <div style="position:relative">
+      <input type="password" id="login-pw" placeholder="Password" autocomplete="current-password"
+        style="padding-right:42px;width:100%;box-sizing:border-box"
+        onkeydown="if(event.key==='Enter')doLogin()">
+      <button type="button" onclick="togglePw('login-pw',this)" tabindex="-1"
+        style="position:absolute;right:10px;top:50%;transform:translateY(-65%);background:none;border:none;cursor:pointer;font-size:16px;padding:2px;color:var(--text-muted)">👁️</button>
+    </div>
     <div id="login-error" style="color:#c0392b;font-size:12px;margin:-6px 0 10px;display:none">
       ❌ Invalid user ID or password.
     </div>
@@ -1682,7 +1687,11 @@ canvas.chart { max-width: 100%; }
       </div>
       <div class="form-group">
         <label class="form-label" id="um-pw-label">Password <span style="color:var(--danger)">*</span></label>
-        <input class="form-input" id="um-pw" type="password" placeholder="Initial password">
+        <div style="position:relative">
+          <input class="form-input" id="um-pw" type="password" placeholder="Initial password" style="padding-right:38px;width:100%;box-sizing:border-box">
+          <button type="button" onclick="togglePw('um-pw',this)" tabindex="-1"
+            style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:15px;padding:2px;color:var(--text-muted)">👁️</button>
+        </div>
       </div>
     </div>
     <div class="form-row">
@@ -1781,6 +1790,13 @@ function saveUsers() { localStorage.setItem('pmis_users', JSON.stringify(USERS))
 let currentUser = null;
 
 function pwHash(pw) { return btoa(unescape(encodeURIComponent(pw))); }
+
+function togglePw(inputId, btn) {
+  const el = document.getElementById(inputId);
+  const show = el.type === 'password';
+  el.type = show ? 'text' : 'password';
+  btn.textContent = show ? '🙈' : '👁️';
+}
 
 function quickFill(id) {
   document.getElementById('login-user').value = id;
