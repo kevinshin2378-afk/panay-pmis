@@ -269,18 +269,25 @@ canvas.chart { max-width: 100%; }
 <!-- ══════════════════ LOGIN SCREEN ══════════════════ -->
 <div id="login-screen">
   <div class="login-box">
-    <div class="login-logo">KECC JV · WCI</div>
+    <div class="login-logo">KECC JV · WCI · DPWH</div>
     <div class="login-title">Panay &amp; Agusan PMIS</div>
     <div class="login-sub">Project Management Information System<br>Flood Management Detailed Design – Philippines</div>
     <hr class="login-divider">
-    <input type="text" id="login-user" placeholder="User ID" value="admin">
-    <input type="password" id="login-pw" placeholder="Password" value="">
+    <input type="text" id="login-user" placeholder="User ID" autocomplete="username">
+    <input type="password" id="login-pw" placeholder="Password" autocomplete="current-password"
+      onkeydown="if(event.key==='Enter')doLogin()">
+    <div id="login-error" style="color:#c0392b;font-size:12px;margin:-6px 0 10px;display:none">
+      ❌ 아이디 또는 비밀번호가 올바르지 않습니다.
+    </div>
     <button class="login-btn" onclick="doLogin()">LOGIN</button>
-    <div class="login-accounts">
-      Quick Login &nbsp;
-      <span onclick="quickLogin('kecc_admin','KECC Admin')">KECC Admin</span>
-      <span onclick="quickLogin('wci_user','WCI User')">WCI User</span>
-      <span onclick="quickLogin('dpwh_view','DPWH Viewer')">DPWH Viewer</span>
+    <div class="login-accounts" style="margin-top:16px">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">기본 계정 (초기 비밀번호)</div>
+      <span onclick="quickFill('kecc_admin')">kecc_admin</span>
+      <span onclick="quickFill('wci_user')">wci_user</span>
+      <span onclick="quickFill('dpwh_view')">dpwh_view</span>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:12px;text-align:center">
+      초기 비밀번호: <code style="background:#f0f3f8;padding:2px 6px;border-radius:3px">pmis2024</code>
     </div>
   </div>
 </div>
@@ -308,30 +315,30 @@ canvas.chart { max-width: 100%; }
     <!-- SIDEBAR -->
     <div class="sidebar">
       <div class="sidebar-section">Main</div>
-      <a class="nav-item active" onclick="showPage('dashboard')"><span class="nav-icon">📊</span> Dashboard</a>
+      <a class="nav-item active" data-page="dashboard" onclick="showPage('dashboard')"><span class="nav-icon">📊</span> Dashboard</a>
 
       <div class="sidebar-section">Project</div>
-      <a class="nav-item" onclick="showPage('general')"><span class="nav-icon">🗺️</span> General Info</a>
-      <a class="nav-item" onclick="showPage('contract')"><span class="nav-icon">📝</span> Contract Status</a>
+      <a class="nav-item" data-page="general"   onclick="showPage('general')"><span class="nav-icon">🗺️</span> General Info</a>
+      <a class="nav-item" data-page="contract"  onclick="showPage('contract')"><span class="nav-icon">📝</span> Contract Status</a>
 
       <div class="sidebar-section">Progress</div>
-      <a class="nav-item" onclick="showPage('progress')"><span class="nav-icon">📈</span> Progress Mgmt</a>
-      <a class="nav-item" onclick="showPage('workforce')"><span class="nav-icon">👷</span> Workforce</a>
-      <a class="nav-item" onclick="showPage('photos')"><span class="nav-icon">📷</span> Progress Photos</a>
+      <a class="nav-item" data-page="progress"  onclick="showPage('progress')"><span class="nav-icon">📈</span> Progress Mgmt</a>
+      <a class="nav-item" data-page="workforce" onclick="showPage('workforce')"><span class="nav-icon">👷</span> Workforce</a>
+      <a class="nav-item" data-page="photos"    onclick="showPage('photos')"><span class="nav-icon">📷</span> Progress Photos</a>
 
       <div class="sidebar-section">Document</div>
-      <a class="nav-item" onclick="showPage('deliverables')"><span class="nav-icon">🎯</span> Deliverables</a>
-      <a class="nav-item" onclick="showPage('issues')"><span class="nav-icon">📋</span> Issue Tracker (KTS)</a>
-      <a class="nav-item" onclick="showPage('documents')"><span class="nav-icon">📂</span> Official Documents</a>
-      <a class="nav-item" onclick="showPage('approval')"><span class="nav-icon">✅</span> Doc Approval</a>
+      <a class="nav-item" data-page="deliverables" onclick="showPage('deliverables')"><span class="nav-icon">🎯</span> Deliverables</a>
+      <a class="nav-item" data-page="issues"       onclick="showPage('issues')"><span class="nav-icon">📋</span> Issue Tracker (KTS)</a>
+      <a class="nav-item" data-page="documents"    onclick="showPage('documents')"><span class="nav-icon">📂</span> Official Documents</a>
+      <a class="nav-item" data-page="approval"     onclick="showPage('approval')"><span class="nav-icon">✅</span> Doc Approval</a>
 
       <div class="sidebar-section">Collaboration</div>
-      <a class="nav-item" onclick="showPage('notice')"><span class="nav-icon">📢</span> Notice Board</a>
-      <a class="nav-item" onclick="showPage('schedule')"><span class="nav-icon">📅</span> Schedule</a>
-      <a class="nav-item" onclick="showPage('webhard')"><span class="nav-icon">💾</span> File Storage</a>
+      <a class="nav-item" data-page="notice"   onclick="showPage('notice')"><span class="nav-icon">📢</span> Notice Board</a>
+      <a class="nav-item" data-page="schedule" onclick="showPage('schedule')"><span class="nav-icon">📅</span> Schedule</a>
+      <a class="nav-item" data-page="webhard"  onclick="showPage('webhard')"><span class="nav-icon">💾</span> File Storage</a>
 
       <div class="sidebar-section">Settings</div>
-      <a class="nav-item" onclick="showPage('users')"><span class="nav-icon">👤</span> User Mgmt</a>
+      <a class="nav-item" data-page="users" onclick="showPage('users')"><span class="nav-icon">👤</span> User Mgmt</a>
 
       <div class="sidebar-footer">
         KECC JV &amp; WCI<br>
@@ -1019,39 +1026,56 @@ canvas.chart { max-width: 100%; }
           <h1>User Management</h1>
         </div>
 
-        <div class="card">
+        <!-- Share / Access Link -->
+        <div class="card" style="background:linear-gradient(135deg,#1a3a6b 0%,#2563b0 100%);color:#fff">
+          <div class="card-header" style="border-color:rgba(255,255,255,.15)">
+            <div class="card-title" style="color:#fff">🔗 시스템 접속 링크 공유</div>
+          </div>
+          <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+            <div style="flex:1;min-width:220px">
+              <div style="font-size:12px;opacity:.8;margin-bottom:6px">GitHub Pages 공개 URL</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <input id="share-url-input" readonly value="https://kevinshin2378.github.io/panay-pmis/"
+                  style="flex:1;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:8px 12px;border-radius:6px;font-size:13px;outline:none">
+                <button onclick="copyShareUrl()" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:8px 16px;border-radius:6px;cursor:pointer;white-space:nowrap">📋 복사</button>
+              </div>
+              <div style="font-size:11px;opacity:.7;margin-top:6px">이 링크를 프로젝트 관계자에게 공유하세요. 로그인 후 권한 범위 내 기능을 사용할 수 있습니다.</div>
+            </div>
+            <div style="text-align:center">
+              <canvas id="qr-canvas" width="100" height="100" style="border-radius:8px;background:#fff;padding:4px;display:block"></canvas>
+              <div style="font-size:10px;opacity:.7;margin-top:4px">QR Code</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- User List -->
+        <div class="card mt24">
           <div class="card-header">
-            <div class="card-title">System Users</div>
-            <button class="btn btn-primary btn-sm" onclick="openModal('modal-user')">+ Add User</button>
+            <div class="card-title">등록 사용자</div>
+            <button class="btn btn-primary btn-sm" onclick="openUserModal()">+ 사용자 추가</button>
           </div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>ID</th><th>Name</th><th>Company</th><th>Role</th><th>Email</th><th>Last Login</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>kecc_admin</td><td>신광균 (KK Shin)</td><td>KECC JV</td><td><span class="tag tag-blue">Admin</span></td><td>kkshin@keccjv.com</td><td>2026-06-12</td><td><span class="tag tag-green">Active</span></td></tr>
-                <tr><td>kecc_pm</td><td>Project Manager</td><td>KECC JV</td><td><span class="tag tag-blue">Manager</span></td><td>pm@keccjv.com</td><td>2026-06-11</td><td><span class="tag tag-green">Active</span></td></tr>
-                <tr><td>wci_user</td><td>WCI Coordinator</td><td>WCI</td><td><span class="tag tag-green">Editor</span></td><td>coord@wci.com</td><td>2026-06-10</td><td><span class="tag tag-green">Active</span></td></tr>
-                <tr><td>wci_eng</td><td>WCI Engineer</td><td>WCI</td><td><span class="tag tag-green">Editor</span></td><td>eng@wci.com</td><td>2026-06-08</td><td><span class="tag tag-green">Active</span></td></tr>
-                <tr><td>dpwh_view</td><td>DPWH Inspector</td><td>DPWH</td><td><span class="tag tag-gray">Viewer</span></td><td>inspector@dpwh.gov.ph</td><td>2026-06-05</td><td><span class="tag tag-green">Active</span></td></tr>
-                <tr><td>omega_local</td><td>Omega Local Coord.</td><td>Omega Group</td><td><span class="tag tag-gray">Viewer</span></td><td>local@omegagroup.ph</td><td>2026-05-30</td><td><span class="tag tag-green">Active</span></td></tr>
-              </tbody>
+              <thead><tr><th>ID</th><th>이름</th><th>소속</th><th>역할</th><th>이메일</th><th>최근 로그인</th><th>상태</th><th>액션</th></tr></thead>
+              <tbody id="user-table-body"><tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text-muted)">로딩 중...</td></tr></tbody>
             </table>
           </div>
         </div>
 
+        <!-- Role Permissions reference -->
         <div class="card mt24">
-          <div class="card-header"><div class="card-title">Role Permissions</div></div>
+          <div class="card-header"><div class="card-title">역할별 권한</div></div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Module</th><th>Admin (KECC)</th><th>Manager (KECC)</th><th>Editor (WCI)</th><th>Viewer (DPWH)</th></tr></thead>
+              <thead><tr><th>모듈</th><th>Admin</th><th>Manager</th><th>Editor</th><th>Viewer</th></tr></thead>
               <tbody>
                 <tr><td>Dashboard</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
-                <tr><td>General Info</td><td>✅ Edit</td><td>✅ Edit</td><td>👁️ View</td><td>👁️ View</td></tr>
-                <tr><td>Contract Status</td><td>✅ Edit</td><td>✅ Edit</td><td>👁️ View</td><td>👁️ View</td></tr>
-                <tr><td>Progress Mgmt</td><td>✅ Edit</td><td>✅ Edit</td><td>✅ Edit</td><td>👁️ View</td></tr>
-                <tr><td>Documents</td><td>✅ Edit</td><td>✅ Edit</td><td>✅ Upload</td><td>👁️ View</td></tr>
-                <tr><td>Document Approval</td><td>✅ Approve</td><td>✅ Approve</td><td>📤 Submit</td><td>❌</td></tr>
-                <tr><td>User Mgmt</td><td>✅ Full</td><td>👁️ View</td><td>❌</td><td>❌</td></tr>
+                <tr><td>General Info / Contract</td><td>✅ 편집</td><td>✅ 편집</td><td>👁️ 조회</td><td>👁️ 조회</td></tr>
+                <tr><td>Progress / Workforce / Photos</td><td>✅ 편집</td><td>✅ 편집</td><td>✅ 편집</td><td>👁️ 조회</td></tr>
+                <tr><td>Deliverables / Issues</td><td>✅ 편집</td><td>✅ 편집</td><td>✅ 편집</td><td>👁️ 조회</td></tr>
+                <tr><td>Document Approval</td><td>✅ 승인</td><td>✅ 승인</td><td>📤 제출</td><td>❌</td></tr>
+                <tr><td>Notice / Schedule / File Storage</td><td>✅</td><td>✅</td><td>✅</td><td>👁️ 조회</td></tr>
+                <tr><td>User Management</td><td>✅ 관리</td><td>👁️ 조회</td><td>❌</td><td>❌</td></tr>
               </tbody>
             </table>
           </div>
@@ -1618,30 +1642,62 @@ canvas.chart { max-width: 100%; }
 </div>
 
 <div class="modal-bg" id="modal-user">
-  <div class="modal">
+  <div class="modal" style="width:560px;max-width:97vw">
     <div class="modal-header">
-      <div class="modal-title">Add New User</div>
+      <div class="modal-title" id="user-modal-title">사용자 추가</div>
       <button class="modal-close" onclick="closeModal('modal-user')">✕</button>
     </div>
+    <input type="hidden" id="um-edit-id">
     <div class="form-row">
-      <div class="form-group"><label class="form-label">User ID</label><input class="form-input" placeholder="user_id"></div>
-      <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" placeholder="Full name"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Company</label>
-        <select class="form-input"><option>KECC JV</option><option>WCI</option><option>DPWH</option><option>Omega Group</option></select>
+      <div class="form-group">
+        <label class="form-label">User ID <span style="color:var(--danger)">*</span></label>
+        <input class="form-input" id="um-id" placeholder="예: kecc_eng1">
       </div>
-      <div class="form-group"><label class="form-label">Role</label>
-        <select class="form-input"><option>Admin</option><option>Manager</option><option>Editor</option><option>Viewer</option></select>
+      <div class="form-group">
+        <label class="form-label">이름 <span style="color:var(--danger)">*</span></label>
+        <input class="form-input" id="um-name" placeholder="홍길동 (Gil-dong Hong)">
       </div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="user@company.com"></div>
-      <div class="form-group"><label class="form-label">Initial Password</label><input class="form-input" type="password" placeholder="••••••••"></div>
+      <div class="form-group">
+        <label class="form-label">소속</label>
+        <select class="form-input" id="um-company">
+          <option>KECC JV</option><option>WCI</option><option>DPWH</option><option>Omega Group</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">역할</label>
+        <select class="form-input" id="um-role">
+          <option value="admin">Admin</option>
+          <option value="manager">Manager</option>
+          <option value="editor" selected>Editor</option>
+          <option value="viewer">Viewer</option>
+        </select>
+      </div>
     </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">이메일</label>
+        <input class="form-input" id="um-email" type="email" placeholder="user@company.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label" id="um-pw-label">비밀번호 <span style="color:var(--danger)">*</span></label>
+        <input class="form-input" id="um-pw" type="password" placeholder="초기 비밀번호">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="grid-column:1/-1">
+        <label class="form-label">상태</label>
+        <select class="form-input" id="um-status">
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+    </div>
+    <div id="um-error" style="color:var(--danger);font-size:12px;margin-bottom:8px;display:none"></div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
-      <button class="btn btn-outline" onclick="closeModal('modal-user')">Cancel</button>
-      <button class="btn btn-primary" onclick="closeModal('modal-user')">Create User</button>
+      <button class="btn btn-outline" onclick="closeModal('modal-user')">취소</button>
+      <button class="btn btn-primary" onclick="saveUser()">저장</button>
     </div>
   </div>
 </div>
@@ -1693,33 +1749,218 @@ const APPROVAL_ITEMS = [
 
 const FOLDERS = ['01. Reports', '02. Drawings', '03. Survey Data', '04. Correspondence', '05. Photos', '06. Contracts', '07. Meeting Minutes'];
 
+// ══════════════════════════════════════════════
+// USER DATABASE  (localStorage: pmis_users)
+// ══════════════════════════════════════════════
+const DEFAULT_USERS = [
+  { id:'kecc_admin', name:'신광균 (KK Shin)',      company:'KECC JV',    role:'admin',   email:'kkshin@keccjv.com',           pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
+  { id:'kecc_pm',   name:'Project Manager',        company:'KECC JV',    role:'manager', email:'pm@keccjv.com',               pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
+  { id:'wci_user',  name:'WCI Coordinator',         company:'WCI',        role:'editor',  email:'coord@wci.com',               pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
+  { id:'wci_eng',   name:'WCI Engineer',            company:'WCI',        role:'editor',  email:'eng@wci.com',                 pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
+  { id:'dpwh_view', name:'DPWH Inspector',          company:'DPWH',       role:'viewer',  email:'inspector@dpwh.gov.ph',       pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
+  { id:'omega_local',name:'Omega Local Coord.',     company:'Omega Group', role:'viewer', email:'local@omegagroup.ph',         pwHash:btoa('pmis2024'), status:'active', lastLogin:'' },
+];
+
+// Pages each role can see (nav item ids)
+const ROLE_PAGES = {
+  admin:   ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','notice','schedule','webhard','users'],
+  manager: ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','notice','schedule','webhard','users'],
+  editor:  ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','notice','schedule','webhard'],
+  viewer:  ['dashboard','general','contract','progress','workforce','photos','deliverables','documents','notice','schedule'],
+};
+
+let USERS = [];
+
+function loadUsers() {
+  try { USERS = JSON.parse(localStorage.getItem('pmis_users')) || []; } catch(e) { USERS = []; }
+  if (!USERS.length) { USERS = JSON.parse(JSON.stringify(DEFAULT_USERS)); saveUsers(); }
+}
+
+function saveUsers() { localStorage.setItem('pmis_users', JSON.stringify(USERS)); }
+
 // ── LOGIN ──────────────────────────────────────
 let currentUser = null;
 
-function quickLogin(id, name) {
+function pwHash(pw) { return btoa(unescape(encodeURIComponent(pw))); }
+
+function quickFill(id) {
   document.getElementById('login-user').value = id;
-  currentUser = { id, name, role: id.startsWith('kecc') ? 'KECC JV' : id.startsWith('wci') ? 'WCI' : id.startsWith('dpwh') ? 'DPWH' : 'Omega' };
-  doLogin();
+  document.getElementById('login-pw').value = 'pmis2024';
 }
 
 function doLogin() {
   const uid = document.getElementById('login-user').value.trim();
-  if (!uid) return alert('Please enter User ID');
-  currentUser = currentUser || { id: uid, name: uid === 'admin' ? '신광균 (KK Shin)' : uid, role: 'KECC JV' };
-  document.getElementById('user-name').textContent = currentUser.name;
-  document.getElementById('user-role').textContent = currentUser.role;
-  document.getElementById('user-avatar').textContent = currentUser.name[0].toUpperCase();
+  const pw  = document.getElementById('login-pw').value;
+  const errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+  if (!uid) { errEl.textContent = '❌ User ID를 입력하세요.'; errEl.style.display = 'block'; return; }
+  loadUsers();
+  const user = USERS.find(u => u.id === uid && u.status === 'active');
+  if (!user || user.pwHash !== pwHash(pw)) {
+    errEl.textContent = '❌ 아이디 또는 비밀번호가 올바르지 않습니다.';
+    errEl.style.display = 'block';
+    return;
+  }
+  user.lastLogin = new Date().toISOString().split('T')[0];
+  saveUsers();
+  currentUser = { id: user.id, name: user.name, role: user.role, company: user.company };
+  document.getElementById('user-name').textContent = user.name;
+  document.getElementById('user-role').textContent = user.company + ' · ' + user.role;
+  document.getElementById('user-avatar').textContent = user.name[0].toUpperCase();
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
+  applyRoleNav();
   initApp();
 }
 
+function applyRoleNav() {
+  const allowed = ROLE_PAGES[currentUser.role] || ROLE_PAGES.viewer;
+  document.querySelectorAll('.nav-item[data-page]').forEach(el => {
+    el.style.display = allowed.includes(el.dataset.page) ? '' : 'none';
+  });
+}
+
 function doLogout() {
-  if (!confirm('Log out?')) return;
+  if (!confirm('로그아웃 하시겠습니까?')) return;
   currentUser = null;
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('app').style.display = 'none';
-  document.getElementById('login-user').value = 'admin';
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pw').value = '';
+  document.getElementById('login-error').style.display = 'none';
+}
+
+// ── USER MGMT ──────────────────────────────────
+function initUsers() {
+  renderUserTable();
+  drawQRCode('https://kevinshin2378.github.io/panay-pmis/');
+}
+
+function renderUserTable() {
+  loadUsers();
+  const roleLabel = { admin:'<span class="tag tag-blue">Admin</span>', manager:'<span class="tag tag-blue">Manager</span>', editor:'<span class="tag tag-green">Editor</span>', viewer:'<span class="tag tag-gray">Viewer</span>' };
+  const isAdmin = currentUser && currentUser.role === 'admin';
+  document.getElementById('user-table-body').innerHTML = USERS.map(u => `
+    <tr>
+      <td><strong>${u.id}</strong></td>
+      <td>${u.name}</td>
+      <td>${u.company}</td>
+      <td>${roleLabel[u.role] || u.role}</td>
+      <td>${u.email || '-'}</td>
+      <td>${u.lastLogin || '-'}</td>
+      <td><span class="tag ${u.status==='active'?'tag-green':'tag-gray'}">${u.status==='active'?'Active':'Inactive'}</span></td>
+      <td>${isAdmin ? `<button class="btn btn-outline btn-sm" onclick="openUserModal('${u.id}')">편집</button>
+           ${u.id!=='kecc_admin'?`<button class="btn btn-outline btn-sm" style="color:var(--danger)" onclick="deleteUser('${u.id}')">삭제</button>`:''}` : '-'}</td>
+    </tr>`).join('');
+}
+
+function openUserModal(editId) {
+  document.getElementById('um-error').style.display = 'none';
+  if (editId) {
+    loadUsers();
+    const u = USERS.find(x => x.id === editId);
+    if (!u) return;
+    document.getElementById('user-modal-title').textContent = '사용자 편집';
+    document.getElementById('um-edit-id').value = u.id;
+    document.getElementById('um-id').value = u.id;
+    document.getElementById('um-id').disabled = true;
+    document.getElementById('um-name').value = u.name;
+    document.getElementById('um-company').value = u.company;
+    document.getElementById('um-role').value = u.role;
+    document.getElementById('um-email').value = u.email || '';
+    document.getElementById('um-pw').value = '';
+    document.getElementById('um-pw-label').innerHTML = '비밀번호 <span style="color:var(--text-muted);font-weight:400">(변경 시에만 입력)</span>';
+    document.getElementById('um-status').value = u.status;
+  } else {
+    document.getElementById('user-modal-title').textContent = '사용자 추가';
+    document.getElementById('um-edit-id').value = '';
+    document.getElementById('um-id').value = '';
+    document.getElementById('um-id').disabled = false;
+    document.getElementById('um-name').value = '';
+    document.getElementById('um-company').value = 'KECC JV';
+    document.getElementById('um-role').value = 'editor';
+    document.getElementById('um-email').value = '';
+    document.getElementById('um-pw').value = '';
+    document.getElementById('um-pw-label').innerHTML = '비밀번호 <span style="color:var(--danger)">*</span>';
+    document.getElementById('um-status').value = 'active';
+  }
+  openModal('modal-user');
+}
+
+function saveUser() {
+  const errEl = document.getElementById('um-error');
+  errEl.style.display = 'none';
+  const editId = document.getElementById('um-edit-id').value;
+  const id = document.getElementById('um-id').value.trim();
+  const name = document.getElementById('um-name').value.trim();
+  const company = document.getElementById('um-company').value;
+  const role = document.getElementById('um-role').value;
+  const email = document.getElementById('um-email').value.trim();
+  const pw = document.getElementById('um-pw').value;
+  const status = document.getElementById('um-status').value;
+  if (!id || !name) { errEl.textContent = 'ID와 이름은 필수입니다.'; errEl.style.display = 'block'; return; }
+  loadUsers();
+  if (!editId) {
+    if (!pw) { errEl.textContent = '초기 비밀번호를 입력하세요.'; errEl.style.display = 'block'; return; }
+    if (USERS.find(u => u.id === id)) { errEl.textContent = '이미 존재하는 ID입니다.'; errEl.style.display = 'block'; return; }
+    USERS.push({ id, name, company, role, email, pwHash: pwHash(pw), status, lastLogin: '' });
+  } else {
+    const idx = USERS.findIndex(u => u.id === editId);
+    if (idx < 0) return;
+    USERS[idx] = { ...USERS[idx], name, company, role, email, status };
+    if (pw) USERS[idx].pwHash = pwHash(pw);
+  }
+  saveUsers();
+  closeModal('modal-user');
+  renderUserTable();
+  showToast('사용자 정보가 저장되었습니다.');
+}
+
+function deleteUser(id) {
+  if (!confirm(`"${id}" 사용자를 삭제하시겠습니까?`)) return;
+  loadUsers();
+  USERS = USERS.filter(u => u.id !== id);
+  saveUsers();
+  renderUserTable();
+  showToast('사용자가 삭제되었습니다.');
+}
+
+function copyShareUrl() {
+  const url = document.getElementById('share-url-input').value;
+  navigator.clipboard.writeText(url).then(() => showToast('링크가 복사되었습니다!')).catch(() => {
+    document.getElementById('share-url-input').select();
+    document.execCommand('copy');
+    showToast('링크가 복사되었습니다!');
+  });
+}
+
+// Simple QR Code generator (no external lib — pure canvas)
+function drawQRCode(url) {
+  const canvas = document.getElementById('qr-canvas');
+  if (!canvas) return;
+  // Use a public QR API via img tag instead (no external JS lib needed)
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => { const ctx = canvas.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,100,100); ctx.drawImage(img,0,0,100,100); };
+  img.onerror = () => {
+    // Fallback: draw a placeholder grid pattern
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,100,100);
+    ctx.fillStyle = '#1a3a6b';
+    const cells = 10, sz = 100/cells;
+    const pat = [
+      [0,0],[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],
+      [1,0],[1,6],[2,0],[2,2],[2,3],[2,4],[2,6],
+      [3,0],[3,2],[3,4],[3,6],[4,0],[4,2],[4,6],
+      [5,0],[5,2],[5,3],[5,4],[5,6],[6,0],[6,1],
+      [6,2],[6,3],[6,4],[6,5],[6,6],[7,3],[8,1],
+      [8,2],[8,4],[9,0],[9,2],[9,3],[9,5],[9,6],
+    ];
+    pat.forEach(([r,c]) => ctx.fillRect(c*sz+2, r*sz+2, sz-1, sz-1));
+    ctx.font = '7px sans-serif'; ctx.fillStyle='#666';
+    ctx.fillText('QR', 34, 90);
+  };
+  img.src = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(url)}`;
 }
 
 // ── NAVIGATION ────────────────────────────────
@@ -1733,6 +1974,7 @@ function showPage(id) {
   if (id === 'workforce') setTimeout(() => drawWorkforceChart(), 100);
   if (id === 'issues') { initIssueTracker(); }
   if (id === 'deliverables') { initDeliverables(); }
+  if (id === 'users') { initUsers(); }
 }
 
 // ── MODALS ────────────────────────────────────
