@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panay & Agusan PMIS – KECC JV</title>
+<!-- Google APIs -->
+<script src="https://apis.google.com/js/api.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+:root {
+  --primary: #1a3a6b;
+  --primary-light: #2756a8;
+  --accent: #e8a020;
+  --accent2: #27ae60;
+  --danger: #c0392b;
+  --bg: #f0f3f8;
+  --card: #ffffff;
+  --text: #1e2a3a;
+  --text-muted: #6b7e96;
+  --border: #dce4f0;
+  --sidebar-w: 220px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* ── LOGIN ── */
+#login-screen {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d2247 0%, #1a3a6b 50%, #2756a8 100%);
+}
+.login-box {
+  background: #fff; border-radius: 12px; padding: 48px 40px;
+  width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  text-align: center;
+}
+.login-logo { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; letter-spacing: 1px; text-transform: uppercase; }
+.login-title { font-size: 26px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+.login-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; }
+.login-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+.login-box input {
+  width: 100%; padding: 12px 16px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 14px; margin-bottom: 14px;
+  transition: border-color .2s;
+}
+.login-box input:focus { outline: none; border-color: var(--primary-light); }
+.login-btn {
+  width: 100%; padding: 13px; background: var(--primary); color: #fff;
+  border: none; border-radius: 8px; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: background .2s;
+}
+.login-btn:hover { background: var(--primary-light); }
+.login-accounts { margin-top: 20px; font-size: 12px; color: var(--text-muted); }
+.login-accounts span { display: inline-block; background: #f0f3f8; border-radius: 4px; padding: 3px 8px; margin: 2px; cursor: pointer; }
+.login-accounts span:hover { background: var(--border); }
+
+/* ── APP LAYOUT ── */
+#app { display: none; min-height: 100vh; flex-direction: column; }
+.topbar {
+  background: var(--primary); color: #fff; display: flex; align-items: center;
+  padding: 0 20px; height: 56px; position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.topbar-logo { font-size: 15px; font-weight: 700; letter-spacing: 0.5px; flex: 1; }
+.topbar-logo span { color: var(--accent); }
+.topbar-meta { font-size: 12px; color: rgba(255,255,255,0.7); margin-right: 20px; text-align: right; line-height: 1.4; }
+.topbar-user {
+  display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;
+  background: rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 14px;
+  transition: background .2s;
+}
+.topbar-user:hover { background: rgba(255,255,255,0.2); }
+.user-avatar {
+  width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+  display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+}
+
+.layout { display: flex; margin-top: 56px; min-height: calc(100vh - 56px); }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--border);
+  position: fixed; top: 56px; bottom: 0; left: 0; overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.sidebar-section { padding: 16px 12px 4px; font-size: 10px; font-weight: 700;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+  cursor: pointer; border-radius: 0; font-size: 13px; color: var(--text);
+  transition: background .15s; text-decoration: none; border-left: 3px solid transparent;
+}
+.nav-item:hover { background: #f0f3f8; }
+.nav-item.active { background: #e8f0fb; color: var(--primary-light); border-left-color: var(--primary-light); font-weight: 600; }
+.nav-icon { font-size: 16px; width: 20px; text-align: center; }
+.nav-sub { padding-left: 44px; font-size: 12px; color: var(--text-muted); }
+.nav-sub.active { color: var(--primary-light); font-weight: 600; }
+.sidebar-footer { margin-top: auto; padding: 16px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-muted); text-align: center; }
+
+/* ── MAIN CONTENT ── */
+.main-content { margin-left: var(--sidebar-w); flex: 1; padding: 24px; }
+.page { display: none; }
+.page.active { display: block; }
+.page-header { margin-bottom: 20px; }
+.page-header h1 { font-size: 20px; font-weight: 700; color: var(--primary); }
+.page-header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.breadcrumb { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+.breadcrumb span { color: var(--primary-light); }
+
+/* ── CARDS ── */
+.card { background: var(--card); border-radius: 10px; border: 1px solid var(--border); padding: 20px; }
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.card-title { font-size: 14px; font-weight: 600; color: var(--primary); }
+.card-badge { font-size: 11px; background: #e8f0fb; color: var(--primary-light); padding: 3px 8px; border-radius: 20px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+/* ── STAT CARDS ── */
+.stat-card { background: var(--card); border-radius: 10px; border: 1px solid var(--border); padding: 20px; }
+.stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.stat-value { font-size: 32px; font-weight: 700; color: var(--primary); line-height: 1; }
+.stat-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.stat-bar { height: 6px; background: var(--border); border-radius: 3px; margin-top: 12px; overflow: hidden; }
+.stat-bar-fill { height: 100%; border-radius: 3px; transition: width 1s; }
+
+/* ── PROGRESS DONUT ── */
+.donut-wrap { display: flex; align-items: center; gap: 16px; }
+.donut-canvas { flex-shrink: 0; }
+.donut-legend { flex: 1; }
+.donut-legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── TABLE ── */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th { background: #f0f3f8; color: var(--text-muted); font-weight: 600; padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border); font-size: 12px; }
+tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: #f8faff; }
+.tag { display: inline-block; padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+.tag-green { background: #d4f4dd; color: #186a30; }
+.tag-blue { background: #ddeeff; color: #1a5ca8; }
+.tag-yellow { background: #fef3d0; color: #7d5a00; }
+.tag-red { background: #fde0dc; color: #8b1a11; }
+.tag-gray { background: #e8edf5; color: #4a5568; }
+
+/* ── BUTTONS ── */
+.btn { padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; transition: all .15s; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-light); }
+.btn-outline { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+.btn-outline:hover { border-color: var(--primary); background: #f0f3f8; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+
+/* ── FORM ── */
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; display: block; }
+.form-input { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 13px; transition: border-color .2s; }
+.form-input:focus { outline: none; border-color: var(--primary-light); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* ── TIMELINE / MILESTONE ── */
+.milestone-item { display: flex; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+.milestone-item:last-child { border-bottom: none; }
+.milestone-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+.milestone-content { flex: 1; }
+.milestone-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.milestone-date { font-size: 12px; color: var(--text-muted); }
+.milestone-pct { font-size: 12px; font-weight: 700; }
+
+/* ── NOTICE BOARD ── */
+.notice-item { padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+.notice-item:hover { background: #f8faff; margin: 0 -20px; padding: 14px 20px; }
+.notice-item:last-child { border-bottom: none; }
+.notice-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.notice-meta { font-size: 12px; color: var(--text-muted); display: flex; gap: 16px; }
+.notice-badge { background: var(--primary); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+
+/* ── WEATHER WIDGET ── */
+.weather-box { display: flex; align-items: center; gap: 16px; padding: 12px; background: linear-gradient(135deg, #1a3a6b, #2756a8); border-radius: 8px; color: #fff; }
+.weather-icon { font-size: 36px; }
+.weather-temp { font-size: 28px; font-weight: 700; }
+.weather-label { font-size: 12px; opacity: .8; }
+
+/* ── D-DAY ── */
+.dday-box { text-align: center; padding: 20px; background: linear-gradient(135deg, #0d2247, #1a3a6b); border-radius: 10px; color: #fff; }
+.dday-num { font-size: 48px; font-weight: 800; color: var(--accent); line-height: 1; }
+.dday-label { font-size: 13px; opacity: .8; margin-top: 4px; }
+.dday-dates { font-size: 11px; opacity: .6; margin-top: 8px; }
+
+/* ── GANTT BAR (simplified) ── */
+.gantt-row { display: flex; align-items: center; gap: 0; height: 36px; border-bottom: 1px solid var(--border); }
+.gantt-label { width: 180px; flex-shrink: 0; font-size: 12px; padding-right: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gantt-track { flex: 1; background: #f0f3f8; height: 18px; border-radius: 4px; overflow: hidden; position: relative; }
+.gantt-bar { height: 100%; border-radius: 4px; display: flex; align-items: center; padding: 0 6px; font-size: 10px; color: #fff; font-weight: 600; position: absolute; }
+.gantt-header { display: flex; gap: 0; height: 28px; border-bottom: 2px solid var(--border); }
+.gantt-header-label { width: 180px; flex-shrink: 0; font-size: 11px; font-weight: 700; color: var(--text-muted); }
+.gantt-months { flex: 1; display: flex; }
+.gantt-month { flex: 1; font-size: 10px; font-weight: 600; color: var(--text-muted); text-align: center; border-right: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+
+/* ── DOCUMENT ── */
+.doc-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.doc-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.doc-info { flex: 1; }
+.doc-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.doc-meta { font-size: 12px; color: var(--text-muted); }
+
+/* ── PHOTO GALLERY ── */
+.photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.photo-card { border-radius: 8px; overflow: hidden; background: #e8edf5; aspect-ratio: 4/3; display: flex; flex-direction: column; position: relative; cursor: pointer; }
+.photo-placeholder { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 32px; }
+.photo-caption { background: rgba(0,0,0,0.5); color: #fff; padding: 6px 8px; font-size: 11px; position: absolute; bottom: 0; left: 0; right: 0; }
+
+/* ── ORGANIZATION ── */
+.org-tree { overflow-x: auto; padding: 10px 0; }
+.org-node { display: inline-flex; flex-direction: column; align-items: center; }
+.org-box { border: 2px solid var(--primary); border-radius: 8px; padding: 10px 16px; text-align: center; background: #fff; min-width: 120px; }
+.org-box.top { background: var(--primary); color: #fff; }
+.org-box.mid { background: var(--primary-light); color: #fff; border-color: var(--primary-light); }
+.org-box.partner { background: #e8f7f0; border-color: var(--accent2); }
+.org-name { font-size: 13px; font-weight: 700; }
+.org-role { font-size: 11px; opacity: .75; margin-top: 2px; }
+.org-row { display: flex; gap: 20px; justify-content: center; position: relative; margin-top: 20px; }
+.org-connector { border-top: 2px solid var(--border); position: absolute; top: -10px; left: 10%; right: 10%; }
+.org-line-up { width: 2px; height: 20px; background: var(--border); margin: 0 auto; }
+
+/* ── S-CURVE ── */
+canvas.chart { max-width: 100%; }
+
+/* ── MODAL ── */
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; }
+.modal-bg.open { display: flex; }
+.modal { background: #fff; border-radius: 12px; padding: 28px; width: 560px; max-width: 95vw; max-height: 90vh; overflow-y: auto; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.modal-title { font-size: 16px; font-weight: 700; color: var(--primary); }
+.modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted); }
+
+/* ── UPLOAD AREA ── */
+.upload-area { border: 2px dashed var(--border); border-radius: 8px; padding: 30px; text-align: center; color: var(--text-muted); font-size: 13px; cursor: pointer; transition: border-color .2s, background .2s; }
+.upload-area:hover { border-color: var(--primary-light); background: #f0f3f8; }
+.upload-area .upload-icon { font-size: 36px; margin-bottom: 8px; }
+
+/* ── APPROVAL STATUS ── */
+.approval-flow { display: flex; align-items: center; gap: 0; }
+.approval-step { text-align: center; flex: 1; }
+.approval-step-box { border: 2px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 12px; position: relative; }
+.approval-step-box.done { border-color: var(--accent2); background: #e8f7f0; color: var(--accent2); }
+.approval-step-box.current { border-color: var(--accent); background: #fef3d0; }
+.approval-step-box.pending { background: #f0f3f8; }
+.approval-arrow { font-size: 18px; color: var(--border); flex-shrink: 0; margin: 0 4px; }
+
+/* utils */
+.mt16 { margin-top: 16px; }
+.mt24 { margin-top: 24px; }
+.flex { display: flex; }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+.gap-8 { gap: 8px; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-muted { color: var(--text-muted); font-size: 12px; }
+.bold { font-weight: 700; }
+.separator { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ LOGIN SCREEN ══════════════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">KECC JV · WCI</div>
+    <div class="login-title">Panay &amp; Agusan PMIS</div>
+    <div class="login-sub">Project Management Information System<br>Flood Management Detailed Design – Philippines</div>
+    <hr class="login-divider">
+    <input type="text" id="login-user" placeholder="User ID" value="admin">
+    <input type="password" id="login-pw" placeholder="Password" value="">
+    <button class="login-btn" onclick="doLogin()">LOGIN</button>
+    <div class="login-accounts">
+      Quick Login &nbsp;
+      <span onclick="quickLogin('kecc_admin','KECC Admin')">KECC Admin</span>
+      <span onclick="quickLogin('wci_user','WCI User')">WCI User</span>
+      <span onclick="quickLogin('dpwh_view','DPWH Viewer')">DPWH Viewer</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MAIN APP ══════════════════ -->
+<div id="app">
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-logo">Panay &amp; Agusan <span>PMIS</span></div>
+    <div class="topbar-meta">
+      <div>Flood Management Detailed Design (PKG 2)</div>
+      <div>Client: DPWH &nbsp;|&nbsp; <span id="today-date"></span></div>
+    </div>
+    <div class="topbar-user" onclick="doLogout()">
+      <div class="user-avatar" id="user-avatar">A</div>
+      <div>
+        <div style="font-size:13px;font-weight:600" id="user-name">Admin</div>
+        <div style="font-size:11px;opacity:.7" id="user-role">KECC JV</div>
+      </div>
+      <span style="opacity:.6;margin-left:4px">▾</span>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-section">Main</div>
+      <a class="nav-item active" onclick="showPage('dashboard')"><span class="nav-icon">📊</span> Dashboard</a>
+
+      <div class="sidebar-section">Project</div>
+      <a class="nav-item" onclick="showPage('general')"><span class="nav-icon">🗺️</span> General Info</a>
+      <a class="nav-item" onclick="showPage('contract')"><span class="nav-icon">📝</span> Contract Status</a>
+
+      <div class="sidebar-section">Progress</div>
+      <a class="nav-item" onclick="showPage('progress')"><span class="nav-icon">📈</span> Progress Mgmt</a>
+      <a class="nav-item" onclick="showPage('workforce')"><span class="nav-icon">👷</span> Workforce</a>
+      <a class="nav-item" onclick="showPage('photos')"><span class="nav-icon">📷</span> Progress Photos</a>
+
+      <div class="sidebar-section">Document</div>
+      <a class="nav-item" onclick="showPage('documents')"><span class="nav-icon">📂</span> Official Documents</a>
+      <a class="nav-item" onclick="showPage('approval')"><span class="nav-icon">✅</span> Doc Approval</a>
+
+      <div class="sidebar-section">Collaboration</div>
+      <a class="nav-item" onclick="showPage('notice')"><span class="nav-icon">📢</span> Notice Board</a>
+      <a class="nav-item" onclick="showPage('schedule')"><span class="nav-icon">📅</span> Schedule</a>
+      <a class="nav-item" onclick="showPage('webhard')"><span class="nav-icon">💾</span> File Storage</a>
+
+      <div class="sidebar-section">Settings</div>
+      <a class="nav-item" onclick="showPage('users')"><span class="nav-icon">👤</span> User Mgmt</a>
+
+      <div class="sidebar-footer">
+        KECC JV &amp; WCI<br>
+        Powered by PMIS v1.0
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+      <!-- ─── DASHBOARD ─── -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>Dashboard</span></div>
+          <h1>Project Dashboard</h1>
+          <p>Flood Management Detailed Design – Panay &amp; Agusan River Basin, Philippines</p>
+        </div>
+
+        <div class="grid-4">
+          <!-- D-DAY -->
+          <div class="dday-box">
+            <div class="dday-num" id="dday-num">–</div>
+            <div class="dday-label">Days Remaining</div>
+            <div class="dday-dates" id="dday-dates"></div>
+          </div>
+          <!-- Overall Progress -->
+          <div class="stat-card">
+            <div class="stat-label">📈 Overall Progress</div>
+            <div class="stat-value">34.2%</div>
+            <div class="stat-sub">Planned: 38.5% &nbsp; Deviation: <span style="color:var(--danger)">-4.3%</span></div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:34.2%;background:var(--primary-light)"></div></div>
+          </div>
+          <!-- Workforce -->
+          <div class="stat-card">
+            <div class="stat-label">👷 Workforce Today</div>
+            <div class="stat-value">48</div>
+            <div class="stat-sub">KECC: 32 &nbsp; WCI: 16</div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:65%;background:var(--accent2)"></div></div>
+          </div>
+          <!-- Documents Pending -->
+          <div class="stat-card">
+            <div class="stat-label">📂 Documents</div>
+            <div class="stat-value">12</div>
+            <div class="stat-sub">Pending approval: <span style="color:var(--accent)">3</span> &nbsp; Total: 87</div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:40%;background:var(--accent)"></div></div>
+          </div>
+        </div>
+
+        <div class="grid-2 mt24">
+          <!-- S-Curve -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Progress S-Curve</div>
+              <div class="card-badge">As of Jun 2026</div>
+            </div>
+            <canvas id="scurve-chart" height="180" class="chart"></canvas>
+          </div>
+          <!-- Milestone -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Key Milestones</div>
+              <div class="card-badge">2024–2027</div>
+            </div>
+            <div id="milestone-list"></div>
+          </div>
+        </div>
+
+        <div class="grid-2 mt24">
+          <!-- Recent Documents -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Recent Documents</div>
+              <button class="btn btn-outline btn-sm" onclick="showPage('documents')">View All</button>
+            </div>
+            <div id="recent-docs"></div>
+          </div>
+          <!-- Notice + Weather -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Notice &amp; Weather</div>
+            </div>
+            <div class="weather-box">
+              <div class="weather-icon">⛅</div>
+              <div>
+                <div class="weather-temp">31°C</div>
+                <div class="weather-label">Partly Cloudy &nbsp;·&nbsp; Iloilo City, Philippines</div>
+              </div>
+              <div style="margin-left:auto;text-align:right;font-size:12px;opacity:.8">
+                Humidity: 78%<br>Wind: 12 km/h
+              </div>
+            </div>
+            <div style="margin-top:16px" id="dash-notices"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── GENERAL INFO ─── -->
+      <div class="page" id="page-general">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>General Info</span></div>
+          <h1>Project General Information</h1>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Project Overview</div></div>
+            <table>
+              <tbody>
+                <tr><td class="text-muted" style="width:130px">Project Name</td><td class="bold">Panay &amp; Agusan Flood Management Detailed Design</td></tr>
+                <tr><td class="text-muted">Package</td><td>Package 2 (PKG 2)</td></tr>
+                <tr><td class="text-muted">Project No.</td><td>2404124</td></tr>
+                <tr><td class="text-muted">Client</td><td>DPWH (Dept. of Public Works &amp; Highways)</td></tr>
+                <tr><td class="text-muted">Location</td><td>Panay Island &amp; Agusan River Basin, Philippines</td></tr>
+                <tr><td class="text-muted">JV Contractor</td><td>KECC JV</td></tr>
+                <tr><td class="text-muted">Collaborator</td><td>WCI (Water &amp; Construction Inc.)</td></tr>
+                <tr><td class="text-muted">Division</td><td>수자원2부 (Water Resources Div. 2)</td></tr>
+                <tr><td class="text-muted">Team Leader</td><td>KWANG KYOON SHIN (신광균)</td></tr>
+                <tr><td class="text-muted">Contract Start</td><td>2024-01-15</td></tr>
+                <tr><td class="text-muted">Contract End</td><td>2027-06-30</td></tr>
+                <tr><td class="text-muted">Contract Amount</td><td>₱ 2,850,000,000 (PHP)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">Location Map</div></div>
+            <div style="background:#e8f0fb;border-radius:8px;padding:20px;text-align:center;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+              <div style="font-size:48px;margin-bottom:12px">🗺️</div>
+              <div style="font-weight:700;color:var(--primary);font-size:15px">Philippines – Project Sites</div>
+              <div style="font-size:13px;color:var(--text-muted);margin-top:8px;line-height:1.8">
+                📍 Panay River Basin – Iloilo Province<br>
+                📍 Agusan River Basin – Caraga Region<br>
+                <br>
+                <span style="background:var(--primary);color:#fff;padding:4px 12px;border-radius:20px;font-size:12px">Total Basin Area: ~18,600 km²</span>
+              </div>
+            </div>
+            <div class="mt16">
+              <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px">RIVER BASIN SUMMARY</div>
+              <table>
+                <thead><tr><th>Basin</th><th>Area (km²)</th><th>Province</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Panay River</td><td>1,890</td><td>Iloilo, Capiz</td><td><span class="tag tag-green">Active</span></td></tr>
+                  <tr><td>Agusan River</td><td>10,921</td><td>Agusan del Norte/Sur</td><td><span class="tag tag-green">Active</span></td></tr>
+                  <tr><td>Jalaur River</td><td>1,462</td><td>Iloilo</td><td><span class="tag tag-blue">Survey</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Organization -->
+        <div class="card mt24">
+          <div class="card-header"><div class="card-title">Project Organization</div></div>
+          <div class="org-tree">
+            <div style="text-align:center">
+              <!-- Client -->
+              <div class="org-node" style="display:inline-block">
+                <div class="org-box top" style="min-width:200px">
+                  <div class="org-name">DPWH</div>
+                  <div class="org-role">Client / Owner</div>
+                </div>
+              </div>
+              <div class="org-line-up"></div>
+              <!-- JV -->
+              <div class="org-node" style="display:inline-block">
+                <div class="org-box mid" style="min-width:200px">
+                  <div class="org-name">KECC JV</div>
+                  <div class="org-role">Project Manager (Prime)</div>
+                </div>
+              </div>
+              <div class="org-row">
+                <div class="org-connector"></div>
+                <div class="org-node">
+                  <div class="org-line-up"></div>
+                  <div class="org-box">
+                    <div class="org-name">수자원2부</div>
+                    <div class="org-role">Water Resources Div. 2</div>
+                  </div>
+                  <div class="org-line-up"></div>
+                  <div class="org-box" style="border-color:var(--accent);background:#fef3d0">
+                    <div class="org-name">신광균 (KK Shin)</div>
+                    <div class="org-role">Team Leader</div>
+                  </div>
+                </div>
+                <div class="org-node">
+                  <div class="org-line-up"></div>
+                  <div class="org-box partner">
+                    <div class="org-name">WCI</div>
+                    <div class="org-role">Collaborator / JV Partner</div>
+                  </div>
+                </div>
+                <div class="org-node">
+                  <div class="org-line-up"></div>
+                  <div class="org-box">
+                    <div class="org-name">Omega Group</div>
+                    <div class="org-role">Local Partner</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── CONTRACT STATUS ─── -->
+      <div class="page" id="page-contract">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>Contract Status</span></div>
+          <h1>Contract Status</h1>
+        </div>
+
+        <div class="grid-3">
+          <div class="stat-card">
+            <div class="stat-label">📋 Original Contract</div>
+            <div class="stat-value" style="font-size:22px">₱ 2,850M</div>
+            <div class="stat-sub">Signed: 2024-01-15</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">🔄 Change Orders</div>
+            <div class="stat-value" style="font-size:22px">₱ 45M</div>
+            <div class="stat-sub">3 CO approved, 1 pending</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">✅ Current Contract</div>
+            <div class="stat-value" style="font-size:22px">₱ 2,895M</div>
+            <div class="stat-sub">Revised Total</div>
+          </div>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header">
+            <div class="card-title">Main Contract</div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-contract')">+ Add CO</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>No.</th><th>Contract Type</th><th>Contractor</th><th>Amount (PHP)</th><th>Start Date</th><th>End Date</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>C-001</td><td>Main Contract</td><td>KECC JV</td><td>₱ 2,850,000,000</td><td>2024-01-15</td><td>2027-06-30</td><td><span class="tag tag-green">Active</span></td></tr>
+                <tr><td>CO-001</td><td>Change Order #1</td><td>KECC JV</td><td>₱ 15,000,000</td><td>2024-08-01</td><td>2027-06-30</td><td><span class="tag tag-green">Approved</span></td></tr>
+                <tr><td>CO-002</td><td>Change Order #2</td><td>KECC JV</td><td>₱ 18,500,000</td><td>2025-02-10</td><td>2027-06-30</td><td><span class="tag tag-green">Approved</span></td></tr>
+                <tr><td>CO-003</td><td>Change Order #3</td><td>KECC JV</td><td>₱ 11,500,000</td><td>2025-09-01</td><td>2027-06-30</td><td><span class="tag tag-green">Approved</span></td></tr>
+                <tr><td>CO-004</td><td>Change Order #4</td><td>KECC JV</td><td>₱ 22,000,000</td><td>2026-03-01</td><td>2027-06-30</td><td><span class="tag tag-yellow">Pending</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header">
+            <div class="card-title">Subcontracts</div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-contract')">+ Add Subcontract</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>No.</th><th>Work Item</th><th>Subcontractor</th><th>Amount (PHP)</th><th>Period</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>S-001</td><td>Topographic Survey – Panay</td><td>GeoSurvey Philippines Inc.</td><td>₱ 8,200,000</td><td>2024-02 ~ 2024-08</td><td><span class="tag tag-gray">Completed</span></td></tr>
+                <tr><td>S-002</td><td>Environmental Impact Assessment</td><td>EcoTech Consultants</td><td>₱ 12,500,000</td><td>2024-03 ~ 2024-12</td><td><span class="tag tag-gray">Completed</span></td></tr>
+                <tr><td>S-003</td><td>Hydrological Survey – Agusan</td><td>AquaSurvey Corp.</td><td>₱ 9,800,000</td><td>2024-06 ~ 2025-06</td><td><span class="tag tag-green">Active</span></td></tr>
+                <tr><td>S-004</td><td>Geotechnical Investigation</td><td>Philippine GeoTech Inc.</td><td>₱ 14,200,000</td><td>2025-01 ~ 2025-10</td><td><span class="tag tag-green">Active</span></td></tr>
+                <tr><td>S-005</td><td>Structural Detailed Design Support</td><td>WCI – Local Team</td><td>₱ 6,500,000</td><td>2025-06 ~ 2026-12</td><td><span class="tag tag-green">Active</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PROGRESS MGMT ─── -->
+      <div class="page" id="page-progress">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>Progress Management</span></div>
+          <h1>Progress Management</h1>
+        </div>
+
+        <div class="grid-3">
+          <div class="stat-card">
+            <div class="stat-label">📊 Overall Progress</div>
+            <div class="stat-value">34.2%</div>
+            <div class="stat-sub">Plan: 38.5% &nbsp;<span style="color:var(--danger)">▼ -4.3%</span></div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:34.2%;background:var(--primary-light)"></div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">📋 Survey &amp; Investigation</div>
+            <div class="stat-value">72.0%</div>
+            <div class="stat-sub">Plan: 75.0% &nbsp;<span style="color:var(--danger)">▼ -3.0%</span></div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:72%;background:var(--accent2)"></div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">📐 Detailed Design</div>
+            <div class="stat-value">18.5%</div>
+            <div class="stat-sub">Plan: 22.0% &nbsp;<span style="color:var(--danger)">▼ -3.5%</span></div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:18.5%;background:var(--accent)"></div></div>
+          </div>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header">
+            <div class="card-title">Progress S-Curve</div>
+            <div class="card-badge">Monthly Update</div>
+          </div>
+          <canvas id="scurve-big" height="200" class="chart"></canvas>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header">
+            <div class="card-title">Work Item Progress</div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-progress')">Update Progress</button>
+          </div>
+          <div id="progress-gantt"></div>
+        </div>
+      </div>
+
+      <!-- ─── WORKFORCE ─── -->
+      <div class="page" id="page-workforce">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>Workforce</span></div>
+          <h1>Workforce Status</h1>
+        </div>
+
+        <div class="grid-4">
+          <div class="stat-card">
+            <div class="stat-label">👥 Total Today</div>
+            <div class="stat-value">48</div>
+            <div class="stat-sub">Plan: 55</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">🏢 KECC JV</div>
+            <div class="stat-value">32</div>
+            <div class="stat-sub">Expats: 8 &nbsp; Local: 24</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">🤝 WCI</div>
+            <div class="stat-value">16</div>
+            <div class="stat-sub">Expats: 3 &nbsp; Local: 13</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">📍 On Site</div>
+            <div class="stat-value">35</div>
+            <div class="stat-sub">Manila Office: 13</div>
+          </div>
+        </div>
+
+        <div class="grid-2 mt24">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Workforce S-Curve</div></div>
+            <canvas id="workforce-chart" height="200"></canvas>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Personnel List</div>
+              <button class="btn btn-primary btn-sm" onclick="openModal('modal-workforce')">+ Add Person</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Name</th><th>Position</th><th>Company</th><th>Type</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>신광균 (KK Shin)</td><td>Team Leader</td><td>KECC JV</td><td><span class="tag tag-blue">Expat</span></td><td><span class="tag tag-green">On Site</span></td></tr>
+                  <tr><td>Hong Gildong</td><td>Hydrology Lead</td><td>KECC JV</td><td><span class="tag tag-blue">Expat</span></td><td><span class="tag tag-green">On Site</span></td></tr>
+                  <tr><td>Kim Cheolsu</td><td>Structural Engineer</td><td>KECC JV</td><td><span class="tag tag-blue">Expat</span></td><td><span class="tag tag-yellow">Manila</span></td></tr>
+                  <tr><td>J. Santos</td><td>Survey Lead</td><td>WCI</td><td><span class="tag tag-gray">Local</span></td><td><span class="tag tag-green">On Site</span></td></tr>
+                  <tr><td>M. Reyes</td><td>CAD Engineer</td><td>WCI</td><td><span class="tag tag-gray">Local</span></td><td><span class="tag tag-green">On Site</span></td></tr>
+                  <tr><td>R. Garcia</td><td>Environmental Specialist</td><td>KECC JV</td><td><span class="tag tag-gray">Local</span></td><td><span class="tag tag-green">On Site</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PROGRESS PHOTOS ─── -->
+      <div class="page" id="page-photos">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>Progress Photos</span></div>
+          <h1>Progress Photos</h1>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Photo Gallery</div>
+            <div style="display:flex;gap:8px">
+              <select class="form-input" style="width:auto;padding:6px 10px;font-size:12px">
+                <option>All Locations</option>
+                <option>Panay River Site</option>
+                <option>Agusan River Site</option>
+                <option>Manila Office</option>
+              </select>
+              <button class="btn btn-primary btn-sm" onclick="openModal('modal-photo')">📷 Upload</button>
+            </div>
+          </div>
+          <div class="photo-grid">
+            <div class="photo-card"><div class="photo-placeholder">🌊</div><div class="photo-caption">Panay River – Site Survey · 2026-04-15</div></div>
+            <div class="photo-card"><div class="photo-placeholder">🏗️</div><div class="photo-caption">Agusan Weir – Measurement · 2026-04-22</div></div>
+            <div class="photo-card"><div class="photo-placeholder">📏</div><div class="photo-caption">Topographic Survey – Panay · 2026-05-03</div></div>
+            <div class="photo-card"><div class="photo-placeholder">🌿</div><div class="photo-caption">Environmental Study – Agusan · 2026-05-10</div></div>
+            <div class="photo-card"><div class="photo-placeholder">🗺️</div><div class="photo-caption">Field Investigation – Jalaur · 2026-05-18</div></div>
+            <div class="photo-card"><div class="photo-placeholder">👷</div><div class="photo-caption">Geotechnical Drilling · 2026-05-25</div></div>
+            <div class="photo-card"><div class="photo-placeholder">📊</div><div class="photo-caption">Data Collection Meeting · 2026-06-02</div></div>
+            <div class="photo-card" style="background:#f0f3f8;cursor:pointer" onclick="openModal('modal-photo')">
+              <div class="photo-placeholder" style="color:var(--text-muted)">+</div>
+              <div class="photo-caption" style="background:rgba(0,0,0,0.3)">Upload New Photo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── DOCUMENTS ─── -->
+      <div class="page" id="page-documents">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>Official Documents</span></div>
+          <h1>Official Documents</h1>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Document List</div>
+            <div style="display:flex;gap:8px">
+              <input type="text" class="form-input" style="width:200px;padding:7px 10px;font-size:12px" placeholder="Search document...">
+              <select class="form-input" style="width:auto;padding:7px 10px;font-size:12px">
+                <option>All Types</option>
+                <option>Submittal</option>
+                <option>Correspondence</option>
+                <option>Report</option>
+                <option>Drawing</option>
+              </select>
+              <button class="btn btn-primary btn-sm" onclick="openModal('modal-doc')">+ New Document</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Doc No.</th><th>Title</th><th>Type</th><th>From</th><th>To</th><th>Date</th><th>Status</th><th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>PA-SUB-001</td><td>Inception Report</td><td><span class="tag tag-blue">Report</span></td><td>KECC JV</td><td>DPWH</td><td>2024-03-15</td><td><span class="tag tag-gray">Archived</span></td><td><button class="btn btn-outline btn-sm">View</button></td></tr>
+                <tr><td>PA-SUB-002</td><td>Topographic Survey Report – Panay</td><td><span class="tag tag-blue">Report</span></td><td>KECC JV</td><td>DPWH</td><td>2024-08-22</td><td><span class="tag tag-gray">Archived</span></td><td><button class="btn btn-outline btn-sm">View</button></td></tr>
+                <tr><td>PA-LTR-015</td><td>Request for Extension – EIA</td><td><span class="tag tag-yellow">Letter</span></td><td>KECC JV</td><td>DPWH</td><td>2024-11-10</td><td><span class="tag tag-green">Approved</span></td><td><button class="btn btn-outline btn-sm">View</button></td></tr>
+                <tr><td>PA-SUB-008</td><td>Hydrological Analysis Report – Agusan</td><td><span class="tag tag-blue">Report</span></td><td>KECC JV</td><td>DPWH</td><td>2025-04-18</td><td><span class="tag tag-green">Approved</span></td><td><button class="btn btn-outline btn-sm">View</button></td></tr>
+                <tr><td>PA-DRW-031</td><td>Preliminary Layout Drawing – Panay Weir</td><td><span class="tag tag-blue">Drawing</span></td><td>KECC JV</td><td>DPWH</td><td>2025-09-05</td><td><span class="tag tag-yellow">Under Review</span></td><td><button class="btn btn-outline btn-sm">View</button></td></tr>
+                <tr><td>PA-RPT-012</td><td>Geotechnical Investigation Report</td><td><span class="tag tag-blue">Report</span></td><td>KECC JV</td><td>DPWH</td><td>2026-01-20</td><td><span class="tag tag-green">Approved</span></td><td><button class="btn btn-outline btn-sm">View</button></td></tr>
+                <tr><td>PA-SUB-014</td><td>Monthly Progress Report – May 2026</td><td><span class="tag tag-blue">Report</span></td><td>KECC JV</td><td>DPWH</td><td>2026-06-05</td><td><span class="tag tag-yellow">Pending</span></td><td><button class="btn btn-outline btn-sm">View</button></td></tr>
+                <tr><td>PA-LTR-028</td><td>WCI Collaboration Coordination Letter</td><td><span class="tag tag-yellow">Letter</span></td><td>WCI</td><td>KECC JV</td><td>2026-06-10</td><td><span class="tag tag-blue">Received</span></td><td><button class="btn btn-outline btn-sm">View</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── APPROVAL ─── -->
+      <div class="page" id="page-approval">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>Document Approval</span></div>
+          <h1>Document Approval Status</h1>
+        </div>
+
+        <div class="grid-3">
+          <div class="stat-card"><div class="stat-label">⏳ Awaiting My Approval</div><div class="stat-value">3</div></div>
+          <div class="stat-card"><div class="stat-label">📤 Submitted by Me</div><div class="stat-value">7</div></div>
+          <div class="stat-card"><div class="stat-label">✅ Completed This Month</div><div class="stat-value">12</div></div>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header"><div class="card-title">Documents Awaiting Approval</div></div>
+          <div id="approval-items"></div>
+        </div>
+      </div>
+
+      <!-- ─── NOTICE BOARD ─── -->
+      <div class="page" id="page-notice">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>Notice Board</span></div>
+          <h1>Notice Board</h1>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Announcements</div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-notice')">+ Post Notice</button>
+          </div>
+          <div id="notice-list"></div>
+        </div>
+      </div>
+
+      <!-- ─── SCHEDULE ─── -->
+      <div class="page" id="page-schedule">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>Schedule</span></div>
+          <h1>Milestone &amp; Diary Schedule</h1>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Milestone Schedule</div>
+              <button class="btn btn-primary btn-sm" onclick="openModal('modal-milestone')">+ Add Milestone</button>
+            </div>
+            <div id="milestone-full-list"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">This Month – June 2026</div>
+            </div>
+            <div id="calendar-view"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── FILE STORAGE ─── -->
+      <div class="page" id="page-webhard">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>File Storage</span></div>
+          <h1>File Storage – Google Drive</h1>
+        </div>
+
+        <!-- Google Drive Connect Banner -->
+        <div id="gdrive-banner" style="background:linear-gradient(135deg,#1a3a6b,#2756a8);border-radius:10px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:20px;color:#fff">
+          <div style="font-size:40px">☁️</div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:700;margin-bottom:4px">Google Drive 연동 파일 보관소</div>
+            <div id="gdrive-status" style="font-size:13px;opacity:.8">연결되지 않음 – 버튼을 눌러 Google 계정으로 로그인하세요</div>
+          </div>
+          <button id="gdrive-connect-btn" class="btn btn-primary" style="background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.4);white-space:nowrap" onclick="gdriveSignIn()">
+            🔗 Google Drive 연결
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">산출물 파일 관리</div>
+            <div style="display:flex;gap:8px">
+              <select id="folder-select" class="form-input" style="width:auto;padding:7px 12px;font-size:13px" onchange="loadDriveFiles(this.value)">
+                <option value="">📁 전체 (루트)</option>
+                <option value="01. Reports">01. Reports</option>
+                <option value="02. Drawings">02. Drawings</option>
+                <option value="03. Survey Data">03. Survey Data</option>
+                <option value="04. Correspondence">04. Correspondence</option>
+                <option value="05. Photos">05. Photos</option>
+                <option value="06. Contracts">06. Contracts</option>
+                <option value="07. Meeting Minutes">07. Meeting Minutes</option>
+              </select>
+              <button class="btn btn-primary btn-sm" onclick="openModal('modal-upload')">⬆️ Upload to Drive</button>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:200px 1fr;gap:16px">
+            <div style="border-right:1px solid var(--border);padding-right:16px">
+              <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">FOLDERS</div>
+              <div id="folder-tree"></div>
+              <div style="margin-top:16px;padding:12px;background:#f0f3f8;border-radius:8px;font-size:12px;color:var(--text-muted)">
+                <div style="font-weight:700;margin-bottom:4px">📌 Drive 폴더</div>
+                <div>Panay-Agusan PMIS</div>
+                <a id="drive-folder-link" href="https://drive.google.com" target="_blank" style="font-size:11px;color:var(--primary-light);text-decoration:none;margin-top:6px;display:block">→ Drive에서 열기</a>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">FILES</div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Name</th><th>Size</th><th>Modified</th><th>Uploader</th><th>Action</th></tr></thead>
+                  <tbody id="file-list-body">
+                    <tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:30px">
+                      Google Drive에 연결하면 파일 목록이 표시됩니다.
+                    </td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── USER MGMT ─── -->
+      <div class="page" id="page-users">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>User Management</span></div>
+          <h1>User Management</h1>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">System Users</div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-user')">+ Add User</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Name</th><th>Company</th><th>Role</th><th>Email</th><th>Last Login</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>kecc_admin</td><td>신광균 (KK Shin)</td><td>KECC JV</td><td><span class="tag tag-blue">Admin</span></td><td>kkshin@keccjv.com</td><td>2026-06-12</td><td><span class="tag tag-green">Active</span></td></tr>
+                <tr><td>kecc_pm</td><td>Project Manager</td><td>KECC JV</td><td><span class="tag tag-blue">Manager</span></td><td>pm@keccjv.com</td><td>2026-06-11</td><td><span class="tag tag-green">Active</span></td></tr>
+                <tr><td>wci_user</td><td>WCI Coordinator</td><td>WCI</td><td><span class="tag tag-green">Editor</span></td><td>coord@wci.com</td><td>2026-06-10</td><td><span class="tag tag-green">Active</span></td></tr>
+                <tr><td>wci_eng</td><td>WCI Engineer</td><td>WCI</td><td><span class="tag tag-green">Editor</span></td><td>eng@wci.com</td><td>2026-06-08</td><td><span class="tag tag-green">Active</span></td></tr>
+                <tr><td>dpwh_view</td><td>DPWH Inspector</td><td>DPWH</td><td><span class="tag tag-gray">Viewer</span></td><td>inspector@dpwh.gov.ph</td><td>2026-06-05</td><td><span class="tag tag-green">Active</span></td></tr>
+                <tr><td>omega_local</td><td>Omega Local Coord.</td><td>Omega Group</td><td><span class="tag tag-gray">Viewer</span></td><td>local@omegagroup.ph</td><td>2026-05-30</td><td><span class="tag tag-green">Active</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header"><div class="card-title">Role Permissions</div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Module</th><th>Admin (KECC)</th><th>Manager (KECC)</th><th>Editor (WCI)</th><th>Viewer (DPWH)</th></tr></thead>
+              <tbody>
+                <tr><td>Dashboard</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+                <tr><td>General Info</td><td>✅ Edit</td><td>✅ Edit</td><td>👁️ View</td><td>👁️ View</td></tr>
+                <tr><td>Contract Status</td><td>✅ Edit</td><td>✅ Edit</td><td>👁️ View</td><td>👁️ View</td></tr>
+                <tr><td>Progress Mgmt</td><td>✅ Edit</td><td>✅ Edit</td><td>✅ Edit</td><td>👁️ View</td></tr>
+                <tr><td>Documents</td><td>✅ Edit</td><td>✅ Edit</td><td>✅ Upload</td><td>👁️ View</td></tr>
+                <tr><td>Document Approval</td><td>✅ Approve</td><td>✅ Approve</td><td>📤 Submit</td><td>❌</td></tr>
+                <tr><td>User Mgmt</td><td>✅ Full</td><td>👁️ View</td><td>❌</td><td>❌</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main-content -->
+  </div><!-- /layout -->
+</div><!-- /app -->
+
+<!-- ══════════════════ MODALS ══════════════════ -->
+<div class="modal-bg" id="modal-contract">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Change Order / Subcontract</div>
+      <button class="modal-close" onclick="closeModal('modal-contract')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Document No.</label><input class="form-input" placeholder="CO-005"></div>
+      <div class="form-group"><label class="form-label">Contract Type</label>
+        <select class="form-input"><option>Change Order</option><option>Subcontract</option><option>Amendment</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Title / Description</label><input class="form-input" placeholder="Description"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Amount (PHP)</label><input class="form-input" type="number" placeholder="0"></div>
+      <div class="form-group"><label class="form-label">Contractor</label><input class="form-input" placeholder="KECC JV"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Start Date</label><input class="form-input" type="date"></div>
+      <div class="form-group"><label class="form-label">End Date</label><input class="form-input" type="date"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-contract')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-contract')">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-doc">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">New Official Document</div>
+      <button class="modal-close" onclick="closeModal('modal-doc')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Document No. (Auto)</label><input class="form-input" value="PA-SUB-015" readonly></div>
+      <div class="form-group"><label class="form-label">Document Type</label>
+        <select class="form-input"><option>Report</option><option>Letter</option><option>Drawing</option><option>Submittal</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Title</label><input class="form-input" placeholder="Document title"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">From</label><select class="form-input"><option>KECC JV</option><option>WCI</option><option>DPWH</option></select></div>
+      <div class="form-group"><label class="form-label">To</label><select class="form-input"><option>DPWH</option><option>KECC JV</option><option>WCI</option></select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Approval Line</label>
+      <div class="approval-flow" style="margin-top:8px">
+        <div class="approval-step"><div class="approval-step-box done">작성<br><small>KK Shin</small></div></div>
+        <div class="approval-arrow">→</div>
+        <div class="approval-step"><div class="approval-step-box current">검토<br><small>PM</small></div></div>
+        <div class="approval-arrow">→</div>
+        <div class="approval-step"><div class="approval-step-box pending">승인<br><small>Director</small></div></div>
+        <div class="approval-arrow">→</div>
+        <div class="approval-step"><div class="approval-step-box pending">발신<br><small>DPWH</small></div></div>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Attach File</label>
+      <div class="upload-area"><div class="upload-icon">📎</div>Click or drag file here</div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-doc')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-doc')">Submit</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-notice">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Post Notice</div>
+      <button class="modal-close" onclick="closeModal('modal-notice')">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">Category</label>
+      <select class="form-input"><option>General</option><option>Safety</option><option>Schedule</option><option>DPWH Request</option><option>WCI Coordination</option></select>
+    </div>
+    <div class="form-group"><label class="form-label">Title</label><input class="form-input" placeholder="Notice title"></div>
+    <div class="form-group"><label class="form-label">Content</label><textarea class="form-input" rows="5" placeholder="Notice content..."></textarea></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-notice')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-notice')">Post</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-milestone">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Milestone</div>
+      <button class="modal-close" onclick="closeModal('modal-milestone')">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">Milestone Name</label><input class="form-input" placeholder="e.g. Final Design Report Submission"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Planned Date</label><input class="form-input" type="date"></div>
+      <div class="form-group"><label class="form-label">Completion (%)</label><input class="form-input" type="number" placeholder="0" min="0" max="100"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-milestone')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-milestone')">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-progress">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Update Progress</div>
+      <button class="modal-close" onclick="closeModal('modal-progress')">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">Work Item</label>
+      <select class="form-input">
+        <option>Survey & Investigation</option>
+        <option>Hydrological Analysis</option>
+        <option>Geotechnical Investigation</option>
+        <option>Basic Design</option>
+        <option>Detailed Design – Structure</option>
+        <option>Detailed Design – Hydraulics</option>
+        <option>Environmental Study</option>
+        <option>Report Preparation</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Actual Progress (%)</label><input class="form-input" type="number" placeholder="0"></div>
+      <div class="form-group"><label class="form-label">Planned Progress (%)</label><input class="form-input" type="number" placeholder="0"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Remarks</label><textarea class="form-input" rows="3" placeholder="Progress update remarks..."></textarea></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-progress')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-progress')">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-workforce">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Personnel</div>
+      <button class="modal-close" onclick="closeModal('modal-workforce')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Name</label><input class="form-input" placeholder="Full name"></div>
+      <div class="form-group"><label class="form-label">Position</label><input class="form-input" placeholder="Position/Title"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Company</label>
+        <select class="form-input"><option>KECC JV</option><option>WCI</option><option>Omega Group</option><option>Subcontractor</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Type</label>
+        <select class="form-input"><option>Expat (Korean)</option><option>Local (Filipino)</option></select>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-workforce')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-workforce')">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-photo">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Upload Progress Photo</div>
+      <button class="modal-close" onclick="closeModal('modal-photo')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Location</label>
+        <select class="form-input"><option>Panay River Site</option><option>Agusan River Site</option><option>Manila Office</option><option>Jalaur River Site</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Date Taken</label><input class="form-input" type="date"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Caption</label><input class="form-input" placeholder="Describe the photo"></div>
+    <div class="form-group">
+      <div class="upload-area" onclick="document.getElementById('photo-file').click()">
+        <div class="upload-icon">📷</div>
+        <div>Click to select photo (JPG, PNG)</div>
+        <input type="file" id="photo-file" accept="image/*" style="display:none" onchange="showPhotoPreview(this)">
+      </div>
+      <img id="photo-preview" style="display:none;max-width:100%;border-radius:8px;margin-top:8px">
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-photo')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-photo')">Upload</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-upload">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">☁️ Google Drive에 파일 업로드</div>
+      <button class="modal-close" onclick="closeModal('modal-upload')">✕</button>
+    </div>
+    <div style="background:#e8f0fb;border-radius:8px;padding:12px 16px;font-size:13px;color:var(--primary);margin-bottom:16px">
+      <strong>📁 저장 위치:</strong> Google Drive &rsaquo; Panay-Agusan PMIS &rsaquo; <span id="upload-folder-display">선택된 폴더</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">업로드 폴더 선택</label>
+      <select class="form-input" id="upload-folder-select" onchange="document.getElementById('upload-folder-display').textContent=this.value||'루트'">
+        <option value="">📁 루트 (전체)</option>
+        <option value="01. Reports">01. Reports</option>
+        <option value="02. Drawings">02. Drawings</option>
+        <option value="03. Survey Data">03. Survey Data</option>
+        <option value="04. Correspondence">04. Correspondence</option>
+        <option value="05. Photos">05. Photos</option>
+        <option value="06. Contracts">06. Contracts</option>
+        <option value="07. Meeting Minutes">07. Meeting Minutes</option>
+      </select>
+    </div>
+    <div class="upload-area" onclick="openGDrivePicker(document.getElementById('upload-folder-select').value)" style="cursor:pointer">
+      <div class="upload-icon">☁️</div>
+      <div style="font-weight:600;margin-bottom:4px">클릭하여 파일 선택 후 Drive에 업로드</div>
+      <div style="font-size:12px;color:var(--text-muted)">PDF, DWG, XLSX, DOCX, JPG, ZIP 지원 · 복수 선택 가능</div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-upload')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Google Drive 설정 안내 모달 -->
+<div class="modal-bg" id="modal-gdrive-setup">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-header">
+      <div class="modal-title">🔑 Google Drive API 설정 방법</div>
+      <button class="modal-close" onclick="closeModal('modal-gdrive-setup')">✕</button>
+    </div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">
+      아래 단계를 따라 Google Cloud Console에서 Client ID를 발급받고 <code>index.html</code> 상단의 값을 교체하세요.
+    </p>
+    <div style="counter-reset:step">
+      <div style="display:flex;gap:12px;margin-bottom:16px">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">1</div>
+        <div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:4px">Google Cloud Console 접속</div>
+          <div style="font-size:13px;color:var(--text-muted)"><a href="https://console.cloud.google.com" target="_blank" style="color:var(--primary-light)">console.cloud.google.com</a> → 새 프로젝트 생성 (<strong>Panay-PMIS</strong>)</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:16px">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">2</div>
+        <div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:4px">API 활성화</div>
+          <div style="font-size:13px;color:var(--text-muted)">API 및 서비스 → 라이브러리 → <strong>Google Drive API</strong> 활성화</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:16px">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">3</div>
+        <div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:4px">OAuth 동의 화면 설정</div>
+          <div style="font-size:13px;color:var(--text-muted)">OAuth 동의 화면 → 외부 선택 → 앱 이름 <strong>Panay-Agusan PMIS</strong> → 저장</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:16px">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">4</div>
+        <div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:4px">사용자 인증 정보 생성</div>
+          <div style="font-size:13px;color:var(--text-muted)">사용자 인증 정보 → + 만들기 → <strong>OAuth 클라이언트 ID</strong> → 웹 애플리케이션 선택<br>
+          승인된 JavaScript 출처에 추가:<br>
+          <code style="background:#f0f3f8;padding:2px 6px;border-radius:4px">https://kevinshin2378.github.io</code><br>
+          <code style="background:#f0f3f8;padding:2px 6px;border-radius:4px">http://localhost:8080</code></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:16px">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0">5</div>
+        <div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:4px">Client ID / API Key를 코드에 입력</div>
+          <div style="font-size:13px;color:var(--text-muted)"><code>index.html</code> 상단 스크립트에서:<br>
+          <code style="background:#f0f3f8;padding:4px 8px;border-radius:4px;display:block;margin-top:6px">const GDRIVE_CLIENT_ID = '발급받은_Client_ID';<br>const GDRIVE_API_KEY = '발급받은_API_Key';</code></div>
+        </div>
+      </div>
+    </div>
+    <div style="background:#fef3d0;border-radius:8px;padding:12px 16px;font-size:13px;color:#7d5a00;margin-top:4px">
+      💡 API Key는 사용자 인증 정보 → + 만들기 → <strong>API 키</strong>로 별도 생성합니다. Drive API로 제한 설정을 권장합니다.
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:20px">
+      <button class="btn btn-primary" onclick="closeModal('modal-gdrive-setup')">확인</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-user">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add New User</div>
+      <button class="modal-close" onclick="closeModal('modal-user')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">User ID</label><input class="form-input" placeholder="user_id"></div>
+      <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" placeholder="Full name"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Company</label>
+        <select class="form-input"><option>KECC JV</option><option>WCI</option><option>DPWH</option><option>Omega Group</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Role</label>
+        <select class="form-input"><option>Admin</option><option>Manager</option><option>Editor</option><option>Viewer</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="user@company.com"></div>
+      <div class="form-group"><label class="form-label">Initial Password</label><input class="form-input" type="password" placeholder="••••••••"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-user')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-user')">Create User</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SCRIPTS ══════════════════ -->
+<script>
+// ── DATA ──────────────────────────────────────
+const PROJECT_END = new Date('2027-06-30');
+
+const MILESTONES = [
+  { title: 'Project Kick-off Meeting', date: '2024-01-20', pct: 100, color: '#27ae60' },
+  { title: 'Inception Report Submission', date: '2024-03-15', pct: 100, color: '#27ae60' },
+  { title: 'Topographic Survey Complete – Panay', date: '2024-08-31', pct: 100, color: '#27ae60' },
+  { title: 'EIA Report Submission', date: '2024-12-20', pct: 100, color: '#27ae60' },
+  { title: 'Hydrological Analysis Report', date: '2025-04-30', pct: 100, color: '#27ae60' },
+  { title: 'Interim Report Submission', date: '2025-09-30', pct: 85, color: '#e8a020' },
+  { title: 'Geotechnical Investigation Complete', date: '2025-10-31', pct: 80, color: '#e8a020' },
+  { title: 'Basic Design – All Structures', date: '2026-06-30', pct: 20, color: '#e8a020' },
+  { title: 'Pre-Final Design Report', date: '2026-12-31', pct: 0, color: '#6b7e96' },
+  { title: 'Final Design Report Submission', date: '2027-04-30', pct: 0, color: '#6b7e96' },
+  { title: 'Project Completion', date: '2027-06-30', pct: 0, color: '#c0392b' },
+];
+
+const NOTICES = [
+  { id: 1, category: 'Safety', title: 'Site Safety Protocol Update – Agusan Flooding Season', author: 'KK Shin', date: '2026-06-10', isNew: true },
+  { id: 2, category: 'Schedule', title: 'Monthly Progress Meeting – June 2026 (Online)', author: 'PM Office', date: '2026-06-08', isNew: true },
+  { id: 3, category: 'DPWH Request', title: 'DPWH Review Comments on Preliminary Layout Drawing', author: 'DPWH', date: '2026-06-05', isNew: false },
+  { id: 4, category: 'WCI Coordination', title: 'WCI Team – Structural Design Review Schedule', author: 'WCI Coord.', date: '2026-06-03', isNew: false },
+  { id: 5, category: 'General', title: 'Holiday Notice – Philippines Independence Day (June 12)', author: 'PM Office', date: '2026-06-01', isNew: false },
+];
+
+const WORK_ITEMS = [
+  { name: 'Survey & Investigation', plan: 75, actual: 72, color: '#27ae60' },
+  { name: 'Hydrological Analysis', plan: 80, actual: 78, color: '#2756a8' },
+  { name: 'Geotechnical Investigation', plan: 70, actual: 65, color: '#9b59b6' },
+  { name: 'Environmental Study', plan: 85, actual: 82, color: '#16a085' },
+  { name: 'Basic Design – Hydraulics', plan: 30, actual: 22, color: '#e67e22' },
+  { name: 'Basic Design – Structure', plan: 25, actual: 18, color: '#e8a020' },
+  { name: 'Detailed Design – Panay', plan: 10, actual: 6, color: '#c0392b' },
+  { name: 'Detailed Design – Agusan', plan: 8, actual: 4, color: '#e74c3c' },
+  { name: 'Report Preparation', plan: 40, actual: 35, color: '#1a3a6b' },
+];
+
+const APPROVAL_ITEMS = [
+  { docNo: 'PA-SUB-014', title: 'Monthly Progress Report – May 2026', submitter: 'KK Shin', date: '2026-06-05', step: 'Review' },
+  { docNo: 'PA-DRW-031', title: 'Preliminary Layout Drawing – Panay Weir', submitter: 'Design Lead', date: '2026-05-28', step: 'Approval' },
+  { docNo: 'PA-LTR-029', title: 'Request for Survey Access – Agusan Site', submitter: 'WCI Coord.', date: '2026-06-11', step: 'Review' },
+];
+
+const FOLDERS = ['01. Reports', '02. Drawings', '03. Survey Data', '04. Correspondence', '05. Photos', '06. Contracts', '07. Meeting Minutes'];
+
+// ── LOGIN ──────────────────────────────────────
+let currentUser = null;
+
+function quickLogin(id, name) {
+  document.getElementById('login-user').value = id;
+  currentUser = { id, name, role: id.startsWith('kecc') ? 'KECC JV' : id.startsWith('wci') ? 'WCI' : id.startsWith('dpwh') ? 'DPWH' : 'Omega' };
+  doLogin();
+}
+
+function doLogin() {
+  const uid = document.getElementById('login-user').value.trim();
+  if (!uid) return alert('Please enter User ID');
+  currentUser = currentUser || { id: uid, name: uid === 'admin' ? '신광균 (KK Shin)' : uid, role: 'KECC JV' };
+  document.getElementById('user-name').textContent = currentUser.name;
+  document.getElementById('user-role').textContent = currentUser.role;
+  document.getElementById('user-avatar').textContent = currentUser.name[0].toUpperCase();
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  initApp();
+}
+
+function doLogout() {
+  if (!confirm('Log out?')) return;
+  currentUser = null;
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-user').value = 'admin';
+}
+
+// ── NAVIGATION ────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event && event.currentTarget && event.currentTarget.classList.add('active');
+  // draw charts lazily
+  if (id === 'progress') { setTimeout(() => drawSCurveBig(), 100); setTimeout(() => drawGantt(), 50); }
+  if (id === 'workforce') setTimeout(() => drawWorkforceChart(), 100);
+}
+
+// ── MODALS ────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('modal-bg')) e.target.classList.remove('open');
+});
+
+// ── D-DAY ─────────────────────────────────────
+function updateDDay() {
+  const today = new Date();
+  const diff = Math.ceil((PROJECT_END - today) / 86400000);
+  document.getElementById('dday-num').textContent = diff > 0 ? 'D-' + diff : 'D+' + Math.abs(diff);
+  document.getElementById('dday-dates').textContent = '2024.01.15 ~ 2027.06.30';
+  document.getElementById('today-date').textContent = today.toISOString().split('T')[0];
+}
+
+// ── MILESTONES ────────────────────────────────
+function renderMilestones(containerId, limit = 6) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const items = limit ? MILESTONES.slice(0, limit) : MILESTONES;
+  el.innerHTML = items.map(m => `
+    <div class="milestone-item">
+      <div class="milestone-dot" style="background:${m.color}"></div>
+      <div class="milestone-content">
+        <div class="milestone-title">${m.title}</div>
+        <div class="milestone-date">${m.date}</div>
+      </div>
+      <div class="milestone-pct" style="color:${m.color}">${m.pct}%</div>
+    </div>
+  `).join('');
+}
+
+function renderMilestoneFull() {
+  const el = document.getElementById('milestone-full-list');
+  if (!el) return;
+  el.innerHTML = MILESTONES.map(m => `
+    <div class="milestone-item">
+      <div class="milestone-dot" style="background:${m.color}"></div>
+      <div class="milestone-content">
+        <div class="milestone-title">${m.title}</div>
+        <div class="milestone-date">${m.date}</div>
+        <div style="margin-top:4px;height:4px;background:#e8edf5;border-radius:2px;width:100%"><div style="height:4px;background:${m.color};border-radius:2px;width:${m.pct}%"></div></div>
+      </div>
+      <div class="milestone-pct" style="color:${m.color}">${m.pct}%</div>
+    </div>
+  `).join('');
+}
+
+// ── NOTICES ───────────────────────────────────
+function renderNotices(containerId, limit = 3) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const items = limit ? NOTICES.slice(0, limit) : NOTICES;
+  el.innerHTML = items.map(n => `
+    <div class="notice-item">
+      <div class="notice-title">
+        ${n.isNew ? '<span class="notice-badge">NEW</span> ' : ''}${n.title}
+      </div>
+      <div class="notice-meta">
+        <span style="background:#e8f0fb;padding:2px 7px;border-radius:10px;font-size:11px;color:var(--primary-light)">${n.category}</span>
+        <span>${n.author}</span>
+        <span>${n.date}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── RECENT DOCS ───────────────────────────────
+function renderRecentDocs() {
+  const el = document.getElementById('recent-docs');
+  if (!el) return;
+  const docs = [
+    { icon: '📋', title: 'Monthly Progress Report – May 2026', meta: 'KECC JV → DPWH · 2026-06-05', status: 'Pending', color: 'tag-yellow' },
+    { icon: '📐', title: 'Prelim. Layout Drawing – Panay Weir', meta: 'KECC JV → DPWH · 2026-05-28', status: 'Under Review', color: 'tag-yellow' },
+    { icon: '📋', title: 'Geotechnical Investigation Report', meta: 'KECC JV → DPWH · 2026-01-20', status: 'Approved', color: 'tag-green' },
+    { icon: '✉️', title: 'WCI Collaboration Coordination Letter', meta: 'WCI → KECC JV · 2026-06-10', status: 'Received', color: 'tag-blue' },
+  ];
+  el.innerHTML = docs.map(d => `
+    <div class="doc-item">
+      <div class="doc-icon" style="background:#e8f0fb">${d.icon}</div>
+      <div class="doc-info">
+        <div class="doc-title">${d.title}</div>
+        <div class="doc-meta">${d.meta}</div>
+      </div>
+      <span class="tag ${d.color}">${d.status}</span>
+    </div>
+  `).join('');
+}
+
+// ── APPROVAL ITEMS ────────────────────────────
+function renderApprovalItems() {
+  const el = document.getElementById('approval-items');
+  if (!el) return;
+  el.innerHTML = APPROVAL_ITEMS.map(a => `
+    <div style="padding:16px 0;border-bottom:1px solid var(--border)">
+      <div class="flex-between" style="margin-bottom:10px">
+        <div>
+          <div style="font-weight:600;font-size:14px">${a.title}</div>
+          <div class="text-muted">${a.docNo} · Submitted by ${a.submitter} · ${a.date}</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-outline btn-sm">View</button>
+          <button class="btn btn-primary btn-sm" style="background:var(--accent2)">✓ Approve</button>
+          <button class="btn btn-primary btn-sm" style="background:var(--danger)">✗ Return</button>
+        </div>
+      </div>
+      <div class="approval-flow">
+        <div class="approval-step"><div class="approval-step-box done">작성<br><small>${a.submitter}</small></div></div>
+        <div class="approval-arrow">→</div>
+        <div class="approval-step"><div class="approval-step-box ${a.step === 'Review' ? 'current' : 'done'}">검토<br><small>PM</small></div></div>
+        <div class="approval-arrow">→</div>
+        <div class="approval-step"><div class="approval-step-box ${a.step === 'Approval' ? 'current' : 'pending'}">승인<br><small>Director</small></div></div>
+        <div class="approval-arrow">→</div>
+        <div class="approval-step"><div class="approval-step-box pending">발신<br><small>DPWH</small></div></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── FOLDER TREE ───────────────────────────────
+function renderFolderTree() {
+  const el = document.getElementById('folder-tree');
+  if (!el) return;
+  el.innerHTML = FOLDERS.map((f, i) => `
+    <div style="padding:8px 12px;cursor:pointer;border-radius:6px;font-size:13px;${i===0?'background:#e8f0fb;color:var(--primary-light);font-weight:600':''}"
+         onmouseenter="this.style.background='#f0f3f8'" onmouseleave="this.style.background='${i===0?'#e8f0fb':'transparent'}'"
+    >📁 ${f}</div>
+  `).join('');
+}
+
+// ── GANTT (progress) ──────────────────────────
+function drawGantt() {
+  const el = document.getElementById('progress-gantt');
+  if (!el) return;
+  el.innerHTML = WORK_ITEMS.map(w => `
+    <div class="gantt-row">
+      <div class="gantt-label" title="${w.name}">${w.name}</div>
+      <div style="flex:1;padding:0 8px;display:flex;flex-direction:column;gap:3px;justify-content:center">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="flex:1;background:#e8edf5;height:14px;border-radius:3px;overflow:hidden;position:relative">
+            <div style="position:absolute;left:0;top:0;height:100%;width:${w.plan}%;background:#dce4f0;border-radius:3px"></div>
+            <div style="position:absolute;left:0;top:0;height:100%;width:${w.actual}%;background:${w.color};border-radius:3px;display:flex;align-items:center;padding-left:4px">
+              <span style="font-size:9px;color:#fff;font-weight:700;white-space:nowrap">${w.actual}%</span>
+            </div>
+          </div>
+          <div style="font-size:11px;color:${w.actual < w.plan ? 'var(--danger)' : 'var(--accent2)'};width:60px;text-align:right">
+            Plan: ${w.plan}%
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── S-CURVE CHARTS ────────────────────────────
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function drawSCurve(canvasId, small = false) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 500;
+  const H = canvas.height;
+  canvas.width = W;
+
+  const planData = [0,2,5,9,14,19,25,31,38,44,50,56,62,68,73,78,82,86,89,92,94,96,98,99,100];
+  const actualData = [0,2,4,8,12,17,22,27,33,38,43,48,52,57,61,65,68,71,74,null,null,null,null,null,null];
+  const foreData   = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,74,77,80,84,88,93,100];
+  const labels     = ['Jan-24','Apr-24','Jul-24','Oct-24','Jan-25','Apr-25','Jul-25','Oct-25','Jan-26','Apr-26','Jun-26',
+                       'Jul-26','Oct-26','Jan-27','Apr-27','Jun-27'];
+  const n = planData.length;
+
+  ctx.clearRect(0, 0, W, H);
+  const pad = { l: small?30:40, r: small?10:20, t: 10, b: small?24:30 };
+  const gW = W - pad.l - pad.r;
+  const gH = H - pad.t - pad.b;
+
+  const xOf = i => pad.l + (i / (n - 1)) * gW;
+  const yOf = v => pad.t + gH - (v / 100) * gH;
+
+  // grid lines
+  ctx.strokeStyle = '#e8edf5'; ctx.lineWidth = 1;
+  for (let v = 0; v <= 100; v += 20) {
+    ctx.beginPath(); ctx.moveTo(pad.l, yOf(v)); ctx.lineTo(W - pad.r, yOf(v)); ctx.stroke();
+    ctx.fillStyle = '#9aa8bb'; ctx.font = `${small?9:10}px sans-serif`;
+    ctx.fillText(v + '%', 0, yOf(v) + 4);
+  }
+
+  function drawLine(data, color, dash = []) {
+    ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = small ? 1.5 : 2; ctx.setLineDash(dash);
+    let started = false;
+    data.forEach((v, i) => {
+      if (v === null) return;
+      if (!started) { ctx.moveTo(xOf(i), yOf(v)); started = true; }
+      else ctx.lineTo(xOf(i), yOf(v));
+    });
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+
+  drawLine(planData, '#9aa8bb', [4, 3]);
+  drawLine(foreData, '#e8a020', [3, 2]);
+  drawLine(actualData, '#2756a8');
+
+  // current point
+  const lastActual = actualData.filter(v => v !== null);
+  const lastIdx = actualData.lastIndexOf(lastActual[lastActual.length - 1]);
+  ctx.beginPath(); ctx.arc(xOf(lastIdx), yOf(lastActual[lastActual.length-1]), 4, 0, Math.PI*2);
+  ctx.fillStyle = '#2756a8'; ctx.fill();
+
+  if (!small) {
+    // legend
+    const legend = [['Plan', '#9aa8bb', [4,3]], ['Actual', '#2756a8', []], ['Forecast', '#e8a020', [3,2]]];
+    let lx = pad.l;
+    legend.forEach(([label, color, dash]) => {
+      ctx.setLineDash(dash); ctx.strokeStyle = color; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(lx, H - 8); ctx.lineTo(lx + 20, H - 8); ctx.stroke();
+      ctx.setLineDash([]); ctx.fillStyle = '#6b7e96'; ctx.font = '10px sans-serif';
+      ctx.fillText(label, lx + 24, H - 4); lx += 70;
+    });
+  }
+}
+
+function drawSCurveBig() { drawSCurve('scurve-big', false); }
+
+// ── WORKFORCE CHART ───────────────────────────
+function drawWorkforceChart() {
+  const canvas = document.getElementById('workforce-chart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 400;
+  const H = canvas.height;
+  canvas.width = W;
+  ctx.clearRect(0, 0, W, H);
+
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const keccData = [12,18,22,28,32,32,36,40,44,46,48,50];
+  const wciData  = [4,6,8,10,12,14,15,16,17,18,18,20];
+  const pad = { l: 35, r: 10, t: 10, b: 30 };
+  const gW = W - pad.l - pad.r;
+  const gH = H - pad.t - pad.b;
+  const maxV = 70;
+  const xOf = i => pad.l + (i / (months.length - 1)) * gW;
+  const yOf = v => pad.t + gH - (v / maxV) * gH;
+
+  ctx.strokeStyle = '#e8edf5'; ctx.lineWidth = 1;
+  [0,20,40,60].forEach(v => {
+    ctx.beginPath(); ctx.moveTo(pad.l, yOf(v)); ctx.lineTo(W - pad.r, yOf(v)); ctx.stroke();
+    ctx.fillStyle = '#9aa8bb'; ctx.font = '9px sans-serif'; ctx.fillText(v, 2, yOf(v) + 3);
+  });
+
+  function drawArea(data, color, alpha) {
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), yOf(0));
+    data.forEach((v, i) => ctx.lineTo(xOf(i), yOf(v)));
+    ctx.lineTo(xOf(data.length - 1), yOf(0));
+    ctx.closePath();
+    ctx.fillStyle = color + Math.round(alpha * 255).toString(16).padStart(2,'0');
+    ctx.fill();
+    ctx.beginPath(); data.forEach((v, i) => i === 0 ? ctx.moveTo(xOf(i), yOf(v)) : ctx.lineTo(xOf(i), yOf(v)));
+    ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
+  }
+
+  drawArea(keccData.map((v, i) => v + wciData[i]), '#2756a8', 0.3);
+  drawArea(wciData, '#27ae60', 0.5);
+
+  months.forEach((m, i) => {
+    ctx.fillStyle = '#9aa8bb'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(m, xOf(i), H - 6);
+  });
+
+  // legend
+  ctx.textAlign = 'left';
+  [['KECC JV', '#2756a8'], ['WCI', '#27ae60']].forEach(([l, c], i) => {
+    ctx.fillStyle = c; ctx.fillRect(pad.l + i * 80, 4, 14, 8);
+    ctx.fillStyle = '#6b7e96'; ctx.font = '10px sans-serif'; ctx.fillText(l, pad.l + i * 80 + 18, 12);
+  });
+}
+
+// ── CALENDAR (simple) ─────────────────────────
+function renderCalendar() {
+  const el = document.getElementById('calendar-view');
+  if (!el) return;
+  const events = [
+    { day: 5, text: 'Progress Meeting', color: '#2756a8' },
+    { day: 12, text: 'PH Independence Day', color: '#e8a020' },
+    { day: 15, text: 'DPWH Coordination', color: '#27ae60' },
+    { day: 19, text: 'Monthly Report Due', color: '#c0392b' },
+    { day: 25, text: 'Site Visit – Agusan', color: '#9b59b6' },
+  ];
+  const evMap = {};
+  events.forEach(e => evMap[e.day] = e);
+
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  let html = `<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:11px">`;
+  days.forEach(d => html += `<div style="text-align:center;font-weight:700;color:var(--text-muted);padding:4px 0">${d}</div>`);
+  // June 2026 starts on Monday (day index 1)
+  for (let i = 0; i < 1; i++) html += `<div></div>`;
+  for (let d = 1; d <= 30; d++) {
+    const ev = evMap[d];
+    html += `<div style="text-align:center;padding:4px 2px;border-radius:4px;cursor:pointer;font-size:11px;
+      ${d === 12 ? 'background:var(--primary);color:#fff;font-weight:700;' : ''}
+      ${ev && d !== 12 ? `background:${ev.color}22;` : ''}
+      border:1px solid ${ev ? ev.color + '44' : 'transparent'}"
+      title="${ev ? ev.text : ''}">${d}${ev ? `<div style="font-size:9px;color:${ev.color};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ev.text}</div>` : ''}</div>`;
+  }
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function showPhotoPreview(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById('photo-preview');
+    img.src = e.target.result; img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+// ══════════════════════════════════════════════════
+// GOOGLE DRIVE INTEGRATION
+// ══════════════════════════════════════════════════
+
+// ⚠️ Replace with your Google Cloud Console credentials
+const GDRIVE_CLIENT_ID = 'YOUR_CLIENT_ID.apps.googleusercontent.com';
+const GDRIVE_API_KEY   = 'YOUR_API_KEY';
+const GDRIVE_FOLDER_NAME = 'Panay-Agusan PMIS';
+
+const SCOPES = 'https://www.googleapis.com/auth/drive';
+let gdriveToken = null;
+let gdriveFolder = null;
+
+function initGoogleAPI() {
+  if (typeof gapi === 'undefined') return;
+  gapi.load('client', async () => {
+    await gapi.client.init({ apiKey: GDRIVE_API_KEY, discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'] });
+  });
+}
+
+function gdriveSignIn(callback) {
+  if (GDRIVE_CLIENT_ID === 'YOUR_CLIENT_ID.apps.googleusercontent.com') {
+    document.getElementById('modal-gdrive-setup').classList.add('open'); return;
+  }
+  if (typeof google === 'undefined') { alert('Google API 로드 중입니다. 잠시 후 다시 시도하세요.'); return; }
+  const client = google.accounts.oauth2.initTokenClient({
+    client_id: GDRIVE_CLIENT_ID,
+    scope: SCOPES,
+    callback: (resp) => {
+      if (resp.error) { alert('Google 로그인 실패: ' + resp.error); return; }
+      gdriveToken = resp.access_token;
+      updateGdriveStatus(true);
+      if (callback) callback();
+    }
+  });
+  client.requestAccessToken();
+}
+
+async function getOrCreatePMISFolder() {
+  if (gdriveFolder) return gdriveFolder;
+  const res = await gapi.client.drive.files.list({
+    q: `name='${GDRIVE_FOLDER_NAME}' and mimeType='application/vnd.google-apps.folder' and trashed=false`,
+    fields: 'files(id,name)'
+  });
+  if (res.result.files.length > 0) { gdriveFolder = res.result.files[0]; return gdriveFolder; }
+  const create = await gapi.client.drive.files.create({
+    resource: { name: GDRIVE_FOLDER_NAME, mimeType: 'application/vnd.google-apps.folder' },
+    fields: 'id,name'
+  });
+  gdriveFolder = create.result;
+  showToast('📁 Google Drive에 "' + GDRIVE_FOLDER_NAME + '" 폴더를 생성했습니다.');
+  return gdriveFolder;
+}
+
+async function ensureSubFolders(parentId) {
+  const subs = ['01. Reports','02. Drawings','03. Survey Data','04. Correspondence','05. Photos','06. Contracts','07. Meeting Minutes'];
+  for (const sub of subs) {
+    const check = await gapi.client.drive.files.list({
+      q: `name='${sub}' and '${parentId}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`,
+      fields: 'files(id)'
+    });
+    if (check.result.files.length === 0) {
+      await gapi.client.drive.files.create({
+        resource: { name: sub, mimeType: 'application/vnd.google-apps.folder', parents: [parentId] }, fields: 'id'
+      });
+    }
+  }
+  showToast('✅ Google Drive 폴더 구조 준비 완료!');
+  loadDriveFiles();
+}
+
+async function openGDrivePicker(subfolder) {
+  if (!gdriveToken) { gdriveSignIn(() => openGDrivePicker(subfolder)); return; }
+  closeModal('modal-upload');
+  const folder = await getOrCreatePMISFolder();
+  const input = document.createElement('input');
+  input.type = 'file'; input.multiple = true;
+  input.accept = '.pdf,.dwg,.xlsx,.xls,.docx,.doc,.jpg,.jpeg,.png,.zip,.rar';
+  input.onchange = async () => {
+    const files = Array.from(input.files);
+    if (!files.length) return;
+    let targetFolderId = folder.id;
+    if (subfolder) {
+      const sub = await gapi.client.drive.files.list({
+        q: `name='${subfolder}' and '${folder.id}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`,
+        fields: 'files(id)'
+      });
+      if (sub.result.files.length > 0) targetFolderId = sub.result.files[0].id;
+    }
+    showToast(`⬆️ ${files.length}개 파일 업로드 중...`);
+    for (const file of files) {
+      const meta = JSON.stringify({ name: file.name, parents: [targetFolderId] });
+      const form = new FormData();
+      form.append('metadata', new Blob([meta], { type: 'application/json' }));
+      form.append('file', file);
+      await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+        method: 'POST', headers: { Authorization: 'Bearer ' + gdriveToken }, body: form
+      });
+    }
+    showToast(`✅ ${files.length}개 파일 업로드 완료!`);
+    loadDriveFiles();
+  };
+  input.click();
+}
+
+async function loadDriveFiles(subfolder) {
+  if (!gdriveToken) return;
+  const folder = await getOrCreatePMISFolder();
+  let parentId = folder.id;
+  if (subfolder) {
+    const sub = await gapi.client.drive.files.list({
+      q: `name='${subfolder}' and '${folder.id}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`,
+      fields: 'files(id)'
+    });
+    if (sub.result.files.length > 0) parentId = sub.result.files[0].id;
+  }
+  const res = await gapi.client.drive.files.list({
+    q: `'${parentId}' in parents and mimeType!='application/vnd.google-apps.folder' and trashed=false`,
+    fields: 'files(id,name,size,modifiedTime,owners)', orderBy: 'modifiedTime desc', pageSize: 50
+  });
+  renderDriveFileList(res.result.files || []);
+}
+
+function renderDriveFileList(files) {
+  const tbody = document.getElementById('file-list-body');
+  if (!tbody) return;
+  if (!files.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:30px">파일이 없습니다. 업로드를 시작하세요.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = files.map(f => {
+    const ext = f.name.split('.').pop().toLowerCase();
+    const icon = ext==='pdf'?'📄':ext==='dwg'?'📐':['xlsx','xls'].includes(ext)?'📊':['docx','doc'].includes(ext)?'📝':['jpg','jpeg','png'].includes(ext)?'🖼️':'📁';
+    const size = f.size ? (f.size>1048576?(f.size/1048576).toFixed(1)+' MB':(f.size/1024).toFixed(0)+' KB') : '–';
+    const date = f.modifiedTime ? f.modifiedTime.split('T')[0] : '–';
+    return `<tr><td>${icon} ${f.name}</td><td>${size}</td><td>${date}</td><td>${f.owners?.[0]?.displayName||'Drive'}</td>
+      <td><a href="https://drive.google.com/file/d/${f.id}/view" target="_blank" class="btn btn-outline btn-sm">⬇️ Open</a></td></tr>`;
+  }).join('');
+}
+
+function updateGdriveStatus(connected) {
+  const btn = document.getElementById('gdrive-connect-btn');
+  const status = document.getElementById('gdrive-status');
+  if (!btn || !status) return;
+  if (connected) {
+    btn.innerHTML = '✅ Google Drive 연결됨'; btn.style.background='var(--accent2)'; btn.style.color='#fff';
+    status.textContent = '연결됨 – Panay-Agusan PMIS 폴더 동기화 중';
+    status.style.color = 'var(--accent2)';
+    getOrCreatePMISFolder().then(f => ensureSubFolders(f.id));
+  } else {
+    btn.innerHTML = '🔗 Google Drive 연결'; btn.style.background=''; btn.style.color='';
+    status.textContent = '연결되지 않음 – 버튼을 눌러 Google 계정으로 로그인하세요';
+    status.style.color = 'var(--text-muted)';
+  }
+}
+
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div'); t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1a3a6b;color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.2);transition:opacity .3s;pointer-events:none';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg; t.style.opacity = '1';
+  clearTimeout(t._t); t._t = setTimeout(() => t.style.opacity = '0', 3500);
+}
+
+// ── INIT APP ──────────────────────────────────
+function initApp() {
+  updateDDay();
+  renderMilestones('milestone-list', 6);
+  renderMilestoneFull();
+  renderNotices('dash-notices', 3);
+  renderNotices('notice-list', 0);
+  renderRecentDocs();
+  renderApprovalItems();
+  renderFolderTree();
+  renderCalendar();
+  setTimeout(() => { drawSCurve('scurve-chart', true); }, 200);
+  if (typeof gapi !== 'undefined') initGoogleAPI();
+  updateGdriveStatus(false);
+}
+
+// keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-bg.open').forEach(m => m.classList.remove('open'));
+});
+</script>
+</body>
+</html>
