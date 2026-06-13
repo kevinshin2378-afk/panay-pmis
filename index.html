@@ -3398,14 +3398,14 @@ function renderDeliverables() {
             <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Submission History (${d.submissions.length})</div>
             <div style="display:flex;flex-direction:column;gap:6px">
               ${d.submissions.map((s, i) => `
-                <div style="display:flex;align-items:center;gap:10px;font-size:12px">
+                <div style="display:grid;grid-template-columns:26px 72px 88px 130px 72px 1fr auto;align-items:center;gap:8px;font-size:12px;min-width:0">
                   <span style="width:22px;height:22px;border-radius:50%;background:${i===d.submissions.length-1?'var(--primary)':'#e8edf5'};color:${i===d.submissions.length-1?'#fff':'var(--text-muted)'};display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>
-                  <span style="background:#e8f0fb;color:var(--primary-light);padding:2px 8px;border-radius:10px;font-weight:600">${s.ver}</span>
-                  <span style="color:var(--text-muted)">${s.date}</span>
-                  ${s.letter ? `<span style="font-family:monospace;color:var(--primary)">📄 ${s.letter}</span>` : ''}
-                  ${s.copies ? `<span>${s.copies}</span>` : ''}
-                  ${s.note ? `<span style="color:var(--text-muted)">– ${s.note}</span>` : ''}
-                  ${s.driveFiles && s.driveFiles.length ? s.driveFiles.map(f=>`<a href="${f.url}" target="_blank" style="color:var(--primary-light);font-size:11px">☁️${f.name}</a>`).join('') : ''}
+                  <span style="background:#e8f0fb;color:var(--primary-light);padding:2px 8px;border-radius:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.ver}</span>
+                  <span style="color:var(--text-muted);white-space:nowrap">${s.date}</span>
+                  ${s.letter ? `<span style="font-family:monospace;color:var(--primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">📄 ${s.letter}</span>` : '<span></span>'}
+                  ${s.copies ? `<span style="white-space:nowrap">${s.copies}</span>` : '<span></span>'}
+                  ${s.note ? `<span style="color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${s.note}">– ${s.note}</span>` : '<span></span>'}
+                  <span>${s.driveFiles && s.driveFiles.length ? s.driveFiles.map(f=>`<a href="${f.url}" target="_blank" style="color:var(--primary-light);font-size:11px;white-space:nowrap">☁️${f.name}</a>`).join('') : ''}</span>
                 </div>
               `).join('')}
             </div>
