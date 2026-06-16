@@ -428,6 +428,7 @@ canvas.chart { max-width: 100%; }
     <div class="mtab" data-group="contract" onclick="selectGroup('contract')">Contract Status</div>
     <div class="mtab" data-group="progress" onclick="selectGroup('progress')">Progress Management</div>
     <div class="mtab" data-group="documents" onclick="selectGroup('documents')">Documents</div>
+    <div class="mtab" data-group="accounting" onclick="selectGroup('accounting')">Accounting</div>
     <div class="mtab" data-group="collab"   onclick="selectGroup('collab')">Collaboration</div>
     <div class="mtab" data-group="settings" onclick="selectGroup('settings')">Settings</div>
     <div class="mtab" data-group="manual"   onclick="selectGroup('manual')">📖 Manual</div>
@@ -453,6 +454,10 @@ canvas.chart { max-width: 100%; }
       <a class="nav-item" data-page="issues"       data-group="documents" onclick="showPage('issues')"><span class="nav-icon">📋</span> Issue Tracker (KTS)</a>
       <a class="nav-item" data-page="documents"    data-group="documents" onclick="showPage('documents')"><span class="nav-icon">📂</span> Official Documents</a>
       <a class="nav-item" data-page="approval"     data-group="documents" onclick="showPage('approval')"><span class="nav-icon">✅</span> Doc Approval</a>
+
+      <a class="nav-item" data-page="accounting" data-group="accounting" onclick="showPage('accounting')"><span class="nav-icon">💰</span> Accounting Overview</a>
+      <a class="nav-item" data-page="invoicing"  data-group="accounting" onclick="showPage('invoicing')"><span class="nav-icon">🧾</span> Invoicing &amp; Payments</a>
+      <a class="nav-item" data-page="expenses"   data-group="accounting" onclick="showPage('expenses')"><span class="nav-icon">💵</span> Expense Management</a>
 
       <a class="nav-item" data-page="notice"   data-group="collab" onclick="showPage('notice')"><span class="nav-icon">📢</span> Notice Board</a>
       <a class="nav-item" data-page="schedule" data-group="collab" onclick="showPage('schedule')"><span class="nav-icon">📅</span> Schedule</a>
@@ -718,6 +723,162 @@ canvas.chart { max-width: 100%; }
                 <tr><td>S-003</td><td>Hydrological Survey – Agusan</td><td>AquaSurvey Corp.</td><td>$ 175,000</td><td>2024-06 ~ 2025-06</td><td><span class="tag tag-green">Active</span></td></tr>
                 <tr><td>S-004</td><td>Geotechnical Investigation</td><td>Philippine GeoTech Inc.</td><td>$ 253,571</td><td>2025-01 ~ 2025-10</td><td><span class="tag tag-green">Active</span></td></tr>
                 <tr><td>S-005</td><td>Structural Detailed Design Support</td><td>WCI – Local Team</td><td>$ 116,071</td><td>2025-06 ~ 2026-12</td><td><span class="tag tag-green">Active</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── ACCOUNTING ─── -->
+      <div class="page" id="page-accounting">
+        <div class="page-header">
+          <div class="breadcrumb">Home › <span>Accounting Overview</span></div>
+          <h1>Accounting Overview</h1>
+        </div>
+
+        <div class="grid-3">
+          <div class="stat-card">
+            <div class="stat-label">💰 Revised Contract Value</div>
+            <div class="stat-value" style="font-size:22px">₱ 2,917,000,000</div>
+            <div class="stat-sub">Original ₱2.85B + CO ₱67M</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">🧾 Billed to Date</div>
+            <div class="stat-value" style="font-size:22px">₱ 508,484,800</div>
+            <div class="stat-sub">17.44% of Revised Contract (3rd MPR, Mar 2026)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">⏳ Outstanding Receivable</div>
+            <div class="stat-value" style="font-size:22px">₱ 50,848,480</div>
+            <div class="stat-sub">Billed ₱508.5M − Received ₱457.6M</div>
+          </div>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header"><div class="card-title">Billing vs. Collection Summary</div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Period</th><th>Physical Progress</th><th>Billed (PHP)</th><th>Received (PHP)</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>1st MPR (Nov 2025)</td><td>5.20%</td><td>₱ 151,684,000</td><td>₱ 151,684,000</td><td><span class="tag tag-green">Collected</span></td></tr>
+                <tr><td>2nd MPR (Jan 2026)</td><td>11.23%</td><td>₱ 327,679,100</td><td>₱ 305,962,320</td><td><span class="tag tag-yellow">Partial</span></td></tr>
+                <tr><td>3rd MPR (Mar 2026)</td><td>17.44%</td><td>₱ 508,484,800</td><td>₱ 0</td><td><span class="tag tag-blue">Submitted to DPWH</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header"><div class="card-title">Expense vs. Income (YTD 2026)</div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Category</th><th>Amount (PHP)</th><th>% of Total</th></tr></thead>
+              <tbody>
+                <tr><td>Income — Progress Billing Received</td><td>₱ 457,646,320</td><td>—</td></tr>
+                <tr><td>Expense — Personnel (Foreign Experts Per Diem/Salary)</td><td>₱ 86,400,000</td><td>18.9%</td></tr>
+                <tr><td>Expense — Local Staff Salary</td><td>₱ 42,100,000</td><td>9.2%</td></tr>
+                <tr><td>Expense — Office Rent &amp; Operations</td><td>₱ 18,750,000</td><td>4.1%</td></tr>
+                <tr><td>Expense — Subcontractor Payments</td><td>₱ 215,300,000</td><td>47.1%</td></tr>
+                <tr><td>Expense — Field Survey/Investigation</td><td>₱ 38,900,000</td><td>8.5%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── INVOICING & PAYMENTS ─── -->
+      <div class="page" id="page-invoicing">
+        <div class="page-header">
+          <div class="breadcrumb">Home › Accounting › <span>Invoicing &amp; Payments</span></div>
+          <h1>Invoicing &amp; Payments</h1>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header">
+            <div class="card-title">Monthly Progress Report (MPR) Invoices</div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-invoice')">+ Add Invoice</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Invoice No.</th><th>Description</th><th>Amount (PHP)</th><th>Submitted</th><th>Approved</th><th>Paid</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>INV-001</td><td>1st Monthly Progress Report</td><td>₱ 151,684,000</td><td>2025-12-05</td><td>2025-12-20</td><td>2026-01-10</td><td><span class="tag tag-green">Paid</span></td></tr>
+                <tr><td>INV-002</td><td>2nd Monthly Progress Report</td><td>₱ 175,995,100</td><td>2026-02-05</td><td>2026-02-22</td><td>2026-03-15</td><td><span class="tag tag-green">Paid</span></td></tr>
+                <tr><td>INV-003</td><td>3rd Monthly Progress Report</td><td>₱ 180,805,700</td><td>2026-04-05</td><td>—</td><td>—</td><td><span class="tag tag-blue">Under DPWH Review</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header"><div class="card-title">Payment Terms</div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+              <tbody>
+                <tr><td class="text-muted">Billing Cycle</td><td>Monthly, based on verified physical progress</td></tr>
+                <tr><td class="text-muted">Review Period</td><td>15 working days (DPWH Project Management Office)</td></tr>
+                <tr><td class="text-muted">Retention</td><td>10% of each progress payment, released upon final acceptance</td></tr>
+                <tr><td class="text-muted">Currency</td><td>Philippine Peso (PHP)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── EXPENSE MANAGEMENT ─── -->
+      <div class="page" id="page-expenses">
+        <div class="page-header">
+          <div class="breadcrumb">Home › Accounting › <span>Expense Management</span></div>
+          <h1>Expense Management</h1>
+        </div>
+
+        <div class="grid-3">
+          <div class="stat-card">
+            <div class="stat-label">📊 Total Expense (YTD 2026)</div>
+            <div class="stat-value" style="font-size:22px">₱ 401,450,000</div>
+            <div class="stat-sub">Jan – Jun 2026</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">👤 Personnel Cost</div>
+            <div class="stat-value" style="font-size:22px">₱ 128,500,000</div>
+            <div class="stat-sub">Foreign Experts + Local Staff</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">🏗️ Subcontractor &amp; Field Cost</div>
+            <div class="stat-value" style="font-size:22px">₱ 254,200,000</div>
+            <div class="stat-sub">Subcontracts + Survey/Investigation</div>
+          </div>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header">
+            <div class="card-title">Monthly Expense Breakdown</div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-invoice')">+ Add Expense Entry</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Month</th><th>Personnel</th><th>Office &amp; Operations</th><th>Subcontractor</th><th>Field Survey</th><th>Total (PHP)</th></tr></thead>
+              <tbody>
+                <tr><td>Jan 2026</td><td>₱ 20,800,000</td><td>₱ 3,100,000</td><td>₱ 35,200,000</td><td>₱ 6,400,000</td><td>₱ 65,500,000</td></tr>
+                <tr><td>Feb 2026</td><td>₱ 21,400,000</td><td>₱ 3,050,000</td><td>₱ 36,900,000</td><td>₱ 6,650,000</td><td>₱ 68,000,000</td></tr>
+                <tr><td>Mar 2026</td><td>₱ 21,600,000</td><td>₱ 3,200,000</td><td>₱ 37,800,000</td><td>₱ 6,900,000</td><td>₱ 69,500,000</td></tr>
+                <tr><td>Apr 2026</td><td>₱ 21,400,000</td><td>₱ 3,150,000</td><td>₱ 35,000,000</td><td>₱ 6,300,000</td><td>₱ 65,850,000</td></tr>
+                <tr><td>May 2026</td><td>₱ 21,650,000</td><td>₱ 3,180,000</td><td>₱ 35,500,000</td><td>₱ 6,350,000</td><td>₱ 66,680,000</td></tr>
+                <tr><td>Jun 2026</td><td>₱ 21,650,000</td><td>₱ 3,070,000</td><td>₱ 34,900,000</td><td>₱ 6,300,000</td><td>₱ 65,920,000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header"><div class="card-title">Per Diem / Settlement Status (Field-Deployed Experts)</div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Expert</th><th>Role</th><th>Quarter</th><th>Settlement Status</th></tr></thead>
+              <tbody>
+                <tr><td>KWANG KYOON SHIN</td><td>Team Leader</td><td>Q2 2026</td><td><span class="tag tag-yellow">In Progress</span></td></tr>
+                <tr><td>KWANG KYOON SHIN</td><td>Team Leader</td><td>Q1 2026</td><td><span class="tag tag-green">Settled</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -1770,6 +1931,30 @@ canvas.chart { max-width: 100%; }
   </div>
 </div>
 
+<div class="modal-bg" id="modal-invoice">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Invoice / Expense Entry</div>
+      <button class="modal-close" onclick="closeModal('modal-invoice')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Reference No.</label><input class="form-input" placeholder="INV-004"></div>
+      <div class="form-group"><label class="form-label">Type</label>
+        <select class="form-input"><option>MPR Invoice</option><option>Expense Entry</option><option>Per Diem Settlement</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Description</label><input class="form-input" placeholder="Description"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Amount (PHP)</label><input class="form-input" type="number" placeholder="0"></div>
+      <div class="form-group"><label class="form-label">Date</label><input class="form-input" type="date"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeModal('modal-invoice')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-invoice')">Save</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-bg" id="modal-doc">
   <div class="modal">
     <div class="modal-header">
@@ -2271,8 +2456,8 @@ const DEFAULT_USERS = [
 // Pages each role can see (nav item ids)
 const MANUAL_PAGES = ['manual-overview','manual-general','manual-contract','manual-progress','manual-documents','manual-collab','manual-settings'];
 const ROLE_PAGES = {
-  admin:   ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','notice','schedule','webhard','users',...MANUAL_PAGES],
-  manager: ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','notice','schedule','webhard','users',...MANUAL_PAGES],
+  admin:   ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','notice','schedule','webhard','users',...MANUAL_PAGES],
+  manager: ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','notice','schedule','webhard','users',...MANUAL_PAGES],
   editor:  ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','notice','schedule','webhard',...MANUAL_PAGES],
   viewer:  ['dashboard','general','contract','progress','workforce','photos','deliverables','documents','notice','schedule',...MANUAL_PAGES],
 };
@@ -2330,7 +2515,7 @@ function doLogin() {
 
 const GROUP_LABELS = {
   general: 'General', contract: 'Contract Status', progress: 'Progress Management',
-  documents: 'Documents', collab: 'Collaboration', settings: 'Settings',
+  documents: 'Documents', accounting: 'Accounting', collab: 'Collaboration', settings: 'Settings',
   manual: '📖 User Manual',
 };
 let currentGroup = 'general';
