@@ -385,14 +385,8 @@ canvas.chart { max-width: 100%; }
       ❌ Invalid user ID or password.
     </div>
     <button class="login-btn" onclick="doLogin()">LOGIN</button>
-    <div class="login-accounts" style="margin-top:16px">
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">Default Accounts (initial password)</div>
-      <span onclick="quickFill('kecc_admin')">kecc_admin</span>
-      <span onclick="quickFill('wci_user')">wci_user</span>
-      <span onclick="quickFill('dpwh_view')">dpwh_view</span>
-    </div>
-    <div style="font-size:11px;color:var(--text-muted);margin-top:12px;text-align:center">
-      Admin initial password: <code style="background:#f0f3f8;padding:2px 6px;border-radius:3px">1234@@</code> &nbsp;|&nbsp; Others: <code style="background:#f0f3f8;padding:2px 6px;border-radius:3px">1234@@</code>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:14px;text-align:center">
+      Access is restricted to authorized personnel only.<br>Contact the PMIS administrator for credentials.
     </div>
     </div><!-- /login-body -->
   </div>
@@ -829,60 +823,268 @@ canvas.chart { max-width: 100%; }
       <!-- ─── EXPENSE MANAGEMENT ─── -->
       <div class="page" id="page-expenses">
         <div class="page-header">
-          <div class="breadcrumb">Home › Accounting › <span>Expense Management</span></div>
-          <h1>Expense Management</h1>
+          <div class="breadcrumb">Home &rsaquo; Accounting &rsaquo; <span>Expense Management</span></div>
+          <h1>Expense Management &ndash; Field Operation (Q1 2026)</h1>
         </div>
 
-        <div class="grid-3">
-          <div class="stat-card">
-            <div class="stat-label">📊 Total Expense (YTD 2026)</div>
-            <div class="stat-value" style="font-size:22px">₱ 401,450,000</div>
-            <div class="stat-sub">Jan – Jun 2026</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">👤 Personnel Cost</div>
-            <div class="stat-value" style="font-size:22px">₱ 128,500,000</div>
-            <div class="stat-sub">Foreign Experts + Local Staff</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">🏗️ Subcontractor &amp; Field Cost</div>
-            <div class="stat-value" style="font-size:22px">₱ 254,200,000</div>
-            <div class="stat-sub">Subcontracts + Survey/Investigation</div>
+        <div class="grid-4" style="margin-bottom:24px">
+          <div class="stat-card"><div class="stat-label">&#128176; 신청금액 (Q1 2026)</div><div class="stat-value" style="font-size:20px">&#8361; 82,511,000</div><div class="stat-sub">환율 1,399.81원/USD &middot; $58,944 USD</div></div>
+          <div class="stat-card"><div class="stat-label">&#9989; 정산금액 (Q1 2026)</div><div class="stat-value" style="font-size:20px;color:var(--primary)">&#8361; 74,080,635</div><div class="stat-sub">PHP 2,976,527 &middot; $52,037 USD</div></div>
+          <div class="stat-card"><div class="stat-label">&#128181; 잔액 (미사용)</div><div class="stat-value" style="font-size:20px;color:var(--accent2)">&#8361; 8,430,365</div><div class="stat-sub">정산기간: 2026.01.01 ~ 2026.03.31</div></div>
+          <div class="stat-card"><div class="stat-label">&#129534; 영수증 건수</div><div class="stat-value" style="font-size:20px">140건</div><div class="stat-sub">PDF 증빙바인더 참조</div></div>
+        </div>
+
+        <div class="card mt24">
+          <div class="card-header"><div class="card-title">계정별 집행 현황 (Q1 2026)</div><div class="card-badge">2026.01 ~ 2026.03</div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>계정과목</th><th>세목</th><th>내역</th><th>계획금액(원)</th><th>정산금액(원)</th><th>잔액(원)</th><th>집행률</th></tr></thead>
+              <tbody>
+<tr><td>용역비</td><td>기타용역비</td><td>통역비</td><td style="text-align:right">350,000</td><td style="text-align:right">298,320</td><td style="text-align:right;color:var(--accent2)">51,680</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:85.2%"></div></div><span style="font-size:11px">85.2%</span></td></tr>
+<tr><td>용역비</td><td>사무실보조인건비</td><td>현지직원 인건비</td><td style="text-align:right">0</td><td style="text-align:right">11,494,619</td><td style="text-align:right;color:var(--danger)">-11,494,619</td><td><span class="tag tag-red">초과</span></td></tr>
+<tr><td>임차료</td><td>단기리스료</td><td>사무실 임대료</td><td style="text-align:right">15,120,000</td><td style="text-align:right">22,274,560</td><td style="text-align:right;color:var(--danger)">-7,154,560</td><td><span class="tag tag-red">초과</span></td></tr>
+<tr><td>임차료</td><td>차량렌트비</td><td>차량렌트비</td><td style="text-align:right">25,197,000</td><td style="text-align:right">9,197,877</td><td style="text-align:right;color:var(--accent2)">15,999,123</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:36.5%"></div></div><span style="font-size:11px">36.5%</span></td></tr>
+<tr><td>차량유지비</td><td>유류비</td><td>주유비</td><td style="text-align:right">2,100,000</td><td style="text-align:right">430,899</td><td style="text-align:right;color:var(--accent2)">1,669,101</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:20.5%"></div></div><span style="font-size:11px">20.5%</span></td></tr>
+<tr><td>차량유지비</td><td>기타유지비</td><td>주차비/통행료/세차</td><td style="text-align:right">630,000</td><td style="text-align:right">1,517,343</td><td style="text-align:right;color:var(--danger)">-887,343</td><td><span class="tag tag-red">초과</span></td></tr>
+<tr><td>통신비</td><td>전화료</td><td>통신비</td><td style="text-align:right">525,000</td><td style="text-align:right">0</td><td style="text-align:right;color:var(--accent2)">525,000</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:0%"></div></div><span style="font-size:11px">0%</span></td></tr>
+<tr><td>소모품비</td><td>소모품비</td><td>비품비(소모)</td><td style="text-align:right">0</td><td style="text-align:right">10,043,043</td><td style="text-align:right;color:var(--danger)">-10,043,043</td><td><span class="tag tag-red">초과</span></td></tr>
+<tr><td>소모품비</td><td>비품비</td><td>비품비(사무실기기)</td><td style="text-align:right">2,100,000</td><td style="text-align:right">2,386,279</td><td style="text-align:right;color:var(--danger)">-286,279</td><td><span class="tag tag-red">초과</span></td></tr>
+<tr><td>소모품비</td><td>전산용품</td><td>전산용품</td><td style="text-align:right">16,800,000</td><td style="text-align:right">6,695,122</td><td style="text-align:right;color:var(--accent2)">10,104,878</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:39.9%"></div></div><span style="font-size:11px">39.9%</span></td></tr>
+<tr><td>소모품비</td><td>기타소모품</td><td>사무실 운영비</td><td style="text-align:right">4,200,000</td><td style="text-align:right">961,642</td><td style="text-align:right;color:var(--accent2)">3,238,358</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:22.9%"></div></div><span style="font-size:11px">22.9%</span></td></tr>
+<tr><td>도서인쇄비</td><td>보고서인쇄</td><td>인쇄비</td><td style="text-align:right">4,200,000</td><td style="text-align:right">3,123,960</td><td style="text-align:right;color:var(--accent2)">1,076,040</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:74.4%"></div></div><span style="font-size:11px">74.4%</span></td></tr>
+<tr><td>복리후생비</td><td>복리후생비</td><td>기타비용(회의식대)</td><td style="text-align:right">1,050,000</td><td style="text-align:right">9,033,393</td><td style="text-align:right;color:var(--danger)">-7,983,393</td><td><span class="tag tag-red">초과</span></td></tr>
+<tr><td>여비교통비</td><td>기타여비</td><td>국내선항공료</td><td style="text-align:right">6,300,000</td><td style="text-align:right">3,477,446</td><td style="text-align:right;color:var(--accent2)">2,822,554</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:55.2%"></div></div><span style="font-size:11px">55.2%</span></td></tr>
+<tr><td>지급수수료</td><td>사업행사비</td><td>보고회/세미나</td><td style="text-align:right">3,939,000</td><td style="text-align:right">3,189,175</td><td style="text-align:right;color:var(--accent2)">749,825</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:81.0%"></div></div><span style="font-size:11px">81.0%</span></td></tr>
+<tr style="font-weight:bold;background:var(--surface2)"><td colspan="3">합 계</td><td style="text-align:right">82,511,000</td><td style="text-align:right">74,080,635</td><td style="text-align:right;color:var(--accent2)">8,430,365</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:89.8%"></div></div><span style="font-size:11px">89.8%</span></td></tr>              </tbody>
+            </table>
           </div>
         </div>
 
         <div class="card mt24">
           <div class="card-header">
-            <div class="card-title">Monthly Expense Breakdown</div>
-            <button class="btn btn-primary btn-sm" onclick="openModal('modal-invoice')">+ Add Expense Entry</button>
+            <div class="card-title">정산 상세 내역 (영수증 목록)</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <select id="exp-filter-month" onchange="filterExpenses()" style="padding:4px 8px;border-radius:4px;border:1px solid var(--border);font-size:13px">
+                <option value="">전체 월</option><option value="Jan">Jan 2026</option><option value="Feb">Feb 2026</option><option value="Mar">Mar 2026</option>
+              </select>
+              <select id="exp-filter-cat" onchange="filterExpenses()" style="padding:4px 8px;border-radius:4px;border:1px solid var(--border);font-size:13px">
+                <option value="">전체 계정</option>
+<option value="사무실보조인건비">사무실보조인건비</option>
+<option value="기타용역비">기타용역비</option>
+<option value="단기리스료">단기리스료</option>
+<option value="차량렌트비">차량렌트비</option>
+<option value="유류비">유류비</option>
+<option value="기타유지비">기타유지비</option>
+<option value="전산용품">전산용품</option>
+<option value="기타소모품">기타소모품</option>
+<option value="비품비">비품비</option>
+<option value="보고서인쇄">보고서인쇄</option>
+<option value="복리후생비">복리후생비</option>
+<option value="기타여비">기타여비</option>
+<option value="사업행사비">사업행사비</option>
+              </select>
+              <span id="exp-count" style="font-size:12px;color:var(--text-muted)">140건</span>
+            </div>
           </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Month</th><th>Personnel</th><th>Office &amp; Operations</th><th>Subcontractor</th><th>Field Survey</th><th>Total (PHP)</th></tr></thead>
-              <tbody>
-                <tr><td>Jan 2026</td><td>₱ 20,800,000</td><td>₱ 3,100,000</td><td>₱ 35,200,000</td><td>₱ 6,400,000</td><td>₱ 65,500,000</td></tr>
-                <tr><td>Feb 2026</td><td>₱ 21,400,000</td><td>₱ 3,050,000</td><td>₱ 36,900,000</td><td>₱ 6,650,000</td><td>₱ 68,000,000</td></tr>
-                <tr><td>Mar 2026</td><td>₱ 21,600,000</td><td>₱ 3,200,000</td><td>₱ 37,800,000</td><td>₱ 6,900,000</td><td>₱ 69,500,000</td></tr>
-                <tr><td>Apr 2026</td><td>₱ 21,400,000</td><td>₱ 3,150,000</td><td>₱ 35,000,000</td><td>₱ 6,300,000</td><td>₱ 65,850,000</td></tr>
-                <tr><td>May 2026</td><td>₱ 21,650,000</td><td>₱ 3,180,000</td><td>₱ 35,500,000</td><td>₱ 6,350,000</td><td>₱ 66,680,000</td></tr>
-                <tr><td>Jun 2026</td><td>₱ 21,650,000</td><td>₱ 3,070,000</td><td>₱ 34,900,000</td><td>₱ 6,300,000</td><td>₱ 65,920,000</td></tr>
-              </tbody>
+          <div class="table-wrap" style="max-height:520px;overflow-y:auto">
+            <table id="tbl-expenses-detail">
+              <thead style="position:sticky;top:0;background:var(--surface)">
+                <tr><th style="width:60px">월</th><th style="width:100px">계정</th><th>내용</th><th style="width:100px">일자</th><th style="width:100px">증빙번호</th><th>공급자</th><th style="width:100px;text-align:right">PHP금액</th><th style="width:50px;text-align:right">환율</th><th style="width:110px;text-align:right">원화(KRW)</th><th style="width:55px">PDF</th></tr>
+              </thead>
+              <tbody id="tbody-expenses"></tbody>
             </table>
+          </div>
+          <div style="padding:8px 12px;font-size:13px;color:var(--text-muted);border-top:1px solid var(--border)">
+            합계: <strong id="exp-total-krw">&#8361; 74,080,635</strong>
           </div>
         </div>
 
         <div class="card mt24">
-          <div class="card-header"><div class="card-title">Per Diem / Settlement Status (Field-Deployed Experts)</div></div>
+          <div class="card-header"><div class="card-title">적용 환율 (26년 1분기)</div></div>
           <div class="table-wrap">
-            <table>
-              <thead><tr><th>Expert</th><th>Role</th><th>Quarter</th><th>Settlement Status</th></tr></thead>
-              <tbody>
-                <tr><td>KWANG KYOON SHIN</td><td>Team Leader</td><td>Q2 2026</td><td><span class="tag tag-yellow">In Progress</span></td></tr>
-                <tr><td>KWANG KYOON SHIN</td><td>Team Leader</td><td>Q1 2026</td><td><span class="tag tag-green">Settled</span></td></tr>
-              </tbody>
-            </table>
+            <table><thead><tr><th>월</th><th>환율 (원/PHP)</th><th>비고</th></tr></thead>
+            <tbody>
+              <tr><td>2026년 1월</td><td>24.61</td><td>-</td></tr>
+              <tr><td>2026년 2월</td><td>24.86</td><td>-</td></tr>
+              <tr><td>2026년 3월</td><td>24.98</td><td>-</td></tr>
+              <tr><td>신청 적용환율 (원/USD)</td><td>1,399.81</td><td>송금요청 기준</td></tr>
+            </tbody></table>
           </div>
         </div>
+
+        <script>
+        const Q1_EXPENSES = [
+    {cat:'사무실보조인건비',month:'Feb',desc:'Administrative Officer (Feb)',date:'23-02-2026',receipt:'INV-2026-0001',supplier:'Omega One Development Corp',php:76876.8,rate:24.86,krw:1911157,pdf:'128'},
+    {cat:'사무실보조인건비',month:'Feb',desc:'Secretary (Feb)',date:'23-02-2026',receipt:'INV-2026-0001',supplier:'Omega One Development Corp',php:51251.2,rate:24.86,krw:1274105,pdf:'128'},
+    {cat:'사무실보조인건비',month:'Feb',desc:'Encoder (Feb)',date:'23-02-2026',receipt:'INV-2026-0001',supplier:'Omega One Development Corp',php:51251.2,rate:24.86,krw:1274105,pdf:'128'},
+    {cat:'사무실보조인건비',month:'Feb',desc:'Utility Messenger (Feb)',date:'23-02-2026',receipt:'INV-2026-0001',supplier:'Omega One Development Corp',php:51251.2,rate:24.86,krw:1274105,pdf:'128'},
+    {cat:'사무실보조인건비',month:'Mar',desc:'Administrative Officer (Mar)',date:'23-03-2026',receipt:'INV-2026-0002',supplier:'Omega One Development Corp',php:76876.8,rate:24.98,krw:1920382,pdf:'127'},
+    {cat:'사무실보조인건비',month:'Mar',desc:'Secretary (Mar)',date:'23-03-2026',receipt:'INV-2026-0002',supplier:'Omega One Development Corp',php:51251.2,rate:24.98,krw:1280255,pdf:'127'},
+    {cat:'사무실보조인건비',month:'Mar',desc:'Encoder (Mar)',date:'23-03-2026',receipt:'INV-2026-0002',supplier:'Omega One Development Corp',php:51251.2,rate:24.98,krw:1280255,pdf:'127'},
+    {cat:'사무실보조인건비',month:'Mar',desc:'Utility Messenger (Mar)',date:'23-03-2026',receipt:'INV-2026-0002',supplier:'Omega One Development Corp',php:51251.2,rate:24.98,krw:1280255,pdf:'127'},
+    {cat:'기타용역비',month:'Feb',desc:'통역비 (Feb)',date:'23-02-2026',receipt:'',supplier:'Sandra Jung',php:12000.0,rate:24.86,krw:298320,pdf:'116'},
+    {cat:'단기리스료',month:'Feb',desc:'Omega One Development Corp - Office Rental - Security Deposit (2M) + Advance Rental (2M)',date:'21-02-2026',receipt:'None',supplier:'Omega One Development Corp',php:896000.0,rate:24.86,krw:22274560,pdf:'126~128'},
+    {cat:'차량렌트비',month:'Feb',desc:'Myrenta Car Butuan Travel Services - Car rental',date:'15-03-2026',receipt:'000066',supplier:'Myrenta Car Butuan Travel Services',php:45000.0,rate:24.86,krw:1118700,pdf:'61'},
+    {cat:'차량렌트비',month:'Feb',desc:'Omega One Development Corp - Rental Van - Feb 23,24,25 2026 / MNL USE (3 days)',date:'21-02-2026',receipt:'INV-2026-0001',supplier:'Omega One Development Corp',php:21840.0,rate:24.86,krw:542942,pdf:'128'},
+    {cat:'차량렌트비',month:'Feb',desc:'Omega One Development Corp - Rental Car (SUV/Sedan) - Feb 10-28, 2026 (19 days x ₱4,000/day)',date:'26-02-2026',receipt:'INV-2026-0001',supplier:'Omega One Development Corp',php:76000.0,rate:24.86,krw:1889360,pdf:'128'},
+    {cat:'차량렌트비',month:'Mar',desc:'Marlet Solis (Joy Escalona) - Driver Overtime - 21.92 hrs x ₱150/hr (Mar 4-Apr 3, 2026)',date:'03-03-2026',receipt:'291040334',supplier:'Marlet Solis (Joy Escalona)',php:3288.0,rate:24.98,krw:82134,pdf:'117~124'},
+    {cat:'차량렌트비',month:'Mar',desc:'Marlet Solis (Joy Escalona) - Vehicle Rental - SUV CBT-4122 (Mar 4-Apr 3, 2026) net of 2% WHT',date:'03-03-2026',receipt:'133',supplier:'Marlet Solis (Joy Escalona)',php:122767.86,rate:24.98,krw:3066741,pdf:'117~124'},
+    {cat:'차량렌트비',month:'Mar',desc:'차량렌트비 - 100,000 PHP',date:'09-03-2026',receipt:'',supplier:'',php:100000.0,rate:24.98,krw:2498000,pdf:'133'},
+    {cat:'유류비',month:'Feb',desc:'Mirola Petron Service Station Inc. - Fuel',date:'13-02-2026',receipt:'4003',supplier:'Mirola Petron Service Station Inc.',php:2616.64,rate:24.86,krw:65050,pdf:'16'},
+    {cat:'유류비',month:'Feb',desc:'Rj-Aj Petron Station  - Diesel fuel',date:'13-02-2026',receipt:'8172',supplier:'Rj-Aj Petron Station ',php:1500.0,rate:24.86,krw:37290,pdf:'15'},
+    {cat:'유류비',month:'Feb',desc:'VM Fuel Station - Premium Plus fuel',date:'19-02-2026',receipt:'4745',supplier:'VM Fuel Station',php:1927.12,rate:24.86,krw:47908,pdf:'43'},
+    {cat:'유류비',month:'Feb',desc:'A.G. Dagani Corp. - Premium / Regular fuel',date:'20-02-2026',receipt:'14127',supplier:'A.G. Dagani Corp.',php:2945.0,rate:24.86,krw:73213,pdf:'54'},
+    {cat:'유류비',month:'Feb',desc:'VM Fuel Station - Premium Plus fuel',date:'21-02-2026',receipt:'4813',supplier:'VM Fuel Station',php:1072.0,rate:24.86,krw:26650,pdf:'58'},
+    {cat:'유류비',month:'Mar',desc:'K& I Petron Service Center - Diesel fuel',date:'05-03-2026',receipt:'2613287',supplier:'K& I Petron Service Center',php:2259.93,rate:24.98,krw:56453,pdf:'90'},
+    {cat:'유류비',month:'Mar',desc:'First Choice Caltex Service Center - Diesel fuel',date:'25-03-2026',receipt:'01-000418916',supplier:'First Choice Caltex Service Center',php:4977.39,rate:24.98,krw:124335,pdf:'105'},
+    {cat:'기타유지비',month:'Feb',desc:'BDO Unibank Inc. - Advance payment Guarantee',date:'19-02-2026',receipt:'0001091',supplier:'BDO Unibank Inc.',php:230.0,rate:24.86,krw:5718,pdf:'77'},
+    {cat:'기타유지비',month:'Feb',desc:'Omega One Development Corp - Xerox Rental - Security Deposit',date:'21-02-2026',receipt:'INV-2026-0001',supplier:'Omega One Development Corp',php:22400.0,rate:24.86,krw:556864,pdf:'128'},
+    {cat:'기타유지비',month:'Mar',desc:'Station Square east Corp. - Parking',date:'11-03-2026',receipt:'5594306',supplier:'Station Square east Corp.',php:60.0,rate:24.98,krw:1499,pdf:'94'},
+    {cat:'기타유지비',month:'Mar',desc:'SM Prime Holdings Inc. - Parking',date:'11-03-2026',receipt:'66654',supplier:'SM Prime Holdings Inc.',php:100.0,rate:24.98,krw:2498,pdf:'100'},
+    {cat:'기타유지비',month:'Mar',desc:'Aac General & Management Consultancy Services - Parking',date:'12-03-2026',receipt:'011080317',supplier:'Aac General & Management Consultancy Services',php:100.0,rate:24.98,krw:2498,pdf:'101'},
+    {cat:'기타유지비',month:'Mar',desc:'Parking Lot AR - 1 month Deposit, 1 month Advance',date:'18-03-2026',receipt:'',supplier:'Parking Lot AR',php:11000.0,rate:24.98,krw:274780,pdf:'102'},
+    {cat:'기타유지비',month:'Mar',desc:'Omega One Development Corp - Parking - Park Triangle Corporate Plaza (Omega)',date:'23-03-2026',receipt:'INV-2026-0002',supplier:'Omega One Development Corp',php:6720.0,rate:24.98,krw:167866,pdf:'127'},
+    {cat:'기타유지비',month:'Mar',desc:'Omega One Development Corp - Xerox Rental - Month of March',date:'23-03-2026',receipt:'INV-2026-0002',supplier:'Omega One Development Corp',php:8960.0,rate:24.98,krw:223821,pdf:'127'},
+    {cat:'기타유지비',month:'Mar',desc:'Omega One Development Corp - Advance Payment & Security Deposit - Avida Tower Condo Parking (x2)',date:'23-03-2026',receipt:'INV-2026-0002',supplier:'Omega One Development Corp',php:11000.0,rate:24.98,krw:274780,pdf:'127'},
+    {cat:'기타유지비',month:'Mar',desc:'Ricci Development Corp. - Parking',date:'23-03-2026',receipt:'24127',supplier:'Ricci Development Corp.',php:100.0,rate:24.98,krw:2498,pdf:'104'},
+    {cat:'기타유지비',month:'Mar',desc:'New NAIA Infra Corp. - Parking',date:'22-03-2026',receipt:'07000614460-00',supplier:'New NAIA Infra Corp.',php:81.0,rate:24.98,krw:2023,pdf:'-'},
+    {cat:'기타유지비',month:'Mar',desc:'Ricci Development Corp. - Parking',date:'25-03-2026',receipt:'24294',supplier:'Ricci Development Corp.',php:100.0,rate:24.98,krw:2498,pdf:'112'},
+    {cat:'전화료',month:'',desc:'',date:'',receipt:'',supplier:'',php:0,rate:0,krw:0,pdf:''},
+    {cat:'전산용품',month:'Jan',desc:'Octagon Computer Superstore (Upson Intl.) - USB 2.0 16GB x2 + eco bag',date:'01-01-2026',receipt:'72019',supplier:'Octagon Computer Superstore (Upson Intl.)',php:600.0,rate:24.61,krw:14766,pdf:'2'},
+    {cat:'기타소모품',month:'Jan',desc:'CJA Photocopying Center - Photocopying / document service',date:'01-01-2026',receipt:'3582',supplier:'CJA Photocopying Center',php:1640.0,rate:24.61,krw:40360,pdf:'1'},
+    {cat:'비품비',month:'Jan',desc:'PCX Market-M - Office supplies',date:'18-01-2026',receipt:'507971',supplier:'PCX Market-M',php:58995.0,rate:24.61,krw:1451867,pdf:'5'},
+    {cat:'비품비',month:'Feb',desc:'Bureau of Immigration - Visa',date:'16-02-2026',receipt:'M26300618028',supplier:'Bureau of Immigration',php:2160.0,rate:24.86,krw:53698,pdf:'70'},
+    {cat:'비품비',month:'Feb',desc:'Bureau of Immigration - Express',date:'16-02-2026',receipt:'e26300589577',supplier:'Bureau of Immigration',php:2000.0,rate:24.86,krw:49720,pdf:'71'},
+    {cat:'전산용품',month:'Feb',desc:'Octagon Computer Superstore - Computer set',date:'19-02-2026',receipt:'36009',supplier:'Octagon Computer Superstore',php:39093.0,rate:24.86,krw:971852,pdf:'75'},
+    {cat:'비품비',month:'Feb',desc:'Abacus Book And Card Corp. - Office supplies',date:'19-02-2026',receipt:'022020260086000102882652773f74',supplier:'Abacus Book And Card Corp.',php:2857.0,rate:24.86,krw:71025,pdf:'76'},
+    {cat:'비품비',month:'Feb',desc:'Jasr Documentation Services - Service Fee',date:'23-02-2026',receipt:'0378',supplier:'Jasr Documentation Services',php:1800.0,rate:24.86,krw:44748,pdf:'79'},
+    {cat:'비품비',month:'Feb',desc:'Jasr Documentation Services - Visa',date:'23-02-2026',receipt:'1968',supplier:'Jasr Documentation Services',php:4160.0,rate:24.86,krw:103418,pdf:'80'},
+    {cat:'기타소모품',month:'Feb',desc:'Copier Land PHL Inc. - Bond Paper',date:'26-02-2026',receipt:'7676',supplier:'Copier Land PHL Inc.',php:13627.23,rate:24.86,krw:338773,pdf:'83'},
+    {cat:'비품비',month:'Mar',desc:'Abacus Book And Card Corp. - Office supplies',date:'04-02-2026',receipt:'030320260086000303434951c8012',supplier:'Abacus Book And Card Corp.',php:944.0,rate:24.98,krw:23581,pdf:'89'},
+    {cat:'전산용품',month:'Mar',desc:'CG Computer Trading - 2pc. Computer set',date:'04-02-2026',receipt:'1340',supplier:'CG Computer Trading',php:85980.0,rate:24.98,krw:2147780,pdf:'88'},
+    {cat:'비품비',month:'Mar',desc:'A1 Key Duplicating Services - 4 Office Key',date:'10-03-2026',receipt:'00107',supplier:'A1 Key Duplicating Services',php:240.0,rate:24.98,krw:5995,pdf:'91'},
+    {cat:'기타소모품',month:'Mar',desc:'Metro Market Market - Tissue and paper plate',date:'16-03-2026',receipt:'546039',supplier:'Metro Market Market',php:105.0,rate:24.98,krw:2623,pdf:'93'},
+    {cat:'비품비',month:'Mar',desc:'Abacus Book And Card Corp.',date:'12-03-2026',receipt:'0312202026245300030004047d5198b29',supplier:'Abacus Book And Card Corp.',php:13027.0,rate:24.98,krw:325414,pdf:'98'},
+    {cat:'비품비',month:'Mar',desc:'Office Warehouse, Inc. - Office supplies',date:'12-03-2026',receipt:'723476',supplier:'Office Warehouse, Inc.',php:10280.75,rate:24.98,krw:256813,pdf:'99'},
+    {cat:'전산용품',month:'Mar',desc:'Octagon Computer Superstore',date:'12-03-2026',receipt:'36714',supplier:'Octagon Computer Superstore',php:19553.0,rate:24.98,krw:488434,pdf:'97'},
+    {cat:'기타소모품',month:'Mar',desc:'Omega One Development Corp - Purchased A4 and A3 Paper',date:'23-03-2026',receipt:'INV-2026-0002',supplier:'Omega One Development Corp',php:13750.0,rate:24.98,krw:343475,pdf:'127'},
+    {cat:'기타소모품',month:'Mar',desc:'Copier Land PHL. Inc. - Coil Ring',date:'30-03-2026',receipt:'7706',supplier:'Copier Land PHL. Inc.',php:6552.0,rate:24.98,krw:163669,pdf:'114'},
+    {cat:'기타소모품',month:'Mar',desc:'Copier Land PHL Inc. - Coil Ring',date:'30-03-2026',receipt:'7707',supplier:'Copier Land PHL Inc.',php:2912.0,rate:24.98,krw:72742,pdf:'113'},
+    {cat:'전산용품',month:'Mar',desc:'GG Computer Trading - Computer Set',date:'30-03-2026',receipt:'1489',supplier:'GG Computer Trading',php:42990.0,rate:24.98,krw:1073890,pdf:'115'},
+    {cat:'전산용품',month:'Mar',desc:'전산용품 - 80,000 PHP',date:'08-03-2026',receipt:'',supplier:'',php:80000.0,rate:24.98,krw:1998400,pdf:'132'},
+    {cat:'보고서인쇄',month:'Jan',desc:'Upswing Blueprints - A4 Document Printing & Binding - Jan 2026 (80 books x ₱600)',date:'31-01-2026',receipt:'Jan-2026',supplier:'Upswing Blueprints',php:48000.0,rate:24.61,krw:1181280,pdf:'129'},
+    {cat:'보고서인쇄',month:'Feb',desc:'Upswing Blueprints - A4 Document Printing & Binding - Feb 2026 (80 books x ₱600)',date:'28-02-2026',receipt:'Feb-2026',supplier:'Upswing Blueprints',php:48000.0,rate:24.86,krw:1193280,pdf:'130'},
+    {cat:'보고서인쇄',month:'Mar',desc:'Upswing Blueprints - A4 Document Printing & Binding - Mar 2026 (50 books x ₱600)',date:'31-03-2026',receipt:'Mar-2026',supplier:'Upswing Blueprints',php:30000.0,rate:24.98,krw:749400,pdf:'131'},
+    {cat:'복리후생비',month:'Jan',desc:'Royal Garden Manila Kitchenette - Meals',date:'15-01-2026',receipt:'2028',supplier:'Royal Garden Manila Kitchenette',php:1250.0,rate:24.61,krw:30763,pdf:'3'},
+    {cat:'복리후생비',month:'Jan',desc:'Tempus Food and Beverage Corp. - Meals',date:'15-01-2026',receipt:'507',supplier:'Tempus Food and Beverage Corp.',php:1421.58,rate:24.61,krw:34985,pdf:'4'},
+    {cat:'복리후생비',month:'Jan',desc:'The Food Grill @ The Fort Inc. - Meals',date:'19-01-2026',receipt:'319',supplier:'The Food Grill @ The Fort Inc.',php:4836.43,rate:24.61,krw:119025,pdf:'6'},
+    {cat:'복리후생비',month:'Jan',desc:'Yeah Fresh Group - Meals',date:'20-01-2026',receipt:'52516',supplier:'Yeah Fresh Group',php:315.0,rate:24.61,krw:7752,pdf:'12'},
+    {cat:'복리후생비',month:'Jan',desc:'SM Hypermarket - Essentials',date:'20-01-2026',receipt:'15848',supplier:'SM Hypermarket',php:2905.0,rate:24.61,krw:71492,pdf:'11'},
+    {cat:'복리후생비',month:'Feb',desc:'Lawson Philippines Inc. - Meals',date:'02-03-2026',receipt:'100085110045688',supplier:'Lawson Philippines Inc.',php:393.0,rate:24.86,krw:9770,pdf:'13'},
+    {cat:'복리후생비',month:'Feb',desc:"Robinson's Supermarket Marketplace - Grocery / food purchase",date:'03-03-2026',receipt:'19312',supplier:"Robinson's Supermarket Marketplace",php:1241.0,rate:24.86,krw:30851,pdf:'14'},
+    {cat:'복리후생비',month:'Feb',desc:'Almont Hotel & Inland Resort - Hotel accommodation',date:'05-03-2026',receipt:'27',supplier:'Almont Hotel & Inland Resort',php:40150.0,rate:24.86,krw:998129,pdf:'24'},
+    {cat:'복리후생비',month:'Feb',desc:'Travelbee - Hotel stay – 3 nights',date:'05-03-2026',receipt:'31356',supplier:'Travelbee',php:20160.0,rate:24.86,krw:501178,pdf:'23'},
+    {cat:'복리후생비',month:'Feb',desc:'Funhan Mart. - Meals',date:'05-03-2026',receipt:'123426',supplier:'Funhan Mart.',php:1305.0,rate:24.86,krw:32442,pdf:'21'},
+    {cat:'복리후생비',month:'Feb',desc:'Atria (HCE Corporation) - Meals',date:'05-03-2026',receipt:'69077',supplier:'Atria (HCE Corporation)',php:6580.0,rate:24.86,krw:163579,pdf:'20'},
+    {cat:'복리후생비',month:'Feb',desc:'Z Point Resto Bar - Meals',date:'05-03-2026',receipt:'185',supplier:'Z Point Resto Bar',php:980.0,rate:24.86,krw:24363,pdf:'19?'},
+    {cat:'복리후생비',month:'Feb',desc:'Istorya Forest Garden Inc.  - Meals',date:'05-03-2026',receipt:'6379',supplier:'Istorya Forest Garden Inc. ',php:3870.0,rate:24.86,krw:96208,pdf:'18'},
+    {cat:'복리후생비',month:'Feb',desc:'Jollibee (Jolly Baybay Corp.) - Meals',date:'05-03-2026',receipt:'25834',supplier:'Jollibee (Jolly Baybay Corp.)',php:1545.0,rate:24.86,krw:38409,pdf:'17'},
+    {cat:'복리후생비',month:'Feb',desc:'RVP Seafoods Inc. - Meals',date:'06-03-2026',receipt:'450',supplier:'RVP Seafoods Inc.',php:7991.52,rate:24.86,krw:198669,pdf:'26'},
+    {cat:'복리후생비',month:'Feb',desc:"McDonald's Iloilo Business Park - Meals",date:'06-03-2026',receipt:'12000746',supplier:"McDonald's Iloilo Business Park",php:515.0,rate:24.86,krw:12803,pdf:'25'},
+    {cat:'복리후생비',month:'Feb',desc:'Kogi & Vegi Foods Corporation - Meals',date:'06-03-2026',receipt:'33965',supplier:'Kogi & Vegi Foods Corporation',php:3120.0,rate:24.86,krw:77563,pdf:'27'},
+    {cat:'복리후생비',month:'Feb',desc:'Dovanser Inc. - Meals',date:'07-03-2026',receipt:'185577',supplier:'Dovanser Inc.',php:5120.0,rate:24.86,krw:127283,pdf:'30'},
+    {cat:'복리후생비',month:'Feb',desc:'District 21 Resto KTV - Meals / entertainment',date:'07-03-2026',receipt:'28854',supplier:'District 21 Resto KTV',php:3410.0,rate:24.86,krw:84773,pdf:'34'},
+    {cat:'복리후생비',month:'Feb',desc:'Freshko Corporation - Meals / grocery',date:'07-03-2026',receipt:'1526',supplier:'Freshko Corporation',php:600.0,rate:24.86,krw:14916,pdf:'33'},
+    {cat:'복리후생비',month:'Feb',desc:'Breakthrough Restaurant Inc. - Meals – Official Receipt',date:'07-03-2026',receipt:'9157',supplier:'Breakthrough Restaurant Inc.',php:6196.83,rate:24.86,krw:154053,pdf:'32'},
+    {cat:'복리후생비',month:'Feb',desc:'Breakthrough Restaurant Inc. - Meals – Sales Invoice',date:'07-03-2026',receipt:'0009161',supplier:'Breakthrough Restaurant Inc.',php:520.0,rate:24.86,krw:12927,pdf:'31'},
+    {cat:'복리후생비',month:'Feb',desc:'Alicias Batchoyan - Meals – dine in',date:'07-03-2026',receipt:'85043',supplier:'Alicias Batchoyan',php:965.0,rate:24.86,krw:23990,pdf:'28'},
+    {cat:'복리후생비',month:'Feb',desc:"McDonald's Iloilo Business Park - Meals",date:'07-03-2026',receipt:'12000749',supplier:"McDonald's Iloilo Business Park",php:560.0,rate:24.86,krw:13922,pdf:'29'},
+    {cat:'복리후생비',month:'Feb',desc:"Mama's Kitchen Food Products - Food / takeout",date:'08-03-2026',receipt:'44714',supplier:"Mama's Kitchen Food Products",php:5715.0,rate:24.86,krw:142075,pdf:'35'},
+    {cat:'복리후생비',month:'Feb',desc:'Krisced Cafe - Meals / beverages',date:'08-03-2026',receipt:'0000709',supplier:'Krisced Cafe',php:516.0,rate:24.86,krw:12828,pdf:'36'},
+    {cat:'복리후생비',month:'Feb',desc:'Kap Ising Pancit Molo - Meals',date:'08-03-2026',receipt:'002211',supplier:'Kap Ising Pancit Molo',php:1866.0,rate:24.86,krw:46389,pdf:'37'},
+    {cat:'복리후생비',month:'Feb',desc:'Funhan Mart. - Meals',date:'08-03-2026',receipt:'000123987',supplier:'Funhan Mart.',php:179.0,rate:24.86,krw:4450,pdf:'39'},
+    {cat:'복리후생비',month:'Feb',desc:"Jeara's Tinu-om and Restaurant - Meals",date:'08-03-2026',receipt:'3339',supplier:"Jeara's Tinu-om and Restaurant",php:910.0,rate:24.86,krw:22623,pdf:'38'},
+    {cat:'복리후생비',month:'Feb',desc:'Brotzeit Phils. - Meals',date:'10-03-2026',receipt:'114339',supplier:'Brotzeit Phils.',php:1546.79,rate:24.86,krw:38453,pdf:'42'},
+    {cat:'복리후생비',month:'Feb',desc:'ASM Foods - Meals',date:'11-03-2026',receipt:'934858',supplier:'ASM Foods',php:166.0,rate:24.86,krw:4127,pdf:'44'},
+    {cat:'복리후생비',month:'Feb',desc:'Almont Hotel & Inland Resort - Meals (in-hotel)',date:'11-03-2026',receipt:'26176',supplier:'Almont Hotel & Inland Resort',php:475.0,rate:24.86,krw:11809,pdf:'46'},
+    {cat:'복리후생비',month:'Feb',desc:'New Rosario Food Corp - Meals',date:'11-03-2026',receipt:'1379',supplier:'New Rosario Food Corp',php:7435.0,rate:24.86,krw:184834,pdf:'47'},
+    {cat:'복리후생비',month:'Feb',desc:'ASM Foods - Meals',date:'11-03-2026',receipt:'934856',supplier:'ASM Foods',php:304.0,rate:24.86,krw:7557,pdf:'48'},
+    {cat:'복리후생비',month:'Feb',desc:'Premiero Restobar - Meals',date:'11-03-2026',receipt:'811',supplier:'Premiero Restobar',php:1013.0,rate:24.86,krw:25183,pdf:'49'},
+    {cat:'복리후생비',month:'Feb',desc:'WS and Landin Inc. - Meals (airport)',date:'11-03-2026',receipt:'000907',supplier:'WS and Landin Inc.',php:400.0,rate:24.86,krw:9944,pdf:'50'},
+    {cat:'복리후생비',month:'Feb',desc:'ASM Foods - Meals',date:'11-03-2026',receipt:'934854',supplier:'ASM Foods',php:896.0,rate:24.86,krw:22275,pdf:'51'},
+    {cat:'복리후생비',month:'Feb',desc:'Otophub Consumer Goods Trading - Meals / food',date:'11-03-2026',receipt:'1499',supplier:'Otophub Consumer Goods Trading',php:1750.0,rate:24.86,krw:43505,pdf:'52'},
+    {cat:'복리후생비',month:'Feb',desc:'Almont Hotel & Inland Resort - Meals (in-hotel)',date:'11-03-2026',receipt:'26164',supplier:'Almont Hotel & Inland Resort',php:5244.93,rate:24.86,krw:130389,pdf:'45'},
+    {cat:'복리후생비',month:'Feb',desc:"VJ's Sports Bar N'Ihaw Ihaw - Meals / entertainment",date:'12-03-2026',receipt:'018518',supplier:"VJ's Sports Bar N'Ihaw Ihaw",php:13460.18,rate:24.86,krw:334620,pdf:'57'},
+    {cat:'복리후생비',month:'Feb',desc:"Baron's Kinilaw Sugba and BBQ - Meals",date:'12-03-2026',receipt:'8997',supplier:"Baron's Kinilaw Sugba and BBQ",php:6630.0,rate:24.86,krw:164822,pdf:'56'},
+    {cat:'복리후생비',month:'Feb',desc:'Tiber Interprise Holdings Corp.  - Meals',date:'12-03-2026',receipt:'287',supplier:'Tiber Interprise Holdings Corp. ',php:556.0,rate:24.86,krw:13822,pdf:'55'},
+    {cat:'복리후생비',month:'Feb',desc:'Golden Prime Food Corporation - Meals',date:'13-03-2026',receipt:'274',supplier:'Golden Prime Food Corporation',php:7326.0,rate:24.86,krw:182124,pdf:'60'},
+    {cat:'복리후생비',month:'Feb',desc:'Almont Hotel & Inland Resort - Meals (in-hotel)',date:'13-03-2026',receipt:'26247',supplier:'Almont Hotel & Inland Resort',php:10187.0,rate:24.86,krw:253249,pdf:'59'},
+    {cat:'복리후생비',month:'Feb',desc:"Boss Nan'z Coffee Shop - Meals / beverages",date:'14-03-2026',receipt:'00358',supplier:"Boss Nan'z Coffee Shop",php:1160.0,rate:24.86,krw:28838,pdf:'64'},
+    {cat:'복리후생비',month:'Feb',desc:'Aligue Seafood Restaurant - Meals',date:'14-03-2026',receipt:'002836',supplier:'Aligue Seafood Restaurant',php:7775.0,rate:24.86,krw:193287,pdf:'63'},
+    {cat:'복리후생비',month:'Feb',desc:'Almont Hotel & Inland Resort - Meals (in-hotel)',date:'14-03-2026',receipt:'26617',supplier:'Almont Hotel & Inland Resort',php:570.0,rate:24.86,krw:14170,pdf:'62'},
+    {cat:'복리후생비',month:'Feb',desc:'Yeah Fresh Group - Meals',date:'15-03-2026',receipt:'54450',supplier:'Yeah Fresh Group',php:675.0,rate:24.86,krw:16781,pdf:'65'},
+    {cat:'복리후생비',month:'Feb',desc:'Kenny Rogers Roasters - Meals',date:'17-03-2026',receipt:'128774',supplier:'Kenny Rogers Roasters',php:950.0,rate:24.86,krw:23617,pdf:'66'},
+    {cat:'복리후생비',month:'Feb',desc:'The Food Grill @ The Fort Inc. - Meals',date:'17-03-2026',receipt:'160331',supplier:'The Food Grill @ The Fort Inc.',php:3390.0,rate:24.86,krw:84275,pdf:'67'},
+    {cat:'복리후생비',month:'Feb',desc:'Little Jeju Corp. - Meals',date:'19-03-2026',receipt:'0019759',supplier:'Little Jeju Corp.',php:2534.0,rate:24.86,krw:62995,pdf:'68'},
+    {cat:'복리후생비',month:'Feb',desc:'Starbucks Coffee - Coffee',date:'19-03-2026',receipt:'1719944',supplier:'Starbucks Coffee',php:320.0,rate:24.86,krw:7955,pdf:'69'},
+    {cat:'복리후생비',month:'Feb',desc:'S&R Pizza Inc. - Meals',date:'21-03-2026',receipt:'0017065',supplier:'S&R Pizza Inc.',php:1363.0,rate:24.86,krw:33884,pdf:'72'},
+    {cat:'복리후생비',month:'Feb',desc:'Goldilocks Bakeshop, Inc. - Snacks',date:'21-03-2026',receipt:'3241713',supplier:'Goldilocks Bakeshop, Inc.',php:154.0,rate:24.86,krw:3828,pdf:'73'},
+    {cat:'복리후생비',month:'Feb',desc:'OSSAM - Meals',date:'21-03-2026',receipt:'284',supplier:'OSSAM',php:265.0,rate:24.86,krw:6588,pdf:'74'},
+    {cat:'복리후생비',month:'Feb',desc:'The Sohrabi Inc. - Meals',date:'24-03-2026',receipt:'059334',supplier:'The Sohrabi Inc.',php:6622.86,rate:24.86,krw:164644,pdf:'78'},
+    {cat:'복리후생비',month:'Feb',desc:'Starbucks Coffee - Meals',date:'27-03-2026',receipt:'000176',supplier:'Starbucks Coffee',php:880.0,rate:24.86,krw:21877,pdf:'81'},
+    {cat:'복리후생비',month:'Feb',desc:'Brotzeit Phils. - Meals',date:'28-03-2026',receipt:'6737',supplier:'Brotzeit Phils.',php:3801.61,rate:24.86,krw:94508,pdf:'82'},
+    {cat:'복리후생비',month:'Feb',desc:'Well Retail Corporation - Meals',date:'29-03-2026',receipt:'006026',supplier:'Well Retail Corporation',php:275.0,rate:24.86,krw:6837,pdf:'86'},
+    {cat:'복리후생비',month:'Mar',desc:'Condo deposit and cash advance',date:'03-03-2026',receipt:'',supplier:'',php:140000.0,rate:24.98,krw:3497200,pdf:'87'},
+    {cat:'복리후생비',month:'Mar',desc:'Krispy Kreme - Snack for meeting',date:'10-03-2026',receipt:'000878',supplier:'Krispy Kreme',php:905.0,rate:24.98,krw:22607,pdf:'92'},
+    {cat:'복리후생비',month:'Mar',desc:'Starbucks Coffee - Drinks',date:'11-03-2026',receipt:'00526',supplier:'Starbucks Coffee',php:5665.0,rate:24.98,krw:141512,pdf:'95'},
+    {cat:'복리후생비',month:'Mar',desc:'Green Fresh',date:'11-03-2026',receipt:'0000757748',supplier:'Green Fresh',php:165.0,rate:24.98,krw:4122,pdf:'96'},
+    {cat:'복리후생비',month:'Mar',desc:'ALNGOC Corp. - meals',date:'24-03-2026',receipt:'2225',supplier:'ALNGOC Corp.',php:1720.0,rate:24.98,krw:42966,pdf:'106'},
+    {cat:'복리후생비',month:'Mar',desc:'Mister Pares Food Corp. - Meals',date:'24-03-2026',receipt:'0208',supplier:'Mister Pares Food Corp.',php:1040.0,rate:24.98,krw:25979,pdf:'107'},
+    {cat:'기타여비',month:'Jan',desc:'Philippine Airlines - MNL-Roxas',date:'19-01-2026',receipt:'5768854',supplier:'Philippine Airlines',php:18460.0,rate:24.61,krw:454301,pdf:'10'},
+    {cat:'기타여비',month:'Jan',desc:'Cebu Air Inc. - MNL-BTN(BTN-MNL) S.Kevin',date:'19-01-2026',receipt:'291039532',supplier:'Cebu Air Inc.',php:16369.2,rate:24.61,krw:402846,pdf:'9'},
+    {cat:'기타여비',month:'Jan',desc:'Cebu Air Inc. - MNL-BTN(BTN-MNL) S.Arturo Ticket',date:'19-01-2026',receipt:'291040334',supplier:'Cebu Air Inc.',php:5403.4,rate:24.61,krw:132978,pdf:'8'},
+    {cat:'기타여비',month:'Jan',desc:'Philippine Airlines - Iloilo to Manila',date:'19-01-2026',receipt:'5768848',supplier:'Philippine Airlines',php:24624.0,rate:24.61,krw:605997,pdf:'7'},
+    {cat:'기타여비',month:'Feb',desc:'Grab - To NAIA T2',date:'05-03-2026',receipt:'A-8UHJU3GGWEVOAV',supplier:'Grab',php:499.0,rate:24.86,krw:12405,pdf:'22'},
+    {cat:'기타여비',month:'Feb',desc:'AOO Transport - Vehicle hire / transport',date:'08-03-2026',receipt:'0000139',supplier:'AOO Transport',php:65000.0,rate:24.86,krw:1615900,pdf:'41'},
+    {cat:'기타여비',month:'Feb',desc:'Cebu Air Inc. - Arturo L. Rebooking (BTN-MNL VV.)',date:'08-03-2026',receipt:'291490118',supplier:'Cebu Air Inc.',php:7638.4,rate:24.86,krw:189891,pdf:'40'},
+    {cat:'기타여비',month:'Feb',desc:'Grab - To cebupac dept',date:'11-03-2026',receipt:'A-8VAD7TGGW6V9AV',supplier:'Grab',php:453.0,rate:24.86,krw:11262,pdf:'53'},
+    {cat:'기타여비',month:'Feb',desc:'Grab - DPWH to KECC office',date:'28-03-2026',receipt:'A-9XISG39GWXVAV',supplier:'Grab',php:890.0,rate:24.86,krw:22125,pdf:'85'},
+    {cat:'기타여비',month:'Feb',desc:'Grab - To DPWH Port Area',date:'28-03-2026',receipt:'A-9XIIQOVWWJ9OAV',supplier:'Grab',php:499.0,rate:24.86,krw:12405,pdf:'84'},
+    {cat:'기타여비',month:'Mar',desc:'Joyride Superapp - Fare',date:'27-03-2026',receipt:'12603266322057896',supplier:'Joyride Superapp',php:231.0,rate:24.98,krw:5770,pdf:'110'},
+    {cat:'기타여비',month:'Mar',desc:'Grab - Delivery Fee',date:'27-03-2026',receipt:'A-958XEAKKG3862AV',supplier:'Grab',php:265.0,rate:24.98,krw:6620,pdf:'111'},
+    {cat:'기타여비',month:'Mar',desc:'Grab - Fare',date:'27-03-2026',receipt:'',supplier:'Grab',php:198.0,rate:24.98,krw:4946,pdf:'109'},
+    {cat:'사업행사비',month:'Mar',desc:'Sheraton Manila Bay - Payment for Event',date:'27-03-2026',receipt:'5282',supplier:'Sheraton Manila Bay',php:127669.12,rate:24.98,krw:3189175,pdf:'108'}
+        ];
+        function filterExpenses() {
+          var mf = document.getElementById("exp-filter-month").value;
+          var cf = document.getElementById("exp-filter-cat").value;
+          renderExpenseTable(Q1_EXPENSES.filter(function(r){ return (!mf||r.month===mf)&&(!cf||r.cat===cf); }));
+        }
+        function renderExpenseTable(rows) {
+          var tbody = document.getElementById("tbody-expenses");
+          if (!tbody) return;
+          var html = "", total = 0;
+          rows.forEach(function(r) {
+            total += r.krw;
+            var phpFmt = r.php.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+            html += "<tr><td><span class='tag tag-blue'>"+r.month+"</span></td>"
+              + "<td style='font-size:12px'>"+r.cat+"</td>"
+              + "<td style='font-size:12px'>"+r.desc+"</td>"
+              + "<td style='font-size:12px'>"+r.date+"</td>"
+              + "<td style='font-size:12px'>"+r.receipt+"</td>"
+              + "<td style='font-size:12px'>"+r.supplier+"</td>"
+              + "<td style='text-align:right;font-size:12px'>&#x20B1; "+phpFmt+"</td>"
+              + "<td style='text-align:right;font-size:12px'>"+r.rate+"</td>"
+              + "<td style='text-align:right;font-size:12px'>&#8361; "+r.krw.toLocaleString()+"</td>"
+              + "<td style='font-size:12px;color:var(--primary)'>"+(r.pdf?"p."+r.pdf:"-")+"</td></tr>";
+          });
+          tbody.innerHTML = html;
+          document.getElementById("exp-count").textContent = rows.length+"건";
+          document.getElementById("exp-total-krw").textContent = "&#8361; "+total.toLocaleString();
+        }
+        document.addEventListener("DOMContentLoaded", function(){ renderExpenseTable(Q1_EXPENSES); });
+        if (document.readyState !== "loading") setTimeout(function(){ renderExpenseTable(Q1_EXPENSES); }, 200);
+        </script>
       </div>
 
       <!-- ─── PROGRESS MGMT ─── -->
@@ -1353,8 +1555,8 @@ canvas.chart { max-width: 100%; }
           </div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>ID</th><th>Name</th><th>Company</th><th>Role</th><th>Email</th><th>Last Login</th><th>Status</th><th>Actions</th></tr></thead>
-              <tbody id="user-table-body"><tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text-muted)">Loading...</td></tr></tbody>
+              <thead><tr><th>ID</th><th>Name</th><th>Company</th><th>Role</th><th>Email</th><th>Last Login</th><th>Status</th><th>Accounting</th><th>Actions</th></tr></thead>
+              <tbody id="user-table-body"><tr><td colspan="9" style="text-align:center;padding:20px;color:var(--text-muted)">Loading...</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -1373,6 +1575,7 @@ canvas.chart { max-width: 100%; }
                 <tr><td>Document Approval</td><td>✅ Approve</td><td>✅ Approve</td><td>📤 Submit</td><td>❌</td></tr>
                 <tr><td>Notice / Schedule / File Storage</td><td>✅</td><td>✅</td><td>✅</td><td>👁️ View</td></tr>
                 <tr><td>User Management</td><td>✅ Manage</td><td>👁️ View</td><td>❌</td><td>❌</td></tr>
+                <tr><td>Accounting / Invoicing / Expenses</td><td colspan="4" style="text-align:center">🔒 Restricted — granted per-person by the administrator, regardless of role</td></tr>
               </tbody>
             </table>
           </div>
@@ -2202,8 +2405,8 @@ canvas.chart { max-width: 100%; }
       <h3 style="font-size:14px;color:var(--primary);margin:14px 0 6px">5. Issue Tracker (KTS style)</h3>
       <p>Register correspondence and tasks with <strong>+ New Issue</strong>. Click a row to expand its history. Status symbols: <strong>▽ In Progress · ● Complete · ✕ Closed</strong>. Use <strong>✏️ Add Progress Entry</strong> as events occur.</p>
       <h3 style="font-size:14px;color:var(--primary);margin:14px 0 6px">6. Roles</h3>
-      <p><strong>Admin</strong> manages users and all data · <strong>Manager</strong> all functions except user admin · <strong>Editor</strong> edits progress/documents · <strong>Viewer</strong> read-only.</p>
-      <p style="margin-top:12px;color:var(--text-muted);font-size:12px">Questions? Contact the administrator (kecc_admin).</p>
+      <p><strong>Admin</strong> manages users and all data · <strong>Manager</strong> all functions except user admin · <strong>Editor</strong> edits progress/documents · <strong>Viewer</strong> read-only. <strong>Accounting</strong> access (Accounting Overview / Invoicing / Expenses) is granted per-person by the administrator, separate from role.</p>
+      <p style="margin-top:12px;color:var(--text-muted);font-size:12px">Questions? Contact the system administrator.</p>
     </div>
     <div style="display:flex;justify-content:flex-end;margin-top:14px">
       <button class="btn btn-primary" onclick="closeModal('modal-help')">OK</button>
@@ -2379,12 +2582,19 @@ canvas.chart { max-width: 100%; }
       </div>
     </div>
     <div class="form-row">
-      <div class="form-group" style="grid-column:1/-1">
+      <div class="form-group">
         <label class="form-label">Status</label>
         <select class="form-input" id="um-status">
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
         </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Accounting Access</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);margin-top:6px">
+          <input type="checkbox" id="um-accounting" style="width:16px;height:16px">
+          Allow access to Accounting / Invoicing / Expenses
+        </label>
       </div>
     </div>
     <div id="um-error" style="color:var(--danger);font-size:12px;margin-bottom:8px;display:none"></div>
@@ -2446,11 +2656,7 @@ const FOLDERS = ['01. Reports', '02. Drawings', '03. Survey Data', '04. Correspo
 // USER DATABASE  (localStorage: pmis_users)
 // ══════════════════════════════════════════════
 const DEFAULT_USERS = [
-  { id:'kecc_admin', name:'KK Shin',      company:'KECC JV',    role:'admin',   email:'kkshin@keccjv.com',           pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
-  { id:'kecc_pm',   name:'Project Manager',        company:'KECC JV',    role:'manager', email:'pm@keccjv.com',               pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
-  { id:'wci_user',  name:'WCI Coordinator',         company:'WCI',        role:'editor',  email:'coord@wci.com',               pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
-  { id:'wci_eng',   name:'WCI Engineer',            company:'WCI',        role:'editor',  email:'eng@wci.com',                 pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
-  { id:'dpwh_view', name:'DPWH Inspector',          company:'DPWH',       role:'viewer',  email:'inspector@dpwh.gov.ph',       pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
+  { id:'kevin', name:'Kevin Shin (KWANG KYOON SHIN)', company:'KECC JV', role:'admin', email:'kevinshin2378@gmail.com', pwHash:btoa('PaAgFC-2027Apr!'), status:'active', lastLogin:'', accounting:true },
 ];
 
 // Pages each role can see (nav item ids)
@@ -2503,7 +2709,7 @@ function doLogin() {
   }
   user.lastLogin = new Date().toISOString().split('T')[0];
   saveUsers();
-  currentUser = { id: user.id, name: user.name, role: user.role, company: user.company };
+  currentUser = { id: user.id, name: user.name, role: user.role, company: user.company, accounting: !!user.accounting };
   document.getElementById('user-name').textContent = user.name;
   document.getElementById('user-role').textContent = user.company + ' · ' + user.role;
   document.getElementById('user-avatar').textContent = user.name[0].toUpperCase();
@@ -2521,7 +2727,12 @@ const GROUP_LABELS = {
 let currentGroup = 'general';
 
 function allowedPages() {
-  return ROLE_PAGES[(currentUser && currentUser.role)] || ROLE_PAGES.viewer;
+  let pages = ROLE_PAGES[(currentUser && currentUser.role)] || ROLE_PAGES.viewer;
+  const hasAccounting = !!(currentUser && currentUser.accounting === true);
+  if (!hasAccounting) {
+    pages = pages.filter(p => !['accounting','invoicing','expenses'].includes(p));
+  }
+  return pages;
 }
 
 function selectGroup(g, pageToOpen) {
@@ -2580,8 +2791,9 @@ function renderUserTable() {
       <td>${u.email || '-'}</td>
       <td>${u.lastLogin || '-'}</td>
       <td><span class="tag ${u.status==='active'?'tag-green':'tag-gray'}">${u.status==='active'?'Active':'Inactive'}</span></td>
+      <td>${u.accounting ? '<span class="tag tag-yellow">💰 Granted</span>' : '<span class="tag tag-gray">-</span>'}</td>
       <td>${isAdmin ? `<button class="btn btn-outline btn-sm" onclick="openUserModal('${u.id}')">Edit</button>
-           ${u.id!=='kecc_admin'?`<button class="btn btn-outline btn-sm" style="color:var(--danger)" onclick="deleteUser('${u.id}')">Delete</button>`:''}` : '-'}</td>
+           ${u.id!=='kevin'?`<button class="btn btn-outline btn-sm" style="color:var(--danger)" onclick="deleteUser('${u.id}')">Delete</button>`:''}` : '-'}</td>
     </tr>`).join('');
 }
 
@@ -2602,6 +2814,7 @@ function openUserModal(editId) {
     document.getElementById('um-pw').value = '';
     document.getElementById('um-pw-label').innerHTML = 'Password <span style="color:var(--text-muted);font-weight:400">(only if changing)</span>';
     document.getElementById('um-status').value = u.status;
+    document.getElementById('um-accounting').checked = !!u.accounting;
   } else {
     document.getElementById('user-modal-title').textContent = 'Add User';
     document.getElementById('um-edit-id').value = '';
@@ -2614,6 +2827,7 @@ function openUserModal(editId) {
     document.getElementById('um-pw').value = '';
     document.getElementById('um-pw-label').innerHTML = 'Password <span style="color:var(--danger)">*</span>';
     document.getElementById('um-status').value = 'active';
+    document.getElementById('um-accounting').checked = false;
   }
   openModal('modal-user');
 }
@@ -2629,16 +2843,17 @@ function saveUser() {
   const email = document.getElementById('um-email').value.trim();
   const pw = document.getElementById('um-pw').value;
   const status = document.getElementById('um-status').value;
+  const accounting = document.getElementById('um-accounting').checked;
   if (!id || !name) { errEl.textContent = 'ID and Name are required.'; errEl.style.display = 'block'; return; }
   loadUsers();
   if (!editId) {
     if (!pw) { errEl.textContent = 'Enter an initial password.'; errEl.style.display = 'block'; return; }
     if (USERS.find(u => u.id === id)) { errEl.textContent = 'This ID already exists.'; errEl.style.display = 'block'; return; }
-    USERS.push({ id, name, company, role, email, pwHash: pwHash(pw), status, lastLogin: '' });
+    USERS.push({ id, name, company, role, email, pwHash: pwHash(pw), status, lastLogin: '', accounting });
   } else {
     const idx = USERS.findIndex(u => u.id === editId);
     if (idx < 0) return;
-    USERS[idx] = { ...USERS[idx], name, company, role, email, status };
+    USERS[idx] = { ...USERS[idx], name, company, role, email, status, accounting };
     if (pw) USERS[idx].pwHash = pwHash(pw);
   }
   saveUsers();
@@ -2648,6 +2863,7 @@ function saveUser() {
 }
 
 function deleteUser(id) {
+  if (id === 'kevin') { showToast('This account cannot be deleted.'); return; }
   if (!confirm(`"${id}" Delete this user?`)) return;
   loadUsers();
   USERS = USERS.filter(u => u.id !== id);
@@ -2707,6 +2923,7 @@ function showPage(id) {
   if (id === 'issues') { initIssueTracker(); }
   if (id === 'deliverables') { initDeliverables(); }
   if (id === 'users') { initUsers(); }
+  if (id === 'expenses') { if (typeof renderExpenseTable === 'function' && typeof Q1_EXPENSES !== 'undefined') { renderExpenseTable(Q1_EXPENSES); } }
 }
 
 // ── MODALS ────────────────────────────────────
