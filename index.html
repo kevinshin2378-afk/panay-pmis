@@ -2840,9 +2840,9 @@ let USERS = [];
 
 function loadUsers() {
   // v3: force-reset stored users on version mismatch
-  if (localStorage.getItem('pmis_ver') !== '7') {
+  if (localStorage.getItem('pmis_ver') !== '8') {
     localStorage.removeItem('pmis_users');
-    localStorage.setItem('pmis_ver', '7');
+    localStorage.setItem('pmis_ver', '8');
   }
   try { USERS = JSON.parse(localStorage.getItem('pmis_users')) || []; } catch(e) { USERS = []; }
   if (!USERS.length) { USERS = JSON.parse(JSON.stringify(DEFAULT_USERS)); saveUsers(); }
