@@ -2660,9 +2660,9 @@ const FOLDERS = ['01. Reports', '02. Drawings', '03. Survey Data', '04. Correspo
 // USER DATABASE  (localStorage: pmis_users)
 // ══════════════════════════════════════════════
 const DEFAULT_USERS = [
-  { id:'kevin',  name:'Kevin Shin (KWANG KYOON SHIN)', company:'KECC JV',  role:'admin', email:'kevinshin2378@gmail.com', pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
-  { id:'noel',   name:'Noel (Accounting Manager)',      company:'KECC JV',  role:'accounting', email:'', pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
-  { id:'205202', name:'SAMAN Admin',                    company:'SAMAN',    role:'accounting', email:'', pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
+  { id:'kevin',  name:'Kevin Shin (KWANG KYOON SHIN)', company:'KECC JV',  role:'admin', email:'kevinshin2378@gmail.com', pwHash:btoa('1234@@'), status:'active', lastLogin:'', accounting:true },
+  { id:'noel',   name:'Noel (Accounting Manager)',      company:'KECC JV',  role:'accounting', email:'', pwHash:btoa('1234@@'), status:'active', lastLogin:'', accounting:true },
+  { id:'205202', name:'SAMAN Admin',                    company:'SAMAN',    role:'accounting', email:'', pwHash:btoa('1234@@'), status:'active', lastLogin:'', accounting:true },
   { id:'yoon',   name:'YOON Jae Heung (Team Leader)',   company:'KECC JV',  role:'staff', email:'', pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
   { id:'wci',    name:'WCI',                            company:'WCI',      role:'staff', email:'', pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
 ];
@@ -2682,9 +2682,9 @@ let USERS = [];
 
 function loadUsers() {
   // v3: force-reset stored users on version mismatch
-  if (localStorage.getItem('pmis_ver') !== '6') {
+  if (localStorage.getItem('pmis_ver') !== '7') {
     localStorage.removeItem('pmis_users');
-    localStorage.setItem('pmis_ver', '6');
+    localStorage.setItem('pmis_ver', '7');
   }
   try { USERS = JSON.parse(localStorage.getItem('pmis_users')) || []; } catch(e) { USERS = []; }
   if (!USERS.length) { USERS = JSON.parse(JSON.stringify(DEFAULT_USERS)); saveUsers(); }
