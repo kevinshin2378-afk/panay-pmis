@@ -7,6 +7,7 @@
 <!-- Google APIs -->
 <script src="https://apis.google.com/js/api.js"></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 :root {
   --primary: #14649e;          /* KS PMIS steel blue */
@@ -910,73 +911,131 @@ canvas.chart { max-width: 100%; }
 
         <div id="section-q2" style="display:none">
           <div class="grid-4" style="margin-bottom:20px">
-            <div class="stat-card"><div class="stat-label">&#128176; 신청금액 (총)</div><div class="stat-value" style="font-size:20px">&#8361; 111,249,619</div><div class="stat-sub">이월 8,430,365 포함</div></div>
-            <div class="stat-card"><div class="stat-label">&#128260; 신규 신청</div><div class="stat-value" style="font-size:20px;color:var(--primary)">&#8361; 102,819,254</div><div class="stat-sub">환율 1,399.81원/USD · $73,452</div></div>
-            <div class="stat-card"><div class="stat-label">&#128197; 정산기간</div><div class="stat-value" style="font-size:16px">2026.04~06</div><div class="stat-sub">Q2 2026 (신청 단계)</div></div>
-            <div class="stat-card"><div class="stat-label">&#127981; 정산 상태</div><div class="stat-value" style="font-size:16px"><span class="tag tag-yellow">신청중</span></div><div class="stat-sub">하나은행 418-910462-35107</div></div>
+            <div class="stat-card"><div class="stat-label">&#128176; 신청금액</div><div class="stat-value" style="font-size:20px">&#8361; 111,249,619</div><div class="stat-sub">이월 &#8361;8,430,365 포함</div></div>
+            <div class="stat-card"><div class="stat-label">&#9989; 입력된 정산금액</div><div class="stat-value" style="font-size:20px;color:var(--primary)" id="q2-settle-total">&#8361; 0</div><div class="stat-sub" id="q2-settle-cnt">0건 입력됨</div></div>
+            <div class="stat-card"><div class="stat-label">&#128181; 잔액</div><div class="stat-value" style="font-size:20px;color:var(--accent2)" id="q2-balance">&#8361; 111,249,619</div><div class="stat-sub">2026.04.01 ~ 2026.06.30</div></div>
+            <div class="stat-card"><div class="stat-label">&#128196; 업로드된 PDF</div><div class="stat-value" style="font-size:20px" id="q2-pdf-cnt">0건</div><div class="stat-sub">Google Drive 동기화</div></div>
           </div>
-          <div class="card mt24">
-            <div class="card-header"><div class="card-title">계정별 신청 현황 (Q2 2026)</div><div class="card-badge">신청 단계</div></div>
-            <div class="table-wrap"><table>
-              <thead><tr><th>계정과목</th><th>세목</th><th>내역</th><th>이월잔액(원)</th><th>신청금액(원)</th><th>정산</th></tr></thead>
-              <tbody>
-<tr><td>용역비</td><td>기타용역비</td><td>통역비</td><td style="text-align:right;color:var(--accent2)">51,680</td><td style="text-align:right">350,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>용역비</td><td>사무실보조인건비</td><td>현지직원 인건비</td><td style="text-align:right;color:var(--danger)">-11,494,619</td><td style="text-align:right">28,738,619</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>임차료</td><td>단기리스료</td><td>사무실 임대료</td><td style="text-align:right;color:var(--danger)">-7,154,560</td><td style="text-align:right">15,120,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>임차료</td><td>차량렌트비</td><td>차량렌트비</td><td style="text-align:right;color:var(--accent2)">15,999,123</td><td style="text-align:right">25,197,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>차량유지비</td><td>유류비</td><td>주유비</td><td style="text-align:right;color:var(--accent2)">1,669,101</td><td style="text-align:right">2,100,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>차량유지비</td><td>기타유지비</td><td>주차비/통행료/세차</td><td style="text-align:right;color:var(--danger)">-887,343</td><td style="text-align:right">630,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>통신비</td><td>전화료</td><td>통신비</td><td style="text-align:right;color:var(--accent2)">525,000</td><td style="text-align:right">525,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>소모품비</td><td>소모품비</td><td>비품비(소모)</td><td style="text-align:right;color:var(--danger)">-10,043,043</td><td style="text-align:right">0</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>소모품비</td><td>비품비</td><td>비품비(사무실기기)</td><td style="text-align:right;color:var(--danger)">-286,279</td><td style="text-align:right">2,100,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>소모품비</td><td>전산용품</td><td>전산용품</td><td style="text-align:right;color:var(--accent2)">10,104,878</td><td style="text-align:right">16,800,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>소모품비</td><td>기타소모품</td><td>사무실 운영비</td><td style="text-align:right;color:var(--accent2)">3,238,358</td><td style="text-align:right">4,200,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>도서인쇄비</td><td>보고서인쇄</td><td>인쇄비</td><td style="text-align:right;color:var(--accent2)">1,076,040</td><td style="text-align:right">4,200,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>복리후생비</td><td>복리후생비</td><td>기타비용(회의식대)</td><td style="text-align:right;color:var(--danger)">-7,983,393</td><td style="text-align:right">1,050,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>여비교통비</td><td>기타여비</td><td>국내선항공료</td><td style="text-align:right;color:var(--accent2)">2,822,554</td><td style="text-align:right">6,300,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr><td>지급수수료</td><td>사업행사비</td><td>보고회/세미나</td><td style="text-align:right;color:var(--accent2)">749,825</td><td style="text-align:right">3,939,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-<tr style="font-weight:bold;background:var(--surface2)"><td colspan="3">합 계</td><td style="text-align:right;color:var(--accent2)">8,430,365</td><td style="text-align:right">111,249,619</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
-              </tbody></table></div>
-          </div>
-          <div class="card mt24" style="background:var(--surface2);border:1px dashed var(--border)">
-            <div style="text-align:center;padding:32px;color:var(--text-muted)">
-              <div style="font-size:32px;margin-bottom:8px">&#129534;</div>
-              <div style="font-size:15px;font-weight:600;margin-bottom:4px">정산 영수증 미등록</div>
-              <div style="font-size:13px">Q2 2026 정산 완료 후 영수증 바인더를 업로드하면 상세 내역이 표시됩니다.</div>
-              <button onclick="openUploadModal()" style="margin-top:16px;padding:8px 20px;border-radius:6px;border:1px solid var(--primary);background:transparent;color:var(--primary);font-size:13px;cursor:pointer">&#128196; 엑셀 업로드</button>
-            </div>
-          </div>
-        </div>
 
-        <!-- Upload Modal -->
-        <div id="modal-upload" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10000;align-items:center;justify-content:center">
-          <div style="background:var(--surface);border-radius:12px;padding:32px;width:460px;box-shadow:0 8px 32px rgba(0,0,0,.2)">
-            <h3 style="margin:0 0 8px">&#128196; 현장운영경비 파일 업로드</h3>
-            <p style="font-size:13px;color:var(--text-muted);margin:0 0 20px">엑셀(.xlsx) 또는 PDF 파일을 선택하면 Google Drive에 자동 업로드됩니다.</p>
-            <div style="margin-bottom:16px">
-              <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:6px">분기 선택</label>
-              <select id="upload-quarter" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:14px">
-                <option value="26년 1분기">26년 1분기 (Q1 2026)</option>
-                <option value="26년 2분기" selected>26년 2분기 (Q2 2026)</option>
-              </select>
+          <!-- PDF 업로드 카드 -->
+          <div class="card mt24">
+            <div class="card-header">
+              <div class="card-title">&#128204; 영수증 PDF 업로드 (Q2 2026)</div>
+              <span style="font-size:12px;color:var(--text-muted)">Drive &rsaquo; Panay-Agusan PMIS &rsaquo; 영수증/2026-Q2</span>
             </div>
-            <div style="margin-bottom:16px">
-              <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:6px">파일 선택 (.xlsx, .pdf)</label>
-              <input type="file" id="upload-file" accept=".xlsx,.pdf,.xls" style="width:100%;padding:8px;border:1px dashed var(--border);border-radius:6px;font-size:13px">
+            <div style="padding:16px">
+              <div id="q2-drop-zone"
+                ondragover="event.preventDefault();this.style.background='#e8f0fe'"
+                ondragleave="this.style.background=''"
+                ondrop="handleQ2Drop(event)"
+                onclick="document.getElementById('q2-file-input').click()"
+                style="border:2px dashed var(--border);border-radius:8px;padding:28px;text-align:center;cursor:pointer;transition:background 0.2s">
+                <div style="font-size:28px">&#128196;</div>
+                <div style="font-size:14px;font-weight:600;margin:6px 0">PDF / Excel 파일을 드래그하거나 클릭하여 선택</div>
+                <div style="font-size:12px;color:var(--text-muted)">분기별 영수증 바인더 PDF, Receipt Summary 등 — Google Drive 자동 동기화</div>
+              </div>
+              <input type="file" id="q2-file-input" accept=".pdf,.xlsx,.xls" multiple style="display:none" onchange="handleQ2FileSelect(this.files)">
+              <div id="q2-upload-list" style="margin-top:12px"></div>
             </div>
-            <div id="upload-status" style="display:none;font-size:13px;padding:10px;border-radius:6px;margin-bottom:12px"></div>
-            <div style="display:flex;gap:8px;justify-content:flex-end">
-              <button onclick="closeUploadModal()" style="padding:8px 20px;border-radius:6px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:13px">취소</button>
-              <button onclick="doUpload()" style="padding:8px 20px;border-radius:6px;border:none;background:var(--primary);color:#fff;cursor:pointer;font-size:13px;font-weight:600">&#9650; Google Drive 업로드</button>
+          </div>
+
+          <!-- 정산 내역 입력 카드 -->
+          <div class="card mt24">
+            <div class="card-header">
+              <div class="card-title">&#128203; 정산 상세 내역 (Q2 2026)</div>
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <select id="q2-flt-month" onchange="renderSettleTable()" style="padding:4px 8px;border-radius:4px;border:1px solid var(--border);font-size:13px">
+                  <option value="">전체 월</option>
+                  <option value="Apr">Apr</option><option value="May">May</option><option value="Jun">Jun</option>
+                </select>
+                <select id="q2-flt-cat" onchange="renderSettleTable()" style="padding:4px 8px;border-radius:4px;border:1px solid var(--border);font-size:13px">
+                  <option value="">전체 계정</option>
+                  <option>용역비</option><option>임차료</option><option>차량유지비</option>
+                  <option>통신비</option><option>소모품비</option><option>도서인쇄비</option>
+                  <option>복리후생비</option><option>여비교통비</option><option>지급수수료</option>
+                </select>
+                <button onclick="addSettleRow()" style="padding:5px 12px;border-radius:4px;border:none;background:var(--primary);color:#fff;cursor:pointer;font-size:13px;font-weight:600">+ 행 추가</button>
+                <button onclick="exportSettleExcel()" style="padding:5px 12px;border-radius:4px;border:none;background:var(--accent2);color:#fff;cursor:pointer;font-size:13px;font-weight:600">&#128190; Excel 내보내기</button>
+              </div>
             </div>
-            <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
-              <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px">&#128190; 업로드된 파일</div>
-              <div id="uploaded-files-list" style="font-size:12px;color:var(--text-muted)">로딩 중...</div>
+            <div class="table-wrap" style="max-height:460px;overflow-y:auto">
+              <table id="tbl-settle-q2" style="font-size:12px">
+                <thead style="position:sticky;top:0;background:var(--surface)">
+                  <tr>
+                    <th style="width:46px">월</th><th style="width:72px">계정</th><th style="width:90px">세목</th>
+                    <th>내용</th><th style="width:86px">일자</th><th style="width:76px">증빙번호</th>
+                    <th style="width:110px">공급자</th><th style="width:88px;text-align:right">PHP</th>
+                    <th style="width:48px;text-align:right">환율</th><th style="width:96px;text-align:right">KRW</th>
+                    <th style="width:70px">비고</th><th style="width:32px"></th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-settle-q2"></tbody>
+              </table>
+            </div>
+            <div style="padding:8px 12px;font-size:13px;border-top:1px solid var(--border);display:flex;justify-content:space-between">
+              <span style="color:var(--text-muted)">필터 합계</span>
+              <span><strong id="settle-php-sum">PHP 0</strong>&nbsp;|&nbsp;<strong id="settle-krw-sum">&#8361; 0</strong></span>
+            </div>
+          </div>
+
+          <!-- 계정별 요약 카드 -->
+          <div class="card mt24">
+            <div class="card-header"><div class="card-title">&#128200; 계정별 정산 요약</div></div>
+            <div class="table-wrap">
+              <table style="font-size:12px">
+                <thead><tr><th>계정과목</th><th>세목</th><th style="text-align:right">신청금액(원)</th><th style="text-align:right">정산금액(원)</th><th style="text-align:right">잔액(원)</th><th>집행률</th></tr></thead>
+                <tbody id="tbody-settle-acct"></tbody>
+              </table>
+            </div>
+          </div>
+        </div><!-- /section-q2 -->
+
+        <!-- 행 추가/편집 모달 -->
+        <div id="modal-settle-row" class="modal-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center">
+          <div style="background:var(--surface);border-radius:12px;width:min(560px,95vw);max-height:90vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
+            <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+              <span style="font-weight:700;font-size:16px" id="settle-modal-title">영수증 행 추가</span>
+              <button onclick="closeSettleModal()" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-muted)">&#10005;</button>
+            </div>
+            <div style="padding:16px 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div><label style="font-size:12px;font-weight:600">월</label><br>
+                <select id="sm-month" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;margin-top:4px">
+                  <option value="Apr">Apr 2026</option><option value="May">May 2026</option><option value="Jun">Jun 2026</option>
+                </select></div>
+              <div><label style="font-size:12px;font-weight:600">계정과목</label><br>
+                <select id="sm-cat" onchange="updateSubcatOptions()" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;margin-top:4px">
+                  <option>용역비</option><option>임차료</option><option>차량유지비</option>
+                  <option>통신비</option><option>소모품비</option><option>도서인쇄비</option>
+                  <option>복리후생비</option><option>여비교통비</option><option>지급수수료</option>
+                </select></div>
+              <div><label style="font-size:12px;font-weight:600">세목</label><br>
+                <select id="sm-subcat" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;margin-top:4px"></select></div>
+              <div><label style="font-size:12px;font-weight:600">영수증 일자</label><br>
+                <input id="sm-date" type="date" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;margin-top:4px"></div>
+              <div style="grid-column:1/-1"><label style="font-size:12px;font-weight:600">내용</label><br>
+                <input id="sm-desc" type="text" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;margin-top:4px"></div>
+              <div><label style="font-size:12px;font-weight:600">증빙번호</label><br>
+                <input id="sm-receipt" type="text" placeholder="INV-001" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;margin-top:4px"></div>
+              <div><label style="font-size:12px;font-weight:600">공급자 (Supplier)</label><br>
+                <input id="sm-supplier" type="text" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;margin-top:4px"></div>
+              <div><label style="font-size:12px;font-weight:600">PHP 금액</label><br>
+                <input id="sm-php" type="number" step="0.01" placeholder="0.00" oninput="calcSmKrw()" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;margin-top:4px"></div>
+              <div><label style="font-size:12px;font-weight:600">환율 (원/PHP)</label><br>
+                <input id="sm-rate" type="number" step="0.01" placeholder="25.00" oninput="calcSmKrw()" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;margin-top:4px"></div>
+              <div style="grid-column:1/-1"><label style="font-size:12px;font-weight:600">KRW 원화 (자동계산)</label><br>
+                <input id="sm-krw" type="number" readonly style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;margin-top:4px;background:var(--surface2)"></div>
+              <div style="grid-column:1/-1"><label style="font-size:12px;font-weight:600">비고</label><br>
+                <input id="sm-remark" type="text" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;margin-top:4px"></div>
+            </div>
+            <div style="padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px">
+              <button onclick="closeSettleModal()" style="padding:8px 20px;border-radius:4px;border:1px solid var(--border);background:transparent;cursor:pointer">취소</button>
+              <button onclick="saveSettleRow()" style="padding:8px 20px;border-radius:4px;border:none;background:var(--primary);color:#fff;cursor:pointer;font-weight:600">저장</button>
             </div>
           </div>
         </div>
 
         <script>
+        /* ── Q1 데이터 ── */
         const Q1_EXPENSES = [
     {cat:'사무실보조인건비',month:'Feb',desc:'Administrative Officer (Feb)',date:'23-02-2026',receipt:'INV-2026-0001',supplier:'Omega One Development Corp',php:76876.8,rate:24.86,krw:1911157,pdf:'128'},
     {cat:'사무실보조인건비',month:'Feb',desc:'Secretary (Feb)',date:'23-02-2026',receipt:'INV-2026-0001',supplier:'Omega One Development Corp',php:51251.2,rate:24.86,krw:1274105,pdf:'128'},
@@ -1120,133 +1179,272 @@ canvas.chart { max-width: 100%; }
     {cat:'사업행사비',month:'Mar',desc:'Sheraton Manila Bay - Payment for Event',date:'27-03-2026',receipt:'5282',supplier:'Sheraton Manila Bay',php:127669.12,rate:24.98,krw:3189175,pdf:'108'}
         ];
 
-        function switchQtab(q) {
-          document.getElementById("section-q1").style.display = q==="q1" ? "" : "none";
-          document.getElementById("section-q2").style.display = q==="q2" ? "" : "none";
-          document.getElementById("qtab-q1").style.borderBottomColor = q==="q1" ? "var(--primary)" : "transparent";
-          document.getElementById("qtab-q2").style.borderBottomColor = q==="q2" ? "var(--primary)" : "transparent";
-          document.getElementById("qtab-q1").style.color = q==="q1" ? "var(--primary)" : "var(--text-muted)";
-          document.getElementById("qtab-q2").style.color = q==="q2" ? "var(--primary)" : "var(--text-muted)";
-          if (q==="q1") renderExpenseTable(Q1_EXPENSES);
-        }
-
         function filterExpenses() {
           var mf = document.getElementById("exp-filter-month").value;
           var cf = document.getElementById("exp-filter-cat").value;
           renderExpenseTable(Q1_EXPENSES.filter(function(r){ return (!mf||r.month===mf)&&(!cf||r.cat===cf); }));
         }
-
         function renderExpenseTable(rows) {
           var tbody = document.getElementById("tbody-expenses");
           if (!tbody) return;
-          var html = "", total = 0;
-          rows.forEach(function(r) {
-            total += r.krw;
-            var phpFmt = r.php.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-            html += "<tr><td><span class='tag tag-blue'>"+r.month+"</span></td>"
-              + "<td style='font-size:12px'>"+r.cat+"</td>"
-              + "<td style='font-size:12px'>"+r.desc+"</td>"
-              + "<td style='font-size:12px'>"+r.date+"</td>"
-              + "<td style='font-size:12px'>"+r.receipt+"</td>"
-              + "<td style='font-size:12px'>"+r.supplier+"</td>"
-              + "<td style='text-align:right;font-size:12px'>&#x20B1; "+phpFmt+"</td>"
-              + "<td style='text-align:right;font-size:12px'>"+r.rate+"</td>"
-              + "<td style='text-align:right;font-size:12px'>&#8361; "+r.krw.toLocaleString()+"</td>"
-              + "<td style='font-size:12px;color:var(--primary)'>"+(r.pdf?"p."+r.pdf:"-")+"</td></tr>";
+          var html="", total=0;
+          rows.forEach(function(r){
+            total+=r.krw;
+            var pf=r.php.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+            html+="<tr><td><span class='tag tag-blue'>"+r.month+"</span></td><td style='font-size:11px'>"+r.cat+"</td><td style='font-size:11px'>"+r.desc+"</td><td style='font-size:11px'>"+r.date+"</td><td style='font-size:11px'>"+r.receipt+"</td><td style='font-size:11px'>"+r.supplier+"</td><td style='text-align:right;font-size:11px'>&#x20B1; "+pf+"</td><td style='text-align:right;font-size:11px'>"+r.rate+"</td><td style='text-align:right;font-size:11px'>&#8361; "+r.krw.toLocaleString()+"</td><td style='font-size:11px;color:var(--primary)'>"+(r.pdf?"p."+r.pdf:"-")+"</td></tr>";
           });
           tbody.innerHTML = html;
-          document.getElementById("exp-count").textContent = rows.length+"건";
-          document.getElementById("exp-total-krw").textContent = "&#8361; "+total.toLocaleString();
+          document.getElementById("exp-count").textContent=rows.length+"건";
+          document.getElementById("exp-total-krw").textContent="&#8361; "+total.toLocaleString();
         }
 
-        function openUploadModal() {
-          document.getElementById("modal-upload").style.display = "flex";
-          document.getElementById("upload-status").style.display = "none";
-          listUploadedFiles();
-        }
-        function closeUploadModal() {
-          document.getElementById("modal-upload").style.display = "none";
-        }
-
-        async function ensurePmisFolder(parentId, name) {
-          var res = await gapi.client.drive.files.list({
-            q: "mimeType='application/vnd.google-apps.folder' and name='"+name+"' and '"+parentId+"' in parents and trashed=false",
-            fields: "files(id,name)"
+        function switchQtab(q) {
+          document.getElementById("section-q1").style.display=q==="q1"?"":"none";
+          document.getElementById("section-q2").style.display=q==="q2"?"":"none";
+          ["q1","q2"].forEach(function(t){
+            var b=document.getElementById("qtab-"+t);
+            b.style.borderBottomColor=t===q?"var(--primary)":"transparent";
+            b.style.color=t===q?"var(--primary)":"var(--text-muted)";
+            b.style.fontWeight=t===q?"700":"400";
           });
-          if (res.result.files.length > 0) return res.result.files[0].id;
-          var create = await gapi.client.drive.files.create({
-            resource: { name: name, mimeType: "application/vnd.google-apps.folder", parents: [parentId] },
-            fields: "id"
-          });
-          return create.result.id;
+          if(q==="q2"){renderSettleTable();renderSettleAcct();updateQ2Cards();}
         }
 
-        async function doUpload() {
-          var fileInput = document.getElementById("upload-file");
-          var quarter = document.getElementById("upload-quarter").value;
-          var statusEl = document.getElementById("upload-status");
-          if (!fileInput.files.length) { alert("파일을 선택하세요."); return; }
-          if (!gdriveToken) { alert("Google Drive에 먼저 로그인하세요. (Webhard 탭에서 연결)"); return; }
-          var file = fileInput.files[0];
-          statusEl.style.display = "block";
-          statusEl.style.background = "var(--surface2)";
-          statusEl.textContent = "&#9203; 업로드 중... " + file.name;
-          try {
-            var rootId = await ensurePmisFolder("root", "Panay-Agusan PMIS");
-            var expId  = await ensurePmisFolder(rootId, "현장운영경비");
-            var qId    = await ensurePmisFolder(expId, quarter);
-            var reader = new FileReader();
-            reader.onload = async function(e) {
-              var b64 = btoa(String.fromCharCode(...new Uint8Array(e.target.result)));
-              var mime = file.name.endsWith(".pdf") ? "application/pdf" : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-              var boundary = "-------pmis_upload";
-              var body = "--"+boundary+"\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n"
-                + JSON.stringify({name:file.name, parents:[qId]}) + "\r\n"
-                + "--"+boundary+"\r\nContent-Type: "+mime+"\r\nContent-Transfer-Encoding: base64\r\n\r\n"
-                + b64 + "\r\n--"+boundary+"--";
-              var resp = await fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
-                method: "POST",
-                headers: { "Authorization": "Bearer "+gdriveToken, "Content-Type": "multipart/related; boundary="+boundary },
-                body: body
-              });
-              if (resp.ok) {
-                statusEl.style.background = "#d4edda"; statusEl.style.color = "#155724";
-                statusEl.textContent = "&#10003; 업로드 완료! Google Drive > Panay-Agusan PMIS > 현장운영경비 > "+quarter;
-                listUploadedFiles();
-              } else {
-                statusEl.style.background = "#f8d7da"; statusEl.style.color = "#721c24";
-                statusEl.textContent = "&#10007; 업로드 실패. Google Drive 연결 상태를 확인하세요.";
-              }
-            };
-            reader.readAsArrayBuffer(file);
-          } catch(err) {
-            statusEl.style.background = "#f8d7da"; statusEl.style.color = "#721c24";
-            statusEl.textContent = "&#10007; 오류: "+err.message;
+        /* ── 정산 데이터 저장 ── */
+        var SETTLE_KEY="pmis_settle_Q2_2026";
+        function loadSettleData(){try{return JSON.parse(localStorage.getItem(SETTLE_KEY))||[];}catch(e){return[];}}
+        function saveSettleData(r){localStorage.setItem(SETTLE_KEY,JSON.stringify(r));}
+
+        var SUBCATS={"용역비":["기타용역비","사무실보조인건비"],"임차료":["단기리스료","차량렌트비"],"차량유지비":["유류비","기타유지비"],"통신비":["전화료"],"소모품비":["소모품비","비품비","전산용품","기타소모품"],"도서인쇄비":["보고서인쇄"],"복리후생비":["복리후생비"],"여비교통비":["기타여비"],"지급수수료":["사업행사비"]};
+        var CAT_RANGE={"기타용역비":1,"사무실보조인건비":1,"단기리스료":2,"차량렌트비":2,"유류비":3,"기타유지비":4,"전화료":5,"소모품비":6,"비품비":6,"전산용품":6,"기타소모품":6,"보고서인쇄":7,"복리후생비":8,"기타여비":9,"사업행사비":10};
+        var MONTH_NUM={"Apr":4,"May":5,"Jun":6};
+
+        var _editIdx=-1;
+        function updateSubcatOptions(){
+          var cat=document.getElementById("sm-cat").value;
+          var sel=document.getElementById("sm-subcat");
+          sel.innerHTML=(SUBCATS[cat]||[]).map(function(s){return "<option>"+s+"</option>";}).join("");
+        }
+        function calcSmKrw(){
+          var php=parseFloat(document.getElementById("sm-php").value)||0;
+          var rate=parseFloat(document.getElementById("sm-rate").value)||0;
+          document.getElementById("sm-krw").value=Math.round(php*rate);
+        }
+        function addSettleRow(){
+          _editIdx=-1;
+          document.getElementById("settle-modal-title").textContent="영수증 행 추가";
+          document.getElementById("sm-month").value="Apr";
+          document.getElementById("sm-cat").value="용역비";
+          updateSubcatOptions();
+          ["sm-desc","sm-date","sm-receipt","sm-supplier","sm-php","sm-krw","sm-remark"].forEach(function(id){document.getElementById(id).value="";});
+          document.getElementById("sm-rate").value="25.00";
+          document.getElementById("modal-settle-row").style.display="flex";
+        }
+        function editSettleRow(idx){
+          var rows=loadSettleData(); var r=rows[idx]; if(!r)return;
+          _editIdx=idx;
+          document.getElementById("settle-modal-title").textContent="영수증 행 편집";
+          document.getElementById("sm-month").value=r.month||"Apr";
+          document.getElementById("sm-cat").value=r.cat||"용역비";
+          updateSubcatOptions();
+          document.getElementById("sm-subcat").value=r.subcat||"";
+          document.getElementById("sm-desc").value=r.desc||"";
+          document.getElementById("sm-date").value=r.date||"";
+          document.getElementById("sm-receipt").value=r.receipt||"";
+          document.getElementById("sm-supplier").value=r.supplier||"";
+          document.getElementById("sm-php").value=r.php||"";
+          document.getElementById("sm-rate").value=r.rate||"";
+          document.getElementById("sm-krw").value=r.krw||"";
+          document.getElementById("sm-remark").value=r.remark||"";
+          document.getElementById("modal-settle-row").style.display="flex";
+        }
+        function closeSettleModal(){document.getElementById("modal-settle-row").style.display="none";}
+        function saveSettleRow(){
+          var rows=loadSettleData();
+          var cat=document.getElementById("sm-cat").value;
+          var subcat=document.getElementById("sm-subcat").value;
+          var php=parseFloat(document.getElementById("sm-php").value)||0;
+          var rate=parseFloat(document.getElementById("sm-rate").value)||0;
+          var row={id:_editIdx>=0?rows[_editIdx].id:Date.now()+"_"+Math.random().toString(36).slice(2),
+            month:document.getElementById("sm-month").value,
+            cat:cat,subcat:subcat,range:CAT_RANGE[subcat]||1,
+            desc:document.getElementById("sm-desc").value,
+            date:document.getElementById("sm-date").value,
+            receipt:document.getElementById("sm-receipt").value,
+            supplier:document.getElementById("sm-supplier").value,
+            php:php,rate:rate,krw:Math.round(php*rate),
+            remark:document.getElementById("sm-remark").value};
+          if(_editIdx>=0){rows[_editIdx]=row;}else{rows.push(row);}
+          saveSettleData(rows);
+          closeSettleModal();
+          renderSettleTable();renderSettleAcct();updateQ2Cards();
+        }
+        function deleteSettleRow(idx){
+          if(!confirm("이 행을 삭제하시겠습니까?"))return;
+          var rows=loadSettleData();rows.splice(idx,1);saveSettleData(rows);
+          renderSettleTable();renderSettleAcct();updateQ2Cards();
+        }
+
+        function renderSettleTable(){
+          var tbody=document.getElementById("tbody-settle-q2"); if(!tbody)return;
+          var mf=(document.getElementById("q2-flt-month")||{}).value||"";
+          var cf=(document.getElementById("q2-flt-cat")||{}).value||"";
+          var rows=loadSettleData();
+          var filtered=rows.map(function(r,i){r._i=i;return r;}).filter(function(r){return(!mf||r.month===mf)&&(!cf||r.cat===cf);});
+          var html="",phpSum=0,krwSum=0;
+          filtered.forEach(function(r){
+            phpSum+=r.php||0;krwSum+=r.krw||0;
+            var pf=(r.php||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+            html+="<tr onclick='editSettleRow("+r._i+")' style='cursor:pointer'>"
+              +"<td><span class='tag tag-blue'>"+r.month+"</span></td>"
+              +"<td style='font-size:11px'>"+r.cat+"</td><td style='font-size:11px'>"+r.subcat+"</td>"
+              +"<td style='font-size:11px'>"+r.desc+"</td><td style='font-size:11px'>"+r.date+"</td>"
+              +"<td style='font-size:11px'>"+r.receipt+"</td><td style='font-size:11px'>"+r.supplier+"</td>"
+              +"<td style='text-align:right;font-size:11px'>&#x20B1; "+pf+"</td>"
+              +"<td style='text-align:right;font-size:11px'>"+r.rate+"</td>"
+              +"<td style='text-align:right;font-size:11px'>&#8361; "+(r.krw||0).toLocaleString()+"</td>"
+              +"<td style='font-size:11px'>"+r.remark+"</td>"
+              +"<td><button onclick='event.stopPropagation();deleteSettleRow("+r._i+")' style='padding:2px 5px;border-radius:3px;border:1px solid var(--danger);color:var(--danger);background:transparent;cursor:pointer;font-size:10px'>&#10005;</button></td></tr>";
+          });
+          if(!filtered.length)html="<tr><td colspan='12' style='text-align:center;padding:24px;color:var(--text-muted)'>데이터 없음 — [+ 행 추가] 버튼으로 영수증을 입력하세요</td></tr>";
+          tbody.innerHTML=html;
+          var ps=document.getElementById("settle-php-sum");var ks=document.getElementById("settle-krw-sum");
+          if(ps)ps.textContent="PHP "+phpSum.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+          if(ks)ks.textContent="&#8361; "+krwSum.toLocaleString();
+        }
+
+        var Q2_PLAN=[
+          {cat:"용역비",sub:"기타용역비",plan:350000},{cat:"용역비",sub:"사무실보조인건비",plan:28738619},
+          {cat:"임차료",sub:"단기리스료",plan:15120000},{cat:"임차료",sub:"차량렌트비",plan:25197000},
+          {cat:"차량유지비",sub:"유류비",plan:2100000},{cat:"차량유지비",sub:"기타유지비",plan:630000},
+          {cat:"통신비",sub:"전화료",plan:525000},
+          {cat:"소모품비",sub:"소모품비",plan:0},{cat:"소모품비",sub:"비품비",plan:2100000},
+          {cat:"소모품비",sub:"전산용품",plan:16800000},{cat:"소모품비",sub:"기타소모품",plan:4200000},
+          {cat:"도서인쇄비",sub:"보고서인쇄",plan:4200000},
+          {cat:"복리후생비",sub:"복리후생비",plan:1050000},
+          {cat:"여비교통비",sub:"기타여비",plan:6300000},
+          {cat:"지급수수료",sub:"사업행사비",plan:3939000}
+        ];
+        function renderSettleAcct(){
+          var tbody=document.getElementById("tbody-settle-acct");if(!tbody)return;
+          var rows=loadSettleData();
+          var settled={};rows.forEach(function(r){settled[r.subcat]=(settled[r.subcat]||0)+(r.krw||0);});
+          var html="",totP=0,totS=0;
+          Q2_PLAN.forEach(function(p){
+            var s=settled[p.sub]||0;var bal=p.plan-s;
+            var bc=bal<0?"var(--danger)":"var(--accent2)";
+            var pct=p.plan>0?Math.min(100,Math.round(s/p.plan*100)):0;
+            var pc=p.plan===0?"<span class='tag tag-yellow'>실비</span>":"<div style='background:#e0f0ff;border-radius:4px;height:12px;width:100%'><div style='background:var(--primary);height:12px;border-radius:4px;width:"+pct+"%'></div></div><span style='font-size:10px'>"+pct+"%</span>";
+            html+="<tr><td>"+p.cat+"</td><td>"+p.sub+"</td><td style='text-align:right'>"+p.plan.toLocaleString()+"</td><td style='text-align:right'>"+s.toLocaleString()+"</td><td style='text-align:right;color:"+bc+"'>"+bal.toLocaleString()+"</td><td>"+pc+"</td></tr>";
+            totP+=p.plan;totS+=s;
+          });
+          var tb=totP-totS;
+          html+="<tr style='font-weight:700;background:var(--surface2)'><td colspan='2'>합 계</td><td style='text-align:right'>"+totP.toLocaleString()+"</td><td style='text-align:right'>"+totS.toLocaleString()+"</td><td style='text-align:right;color:"+(tb<0?"var(--danger)":"var(--accent2)")+"'>"+tb.toLocaleString()+"</td><td><div style='background:#e0f0ff;border-radius:4px;height:12px;width:100%'><div style='background:var(--primary);height:12px;border-radius:4px;width:"+(totP>0?Math.min(100,Math.round(totS/totP*100)):0)+"%'></div></div></td></tr>";
+          tbody.innerHTML=html;
+        }
+        function updateQ2Cards(){
+          var rows=loadSettleData();
+          var total=rows.reduce(function(s,r){return s+(r.krw||0);},0);
+          var e1=document.getElementById("q2-settle-total");
+          var e2=document.getElementById("q2-settle-cnt");
+          var e3=document.getElementById("q2-balance");
+          if(e1)e1.textContent="&#8361; "+total.toLocaleString();
+          if(e2)e2.textContent=rows.length+"건 입력됨";
+          if(e3)e3.textContent="&#8361; "+(111249619-total).toLocaleString();
+        }
+
+        /* ── PDF 업로드 ── */
+        function handleQ2Drop(e){e.preventDefault();document.getElementById("q2-drop-zone").style.background="";handleQ2FileSelect(e.dataTransfer.files);}
+        function handleQ2FileSelect(files){
+          if(!files||!files.length)return;
+          var list=document.getElementById("q2-upload-list");
+          var h="";
+          for(var i=0;i<files.length;i++){
+            var f=files[i];
+            h+="<div style='padding:8px 12px;background:var(--surface2);border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center'><span style='font-size:13px'>&#128196; "+f.name+"</span><span style='font-size:12px;color:var(--text-muted)'>"+Math.round(f.size/1024)+" KB <span id='upload-st-"+i+"' style='margin-left:8px;color:var(--primary)'>대기중</span></span></div>";
+          }
+          list.innerHTML=h;
+          if(typeof gdriveToken!=="undefined"&&gdriveToken){
+            Array.from(files).forEach(function(f,i){uploadQ2ToDrive(f,i);});
+          } else {
+            showToast("Google 로그인 후 자동 업로드됩니다.");
           }
         }
-
-        async function listUploadedFiles() {
-          var el = document.getElementById("uploaded-files-list");
-          if (!gdriveToken || !gapi.client.drive) { el.textContent = "Google Drive 미연결"; return; }
-          try {
-            var res = await gapi.client.drive.files.list({
-              q: "name contains '현장운영경비' or name contains '정산' or name contains '신청' and trashed=false",
-              orderBy: "modifiedTime desc",
-              pageSize: 10,
-              fields: "files(id,name,modifiedTime,webViewLink)"
-            });
-            var files = res.result.files;
-            if (!files.length) { el.textContent = "업로드된 파일 없음"; return; }
-            el.innerHTML = files.map(function(f){
-              var dt = new Date(f.modifiedTime).toLocaleDateString("ko-KR");
-              return "<div style='padding:4px 0;border-bottom:1px solid var(--border)'><a href='"+f.webViewLink+"' target='_blank' style='color:var(--primary);text-decoration:none'>&#128196; "+f.name+"</a><span style='float:right;color:var(--text-muted)'>"+dt+"</span></div>";
-            }).join("");
-          } catch(e) { el.textContent = "파일 목록 조회 실패"; }
+        async function uploadQ2ToDrive(file,idx){
+          try{
+            var fid=await ensurePmisFolder();
+            var sid=await ensureQ2SubFolder(fid);
+            var form=new FormData();
+            form.append("metadata",new Blob([JSON.stringify({name:file.name,parents:[sid]})],{type:"application/json"}));
+            form.append("file",file);
+            var el=document.getElementById("upload-st-"+idx);
+            if(el)el.textContent="업로드 중...";
+            var res=await fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name",{method:"POST",headers:{Authorization:"Bearer "+gdriveToken},body:form});
+            var data=await res.json();
+            if(el)el.textContent="✅ 완료";
+            showToast("✅ 업로드: "+file.name);
+            var cnt=document.getElementById("q2-pdf-cnt");
+            if(cnt)cnt.textContent=(parseInt(cnt.textContent)||0)+1+"건";
+          }catch(e){
+            var el=document.getElementById("upload-st-"+idx);
+            if(el)el.textContent="❌ 실패";
+            showToast("⚠️ 업로드 실패: "+file.name);
+          }
+        }
+        async function ensureQ2SubFolder(parentId){
+          var name="영수증_2026-Q2";
+          try{
+            var res=await gapi.client.drive.files.list({q:"mimeType='application/vnd.google-apps.folder' and name='"+name+"' and '"+parentId+"' in parents and trashed=false",fields:"files(id)"});
+            if(res.result.files&&res.result.files.length)return res.result.files[0].id;
+            var cr=await gapi.client.drive.files.create({resource:{name:name,mimeType:"application/vnd.google-apps.folder",parents:[parentId]},fields:"id"});
+            return cr.result.id;
+          }catch(e){return parentId;}
         }
 
-        document.addEventListener("DOMContentLoaded", function(){ renderExpenseTable(Q1_EXPENSES); });
-        if (document.readyState !== "loading") setTimeout(function(){ renderExpenseTable(Q1_EXPENSES); }, 200);
+        /* ── Excel 내보내기 ── */
+        function exportSettleExcel(){
+          if(typeof XLSX==="undefined"){showToast("Excel 라이브러리 로딩 중. 잠시 후 재시도하세요.");return;}
+          var rows=loadSettleData();
+          if(!rows.length){showToast("정산 내역이 없습니다. 먼저 영수증을 입력하세요.");return;}
+          var wb=XLSX.utils.book_new();
+          /* 정산상세내역 */
+          var detail=[
+            ["","","","","현지운영비 정산 상세명세서 (2026.04.01 ~ 2026.06.30)"],
+            ["","","","","■ 정산기간: 2026.04.01 ~ 2026.06.30","","","","","","","","","","","","■ 적용환율 산정방식 : 별첨 자료 확인"],
+            ["","FIELD FOR SUMIF FUNCTION","","","■ 사업명 : 필리핀 Panay 및 Agusan유역 홍수관리 실시설계 PKG 2"],
+            ["","RANGE","MONTH","","계정","","","내용","일자","증빙번호","공급자","PHP금액","환율(원/PHP)","원화금액","","","","원화(당사분)","비고","PDF페이지"]
+          ];
+          rows.slice().sort(function(a,b){
+            var mo={"Apr":0,"May":1,"Jun":2};
+            return(mo[a.month]||0)-(mo[b.month]||0)||(a.range||0)-(b.range||0);
+          }).forEach(function(r){
+            detail.push(["",r.range||1,MONTH_NUM[r.month]||4,"",r.cat,"","",r.desc||"",r.date||"",r.receipt||"",r.supplier||"",r.php||0,r.rate||0,r.krw||0,"","","",r.krw||0,r.remark||"",""]);
+          });
+          var totPHP=rows.reduce(function(s,r){return s+(r.php||0);},0);
+          var totKRW=rows.reduce(function(s,r){return s+(r.krw||0);},0);
+          detail.push(["","","","","합  계","","","","","","",totPHP,"",totKRW,"","","",totKRW,"",""]);
+          var ws1=XLSX.utils.aoa_to_sheet(detail);
+          ws1["!cols"]=[{wch:4},{wch:6},{wch:6},{wch:4},{wch:14},{wch:6},{wch:6},{wch:22},{wch:11},{wch:10},{wch:18},{wch:12},{wch:8},{wch:12},{wch:6},{wch:6},{wch:6},{wch:12},{wch:15},{wch:10}];
+          XLSX.utils.book_append_sheet(wb,ws1,"정산상세내역(26년 2분기)");
+          /* 정산환율 */
+          var ws2=XLSX.utils.aoa_to_sheet([["","월","환율(원/PHP)","비고"],["","2026년 4월","",""],["","2026년 5월","",""],["","2026년 6월","",""],["","신청환율(원/USD)","1399.81",""]]);
+          XLSX.utils.book_append_sheet(wb,ws2,"정산환율(26년 2분기)");
+          /* 계정별 요약 */
+          var settled={};rows.forEach(function(r){settled[r.subcat]=(settled[r.subcat]||0)+(r.krw||0);});
+          var sumData=[["","계정과목","세목","신청금액(원)","정산금액(원)","잔액(원)"]];
+          var tp=0,ts=0;
+          Q2_PLAN.forEach(function(p){var s=settled[p.sub]||0;sumData.push(["",p.cat,p.sub,p.plan,s,p.plan-s]);tp+=p.plan;ts+=s;});
+          sumData.push(["","합 계","",tp,ts,tp-ts]);
+          var ws3=XLSX.utils.aoa_to_sheet(sumData);
+          XLSX.utils.book_append_sheet(wb,ws3,"26년 2분기 요약");
+          XLSX.writeFile(wb,"현장운영경비_정산상세내역_26년2분기_"+new Date().toISOString().slice(0,10)+".xlsx");
+          showToast("✅ Excel 다운로드 완료");
+        }
+
+        document.addEventListener("DOMContentLoaded",function(){renderExpenseTable(Q1_EXPENSES);updateQ2Cards();});
+        if(document.readyState!=="loading")setTimeout(function(){renderExpenseTable(Q1_EXPENSES);updateQ2Cards();},200);
         </script>
+      </div>
       </div>
 
       <!-- ─── PROGRESS MGMT ─── -->
