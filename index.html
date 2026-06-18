@@ -828,51 +828,57 @@ canvas.chart { max-width: 100%; }
       <div class="page" id="page-expenses">
         <div class="page-header">
           <div class="breadcrumb">Home &rsaquo; Accounting &rsaquo; <span>Expense Management</span></div>
-          <h1>Expense Management &ndash; Field Operation (Q1 2026)</h1>
+          <h1>Expense Management &ndash; Field Operation</h1>
         </div>
 
-        <div class="grid-4" style="margin-bottom:24px">
-          <div class="stat-card"><div class="stat-label">&#128176; 신청금액 (Q1 2026)</div><div class="stat-value" style="font-size:20px">&#8361; 82,511,000</div><div class="stat-sub">환율 1,399.81원/USD &middot; $58,944 USD</div></div>
-          <div class="stat-card"><div class="stat-label">&#9989; 정산금액 (Q1 2026)</div><div class="stat-value" style="font-size:20px;color:var(--primary)">&#8361; 74,080,635</div><div class="stat-sub">PHP 2,976,527 &middot; $52,037 USD</div></div>
-          <div class="stat-card"><div class="stat-label">&#128181; 잔액 (미사용)</div><div class="stat-value" style="font-size:20px;color:var(--accent2)">&#8361; 8,430,365</div><div class="stat-sub">정산기간: 2026.01.01 ~ 2026.03.31</div></div>
-          <div class="stat-card"><div class="stat-label">&#129534; 영수증 건수</div><div class="stat-value" style="font-size:20px">140건</div><div class="stat-sub">PDF 증빙바인더 참조</div></div>
-        </div>
-
-        <div class="card mt24">
-          <div class="card-header"><div class="card-title">계정별 집행 현황 (Q1 2026)</div><div class="card-badge">2026.01 ~ 2026.03</div></div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>계정과목</th><th>세목</th><th>내역</th><th>계획금액(원)</th><th>정산금액(원)</th><th>잔액(원)</th><th>집행률</th></tr></thead>
-              <tbody>
-<tr><td>용역비</td><td>기타용역비</td><td>통역비</td><td style="text-align:right">350,000</td><td style="text-align:right">298,320</td><td style="text-align:right;color:var(--accent2)">51,680</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:85.2%"></div></div><span style="font-size:11px">85.2%</span></td></tr>
-<tr><td>용역비</td><td>사무실보조인건비</td><td>현지직원 인건비</td><td style="text-align:right">0</td><td style="text-align:right">11,494,619</td><td style="text-align:right;color:var(--danger)">-11,494,619</td><td><span class="tag tag-red">초과</span></td></tr>
-<tr><td>임차료</td><td>단기리스료</td><td>사무실 임대료</td><td style="text-align:right">15,120,000</td><td style="text-align:right">22,274,560</td><td style="text-align:right;color:var(--danger)">-7,154,560</td><td><span class="tag tag-red">초과</span></td></tr>
-<tr><td>임차료</td><td>차량렌트비</td><td>차량렌트비</td><td style="text-align:right">25,197,000</td><td style="text-align:right">9,197,877</td><td style="text-align:right;color:var(--accent2)">15,999,123</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:36.5%"></div></div><span style="font-size:11px">36.5%</span></td></tr>
-<tr><td>차량유지비</td><td>유류비</td><td>주유비</td><td style="text-align:right">2,100,000</td><td style="text-align:right">430,899</td><td style="text-align:right;color:var(--accent2)">1,669,101</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:20.5%"></div></div><span style="font-size:11px">20.5%</span></td></tr>
-<tr><td>차량유지비</td><td>기타유지비</td><td>주차비/통행료/세차</td><td style="text-align:right">630,000</td><td style="text-align:right">1,517,343</td><td style="text-align:right;color:var(--danger)">-887,343</td><td><span class="tag tag-red">초과</span></td></tr>
-<tr><td>통신비</td><td>전화료</td><td>통신비</td><td style="text-align:right">525,000</td><td style="text-align:right">0</td><td style="text-align:right;color:var(--accent2)">525,000</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:0%"></div></div><span style="font-size:11px">0%</span></td></tr>
-<tr><td>소모품비</td><td>소모품비</td><td>비품비(소모)</td><td style="text-align:right">0</td><td style="text-align:right">10,043,043</td><td style="text-align:right;color:var(--danger)">-10,043,043</td><td><span class="tag tag-red">초과</span></td></tr>
-<tr><td>소모품비</td><td>비품비</td><td>비품비(사무실기기)</td><td style="text-align:right">2,100,000</td><td style="text-align:right">2,386,279</td><td style="text-align:right;color:var(--danger)">-286,279</td><td><span class="tag tag-red">초과</span></td></tr>
-<tr><td>소모품비</td><td>전산용품</td><td>전산용품</td><td style="text-align:right">16,800,000</td><td style="text-align:right">6,695,122</td><td style="text-align:right;color:var(--accent2)">10,104,878</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:39.9%"></div></div><span style="font-size:11px">39.9%</span></td></tr>
-<tr><td>소모품비</td><td>기타소모품</td><td>사무실 운영비</td><td style="text-align:right">4,200,000</td><td style="text-align:right">961,642</td><td style="text-align:right;color:var(--accent2)">3,238,358</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:22.9%"></div></div><span style="font-size:11px">22.9%</span></td></tr>
-<tr><td>도서인쇄비</td><td>보고서인쇄</td><td>인쇄비</td><td style="text-align:right">4,200,000</td><td style="text-align:right">3,123,960</td><td style="text-align:right;color:var(--accent2)">1,076,040</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:74.4%"></div></div><span style="font-size:11px">74.4%</span></td></tr>
-<tr><td>복리후생비</td><td>복리후생비</td><td>기타비용(회의식대)</td><td style="text-align:right">1,050,000</td><td style="text-align:right">9,033,393</td><td style="text-align:right;color:var(--danger)">-7,983,393</td><td><span class="tag tag-red">초과</span></td></tr>
-<tr><td>여비교통비</td><td>기타여비</td><td>국내선항공료</td><td style="text-align:right">6,300,000</td><td style="text-align:right">3,477,446</td><td style="text-align:right;color:var(--accent2)">2,822,554</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:55.2%"></div></div><span style="font-size:11px">55.2%</span></td></tr>
-<tr><td>지급수수료</td><td>사업행사비</td><td>보고회/세미나</td><td style="text-align:right">3,939,000</td><td style="text-align:right">3,189,175</td><td style="text-align:right;color:var(--accent2)">749,825</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:81.0%"></div></div><span style="font-size:11px">81.0%</span></td></tr>
-<tr style="font-weight:bold;background:var(--surface2)"><td colspan="3">합 계</td><td style="text-align:right">82,511,000</td><td style="text-align:right">74,080,635</td><td style="text-align:right;color:var(--accent2)">8,430,365</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px;width:100%"><div style="background:var(--primary);height:14px;border-radius:4px;width:89.8%"></div></div><span style="font-size:11px">89.8%</span></td></tr>              </tbody>
-            </table>
+        <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px">
+          <button id="qtab-q1" onclick="switchQtab('q1')" style="padding:10px 28px;border:none;border-bottom:3px solid var(--primary);background:transparent;font-weight:700;font-size:14px;cursor:pointer;color:var(--primary)">Q1 2026 (정산)</button>
+          <button id="qtab-q2" onclick="switchQtab('q2')" style="padding:10px 28px;border:none;border-bottom:3px solid transparent;background:transparent;font-weight:700;font-size:14px;cursor:pointer;color:var(--text-muted)">Q2 2026 (신청)</button>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:8px;padding-bottom:4px">
+            <button onclick="openUploadModal()" style="padding:6px 14px;border-radius:6px;border:1px solid var(--primary);background:transparent;color:var(--primary);font-size:12px;font-weight:600;cursor:pointer">&#128196; 엑셀 업로드</button>
           </div>
         </div>
 
-        <div class="card mt24">
-          <div class="card-header">
-            <div class="card-title">정산 상세 내역 (영수증 목록)</div>
-            <div style="display:flex;gap:8px;align-items:center">
-              <select id="exp-filter-month" onchange="filterExpenses()" style="padding:4px 8px;border-radius:4px;border:1px solid var(--border);font-size:13px">
-                <option value="">전체 월</option><option value="Jan">Jan 2026</option><option value="Feb">Feb 2026</option><option value="Mar">Mar 2026</option>
-              </select>
-              <select id="exp-filter-cat" onchange="filterExpenses()" style="padding:4px 8px;border-radius:4px;border:1px solid var(--border);font-size:13px">
-                <option value="">전체 계정</option>
+        <div id="section-q1">
+          <div class="grid-4" style="margin-bottom:20px">
+            <div class="stat-card"><div class="stat-label">&#128176; 신청금액</div><div class="stat-value" style="font-size:20px">&#8361; 82,511,000</div><div class="stat-sub">환율 1,399.81원/USD · $58,944</div></div>
+            <div class="stat-card"><div class="stat-label">&#9989; 정산금액</div><div class="stat-value" style="font-size:20px;color:var(--primary)">&#8361; 74,080,635</div><div class="stat-sub">PHP 2,976,527</div></div>
+            <div class="stat-card"><div class="stat-label">&#128181; 잔액 (이월)</div><div class="stat-value" style="font-size:20px;color:var(--accent2)">&#8361; 8,430,365</div><div class="stat-sub">→ Q2 이월</div></div>
+            <div class="stat-card"><div class="stat-label">&#129534; 영수증</div><div class="stat-value" style="font-size:20px">140건</div><div class="stat-sub">2026.01.01 ~ 2026.03.31</div></div>
+          </div>
+          <div class="card mt24">
+            <div class="card-header"><div class="card-title">계정별 집행 현황 (Q1 2026)</div><div class="card-badge">정산 완료</div></div>
+            <div class="table-wrap"><table>
+              <thead><tr><th>계정과목</th><th>세목</th><th>내역</th><th>계획금액(원)</th><th>정산금액(원)</th><th>잔액(원)</th><th>집행률</th></tr></thead>
+              <tbody>
+<tr><td>용역비</td><td>기타용역비</td><td>통역비</td><td style="text-align:right">350,000</td><td style="text-align:right">298,320</td><td style="text-align:right;color:var(--accent2)">51,680</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px"><div style="background:var(--primary);height:14px;border-radius:4px;width:85.2%"></div></div><span style="font-size:11px">85.2%</span></td></tr>
+<tr><td>용역비</td><td>사무실보조인건비</td><td>현지직원 인건비</td><td style="text-align:right">0</td><td style="text-align:right">11,494,619</td><td style="text-align:right;color:var(--danger)">-11,494,619</td><td><span class="tag tag-red">초과</span></td></tr>
+<tr><td>임차료</td><td>단기리스료</td><td>사무실 임대료</td><td style="text-align:right">15,120,000</td><td style="text-align:right">22,274,560</td><td style="text-align:right;color:var(--danger)">-7,154,560</td><td><span class="tag tag-red">초과</span></td></tr>
+<tr><td>임차료</td><td>차량렌트비</td><td>차량렌트비</td><td style="text-align:right">25,197,000</td><td style="text-align:right">9,197,877</td><td style="text-align:right;color:var(--accent2)">15,999,123</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px"><div style="background:var(--primary);height:14px;border-radius:4px;width:36.5%"></div></div><span style="font-size:11px">36.5%</span></td></tr>
+<tr><td>차량유지비</td><td>유류비</td><td>주유비</td><td style="text-align:right">2,100,000</td><td style="text-align:right">430,899</td><td style="text-align:right;color:var(--accent2)">1,669,101</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px"><div style="background:var(--primary);height:14px;border-radius:4px;width:20.5%"></div></div><span style="font-size:11px">20.5%</span></td></tr>
+<tr><td>차량유지비</td><td>기타유지비</td><td>주차비/통행료/세차</td><td style="text-align:right">630,000</td><td style="text-align:right">1,517,343</td><td style="text-align:right;color:var(--danger)">-887,343</td><td><span class="tag tag-red">초과</span></td></tr>
+<tr><td>통신비</td><td>전화료</td><td>통신비</td><td style="text-align:right">525,000</td><td style="text-align:right">0</td><td style="text-align:right;color:var(--accent2)">525,000</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px"><div style="background:var(--primary);height:14px;border-radius:4px;width:0%"></div></div><span style="font-size:11px">0%</span></td></tr>
+<tr><td>소모품비</td><td>소모품비</td><td>비품비(소모)</td><td style="text-align:right">0</td><td style="text-align:right">10,043,043</td><td style="text-align:right;color:var(--danger)">-10,043,043</td><td><span class="tag tag-red">초과</span></td></tr>
+<tr><td>소모품비</td><td>비품비</td><td>비품비(사무실기기)</td><td style="text-align:right">2,100,000</td><td style="text-align:right">2,386,279</td><td style="text-align:right;color:var(--danger)">-286,279</td><td><span class="tag tag-red">초과</span></td></tr>
+<tr><td>소모품비</td><td>전산용품</td><td>전산용품</td><td style="text-align:right">16,800,000</td><td style="text-align:right">6,695,122</td><td style="text-align:right;color:var(--accent2)">10,104,878</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px"><div style="background:var(--primary);height:14px;border-radius:4px;width:39.9%"></div></div><span style="font-size:11px">39.9%</span></td></tr>
+<tr><td>소모품비</td><td>기타소모품</td><td>사무실 운영비</td><td style="text-align:right">4,200,000</td><td style="text-align:right">961,642</td><td style="text-align:right;color:var(--accent2)">3,238,358</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px"><div style="background:var(--primary);height:14px;border-radius:4px;width:22.9%"></div></div><span style="font-size:11px">22.9%</span></td></tr>
+<tr><td>도서인쇄비</td><td>보고서인쇄</td><td>인쇄비</td><td style="text-align:right">4,200,000</td><td style="text-align:right">3,123,960</td><td style="text-align:right;color:var(--accent2)">1,076,040</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px"><div style="background:var(--primary);height:14px;border-radius:4px;width:74.4%"></div></div><span style="font-size:11px">74.4%</span></td></tr>
+<tr><td>복리후생비</td><td>복리후생비</td><td>기타비용(회의식대)</td><td style="text-align:right">1,050,000</td><td style="text-align:right">9,033,393</td><td style="text-align:right;color:var(--danger)">-7,983,393</td><td><span class="tag tag-red">초과</span></td></tr>
+<tr><td>여비교통비</td><td>기타여비</td><td>국내선항공료</td><td style="text-align:right">6,300,000</td><td style="text-align:right">3,477,446</td><td style="text-align:right;color:var(--accent2)">2,822,554</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px"><div style="background:var(--primary);height:14px;border-radius:4px;width:55.2%"></div></div><span style="font-size:11px">55.2%</span></td></tr>
+<tr><td>지급수수료</td><td>사업행사비</td><td>보고회/세미나</td><td style="text-align:right">3,939,000</td><td style="text-align:right">3,189,175</td><td style="text-align:right;color:var(--accent2)">749,825</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px"><div style="background:var(--primary);height:14px;border-radius:4px;width:81.0%"></div></div><span style="font-size:11px">81.0%</span></td></tr>
+<tr style="font-weight:bold;background:var(--surface2)"><td colspan="3">합 계</td><td style="text-align:right">82,511,000</td><td style="text-align:right">74,080,635</td><td style="text-align:right;color:var(--accent2)">8,430,365</td><td><div style="background:#e0f0ff;border-radius:4px;height:14px"><div style="background:var(--primary);height:14px;border-radius:4px;width:89.8%"></div></div><span style="font-size:11px">89.8%</span></td></tr>
+              </tbody></table></div>
+          </div>
+
+          <div class="card mt24">
+            <div class="card-header">
+              <div class="card-title">정산 상세 내역 (Q1 영수증)</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <select id="exp-filter-month" onchange="filterExpenses()" style="padding:4px 8px;border-radius:4px;border:1px solid var(--border);font-size:13px">
+                  <option value="">전체 월</option><option value="Jan">Jan</option><option value="Feb">Feb</option><option value="Mar">Mar</option>
+                </select>
+                <select id="exp-filter-cat" onchange="filterExpenses()" style="padding:4px 8px;border-radius:4px;border:1px solid var(--border);font-size:13px">
+                  <option value="">전체 계정</option>
 <option value="사무실보조인건비">사무실보조인건비</option>
 <option value="기타용역비">기타용역비</option>
 <option value="단기리스료">단기리스료</option>
@@ -886,33 +892,87 @@ canvas.chart { max-width: 100%; }
 <option value="복리후생비">복리후생비</option>
 <option value="기타여비">기타여비</option>
 <option value="사업행사비">사업행사비</option>
-              </select>
-              <span id="exp-count" style="font-size:12px;color:var(--text-muted)">140건</span>
+                </select>
+                <span id="exp-count" style="font-size:12px;color:var(--text-muted)">140건</span>
+              </div>
             </div>
-          </div>
-          <div class="table-wrap" style="max-height:520px;overflow-y:auto">
-            <table id="tbl-expenses-detail">
-              <thead style="position:sticky;top:0;background:var(--surface)">
-                <tr><th style="width:60px">월</th><th style="width:100px">계정</th><th>내용</th><th style="width:100px">일자</th><th style="width:100px">증빙번호</th><th>공급자</th><th style="width:100px;text-align:right">PHP금액</th><th style="width:50px;text-align:right">환율</th><th style="width:110px;text-align:right">원화(KRW)</th><th style="width:55px">PDF</th></tr>
-              </thead>
-              <tbody id="tbody-expenses"></tbody>
-            </table>
-          </div>
-          <div style="padding:8px 12px;font-size:13px;color:var(--text-muted);border-top:1px solid var(--border)">
-            합계: <strong id="exp-total-krw">&#8361; 74,080,635</strong>
+            <div class="table-wrap" style="max-height:480px;overflow-y:auto">
+              <table id="tbl-expenses-detail">
+                <thead style="position:sticky;top:0;background:var(--surface)">
+                  <tr><th>월</th><th>계정</th><th>내용</th><th>일자</th><th>증빙번호</th><th>공급자</th><th style="text-align:right">PHP</th><th style="text-align:right">환율</th><th style="text-align:right">KRW</th><th>PDF</th></tr>
+                </thead>
+                <tbody id="tbody-expenses"></tbody>
+              </table>
+            </div>
+            <div style="padding:8px 12px;font-size:13px;color:var(--text-muted);border-top:1px solid var(--border)">합계: <strong id="exp-total-krw">&#8361; 74,080,635</strong></div>
           </div>
         </div>
 
-        <div class="card mt24">
-          <div class="card-header"><div class="card-title">적용 환율 (26년 1분기)</div></div>
-          <div class="table-wrap">
-            <table><thead><tr><th>월</th><th>환율 (원/PHP)</th><th>비고</th></tr></thead>
-            <tbody>
-              <tr><td>2026년 1월</td><td>24.61</td><td>-</td></tr>
-              <tr><td>2026년 2월</td><td>24.86</td><td>-</td></tr>
-              <tr><td>2026년 3월</td><td>24.98</td><td>-</td></tr>
-              <tr><td>신청 적용환율 (원/USD)</td><td>1,399.81</td><td>송금요청 기준</td></tr>
-            </tbody></table>
+        <div id="section-q2" style="display:none">
+          <div class="grid-4" style="margin-bottom:20px">
+            <div class="stat-card"><div class="stat-label">&#128176; 신청금액 (총)</div><div class="stat-value" style="font-size:20px">&#8361; 111,249,619</div><div class="stat-sub">이월 8,430,365 포함</div></div>
+            <div class="stat-card"><div class="stat-label">&#128260; 신규 신청</div><div class="stat-value" style="font-size:20px;color:var(--primary)">&#8361; 102,819,254</div><div class="stat-sub">환율 1,399.81원/USD · $73,452</div></div>
+            <div class="stat-card"><div class="stat-label">&#128197; 정산기간</div><div class="stat-value" style="font-size:16px">2026.04~06</div><div class="stat-sub">Q2 2026 (신청 단계)</div></div>
+            <div class="stat-card"><div class="stat-label">&#127981; 정산 상태</div><div class="stat-value" style="font-size:16px"><span class="tag tag-yellow">신청중</span></div><div class="stat-sub">하나은행 418-910462-35107</div></div>
+          </div>
+          <div class="card mt24">
+            <div class="card-header"><div class="card-title">계정별 신청 현황 (Q2 2026)</div><div class="card-badge">신청 단계</div></div>
+            <div class="table-wrap"><table>
+              <thead><tr><th>계정과목</th><th>세목</th><th>내역</th><th>이월잔액(원)</th><th>신청금액(원)</th><th>정산</th></tr></thead>
+              <tbody>
+<tr><td>용역비</td><td>기타용역비</td><td>통역비</td><td style="text-align:right;color:var(--accent2)">51,680</td><td style="text-align:right">350,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>용역비</td><td>사무실보조인건비</td><td>현지직원 인건비</td><td style="text-align:right;color:var(--danger)">-11,494,619</td><td style="text-align:right">28,738,619</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>임차료</td><td>단기리스료</td><td>사무실 임대료</td><td style="text-align:right;color:var(--danger)">-7,154,560</td><td style="text-align:right">15,120,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>임차료</td><td>차량렌트비</td><td>차량렌트비</td><td style="text-align:right;color:var(--accent2)">15,999,123</td><td style="text-align:right">25,197,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>차량유지비</td><td>유류비</td><td>주유비</td><td style="text-align:right;color:var(--accent2)">1,669,101</td><td style="text-align:right">2,100,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>차량유지비</td><td>기타유지비</td><td>주차비/통행료/세차</td><td style="text-align:right;color:var(--danger)">-887,343</td><td style="text-align:right">630,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>통신비</td><td>전화료</td><td>통신비</td><td style="text-align:right;color:var(--accent2)">525,000</td><td style="text-align:right">525,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>소모품비</td><td>소모품비</td><td>비품비(소모)</td><td style="text-align:right;color:var(--danger)">-10,043,043</td><td style="text-align:right">0</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>소모품비</td><td>비품비</td><td>비품비(사무실기기)</td><td style="text-align:right;color:var(--danger)">-286,279</td><td style="text-align:right">2,100,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>소모품비</td><td>전산용품</td><td>전산용품</td><td style="text-align:right;color:var(--accent2)">10,104,878</td><td style="text-align:right">16,800,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>소모품비</td><td>기타소모품</td><td>사무실 운영비</td><td style="text-align:right;color:var(--accent2)">3,238,358</td><td style="text-align:right">4,200,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>도서인쇄비</td><td>보고서인쇄</td><td>인쇄비</td><td style="text-align:right;color:var(--accent2)">1,076,040</td><td style="text-align:right">4,200,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>복리후생비</td><td>복리후생비</td><td>기타비용(회의식대)</td><td style="text-align:right;color:var(--danger)">-7,983,393</td><td style="text-align:right">1,050,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>여비교통비</td><td>기타여비</td><td>국내선항공료</td><td style="text-align:right;color:var(--accent2)">2,822,554</td><td style="text-align:right">6,300,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr><td>지급수수료</td><td>사업행사비</td><td>보고회/세미나</td><td style="text-align:right;color:var(--accent2)">749,825</td><td style="text-align:right">3,939,000</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+<tr style="font-weight:bold;background:var(--surface2)"><td colspan="3">합 계</td><td style="text-align:right;color:var(--accent2)">8,430,365</td><td style="text-align:right">111,249,619</td><td style="text-align:right"><span class="tag tag-yellow">신청중</span></td></tr>
+              </tbody></table></div>
+          </div>
+          <div class="card mt24" style="background:var(--surface2);border:1px dashed var(--border)">
+            <div style="text-align:center;padding:32px;color:var(--text-muted)">
+              <div style="font-size:32px;margin-bottom:8px">&#129534;</div>
+              <div style="font-size:15px;font-weight:600;margin-bottom:4px">정산 영수증 미등록</div>
+              <div style="font-size:13px">Q2 2026 정산 완료 후 영수증 바인더를 업로드하면 상세 내역이 표시됩니다.</div>
+              <button onclick="openUploadModal()" style="margin-top:16px;padding:8px 20px;border-radius:6px;border:1px solid var(--primary);background:transparent;color:var(--primary);font-size:13px;cursor:pointer">&#128196; 엑셀 업로드</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Modal -->
+        <div id="modal-upload" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10000;align-items:center;justify-content:center">
+          <div style="background:var(--surface);border-radius:12px;padding:32px;width:460px;box-shadow:0 8px 32px rgba(0,0,0,.2)">
+            <h3 style="margin:0 0 8px">&#128196; 현장운영경비 파일 업로드</h3>
+            <p style="font-size:13px;color:var(--text-muted);margin:0 0 20px">엑셀(.xlsx) 또는 PDF 파일을 선택하면 Google Drive에 자동 업로드됩니다.</p>
+            <div style="margin-bottom:16px">
+              <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:6px">분기 선택</label>
+              <select id="upload-quarter" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:14px">
+                <option value="26년 1분기">26년 1분기 (Q1 2026)</option>
+                <option value="26년 2분기" selected>26년 2분기 (Q2 2026)</option>
+              </select>
+            </div>
+            <div style="margin-bottom:16px">
+              <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:6px">파일 선택 (.xlsx, .pdf)</label>
+              <input type="file" id="upload-file" accept=".xlsx,.pdf,.xls" style="width:100%;padding:8px;border:1px dashed var(--border);border-radius:6px;font-size:13px">
+            </div>
+            <div id="upload-status" style="display:none;font-size:13px;padding:10px;border-radius:6px;margin-bottom:12px"></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end">
+              <button onclick="closeUploadModal()" style="padding:8px 20px;border-radius:6px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:13px">취소</button>
+              <button onclick="doUpload()" style="padding:8px 20px;border-radius:6px;border:none;background:var(--primary);color:#fff;cursor:pointer;font-size:13px;font-weight:600">&#9650; Google Drive 업로드</button>
+            </div>
+            <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
+              <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px">&#128190; 업로드된 파일</div>
+              <div id="uploaded-files-list" style="font-size:12px;color:var(--text-muted)">로딩 중...</div>
+            </div>
           </div>
         </div>
 
@@ -1059,11 +1119,23 @@ canvas.chart { max-width: 100%; }
     {cat:'기타여비',month:'Mar',desc:'Grab - Fare',date:'27-03-2026',receipt:'',supplier:'Grab',php:198.0,rate:24.98,krw:4946,pdf:'109'},
     {cat:'사업행사비',month:'Mar',desc:'Sheraton Manila Bay - Payment for Event',date:'27-03-2026',receipt:'5282',supplier:'Sheraton Manila Bay',php:127669.12,rate:24.98,krw:3189175,pdf:'108'}
         ];
+
+        function switchQtab(q) {
+          document.getElementById("section-q1").style.display = q==="q1" ? "" : "none";
+          document.getElementById("section-q2").style.display = q==="q2" ? "" : "none";
+          document.getElementById("qtab-q1").style.borderBottomColor = q==="q1" ? "var(--primary)" : "transparent";
+          document.getElementById("qtab-q2").style.borderBottomColor = q==="q2" ? "var(--primary)" : "transparent";
+          document.getElementById("qtab-q1").style.color = q==="q1" ? "var(--primary)" : "var(--text-muted)";
+          document.getElementById("qtab-q2").style.color = q==="q2" ? "var(--primary)" : "var(--text-muted)";
+          if (q==="q1") renderExpenseTable(Q1_EXPENSES);
+        }
+
         function filterExpenses() {
           var mf = document.getElementById("exp-filter-month").value;
           var cf = document.getElementById("exp-filter-cat").value;
           renderExpenseTable(Q1_EXPENSES.filter(function(r){ return (!mf||r.month===mf)&&(!cf||r.cat===cf); }));
         }
+
         function renderExpenseTable(rows) {
           var tbody = document.getElementById("tbody-expenses");
           if (!tbody) return;
@@ -1086,6 +1158,92 @@ canvas.chart { max-width: 100%; }
           document.getElementById("exp-count").textContent = rows.length+"건";
           document.getElementById("exp-total-krw").textContent = "&#8361; "+total.toLocaleString();
         }
+
+        function openUploadModal() {
+          document.getElementById("modal-upload").style.display = "flex";
+          document.getElementById("upload-status").style.display = "none";
+          listUploadedFiles();
+        }
+        function closeUploadModal() {
+          document.getElementById("modal-upload").style.display = "none";
+        }
+
+        async function ensurePmisFolder(parentId, name) {
+          var res = await gapi.client.drive.files.list({
+            q: "mimeType='application/vnd.google-apps.folder' and name='"+name+"' and '"+parentId+"' in parents and trashed=false",
+            fields: "files(id,name)"
+          });
+          if (res.result.files.length > 0) return res.result.files[0].id;
+          var create = await gapi.client.drive.files.create({
+            resource: { name: name, mimeType: "application/vnd.google-apps.folder", parents: [parentId] },
+            fields: "id"
+          });
+          return create.result.id;
+        }
+
+        async function doUpload() {
+          var fileInput = document.getElementById("upload-file");
+          var quarter = document.getElementById("upload-quarter").value;
+          var statusEl = document.getElementById("upload-status");
+          if (!fileInput.files.length) { alert("파일을 선택하세요."); return; }
+          if (!gdriveToken) { alert("Google Drive에 먼저 로그인하세요. (Webhard 탭에서 연결)"); return; }
+          var file = fileInput.files[0];
+          statusEl.style.display = "block";
+          statusEl.style.background = "var(--surface2)";
+          statusEl.textContent = "&#9203; 업로드 중... " + file.name;
+          try {
+            var rootId = await ensurePmisFolder("root", "Panay-Agusan PMIS");
+            var expId  = await ensurePmisFolder(rootId, "현장운영경비");
+            var qId    = await ensurePmisFolder(expId, quarter);
+            var reader = new FileReader();
+            reader.onload = async function(e) {
+              var b64 = btoa(String.fromCharCode(...new Uint8Array(e.target.result)));
+              var mime = file.name.endsWith(".pdf") ? "application/pdf" : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+              var boundary = "-------pmis_upload";
+              var body = "--"+boundary+"\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n"
+                + JSON.stringify({name:file.name, parents:[qId]}) + "\r\n"
+                + "--"+boundary+"\r\nContent-Type: "+mime+"\r\nContent-Transfer-Encoding: base64\r\n\r\n"
+                + b64 + "\r\n--"+boundary+"--";
+              var resp = await fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
+                method: "POST",
+                headers: { "Authorization": "Bearer "+gdriveToken, "Content-Type": "multipart/related; boundary="+boundary },
+                body: body
+              });
+              if (resp.ok) {
+                statusEl.style.background = "#d4edda"; statusEl.style.color = "#155724";
+                statusEl.textContent = "&#10003; 업로드 완료! Google Drive > Panay-Agusan PMIS > 현장운영경비 > "+quarter;
+                listUploadedFiles();
+              } else {
+                statusEl.style.background = "#f8d7da"; statusEl.style.color = "#721c24";
+                statusEl.textContent = "&#10007; 업로드 실패. Google Drive 연결 상태를 확인하세요.";
+              }
+            };
+            reader.readAsArrayBuffer(file);
+          } catch(err) {
+            statusEl.style.background = "#f8d7da"; statusEl.style.color = "#721c24";
+            statusEl.textContent = "&#10007; 오류: "+err.message;
+          }
+        }
+
+        async function listUploadedFiles() {
+          var el = document.getElementById("uploaded-files-list");
+          if (!gdriveToken || !gapi.client.drive) { el.textContent = "Google Drive 미연결"; return; }
+          try {
+            var res = await gapi.client.drive.files.list({
+              q: "name contains '현장운영경비' or name contains '정산' or name contains '신청' and trashed=false",
+              orderBy: "modifiedTime desc",
+              pageSize: 10,
+              fields: "files(id,name,modifiedTime,webViewLink)"
+            });
+            var files = res.result.files;
+            if (!files.length) { el.textContent = "업로드된 파일 없음"; return; }
+            el.innerHTML = files.map(function(f){
+              var dt = new Date(f.modifiedTime).toLocaleDateString("ko-KR");
+              return "<div style='padding:4px 0;border-bottom:1px solid var(--border)'><a href='"+f.webViewLink+"' target='_blank' style='color:var(--primary);text-decoration:none'>&#128196; "+f.name+"</a><span style='float:right;color:var(--text-muted)'>"+dt+"</span></div>";
+            }).join("");
+          } catch(e) { el.textContent = "파일 목록 조회 실패"; }
+        }
+
         document.addEventListener("DOMContentLoaded", function(){ renderExpenseTable(Q1_EXPENSES); });
         if (document.readyState !== "loading") setTimeout(function(){ renderExpenseTable(Q1_EXPENSES); }, 200);
         </script>
@@ -2976,7 +3134,7 @@ function showPage(id) {
   if (id === 'issues') { initIssueTracker(); }
   if (id === 'deliverables') { initDeliverables(); }
   if (id === 'users') { initUsers(); }
-  if (id === 'expenses') { if (typeof renderExpenseTable === 'function' && typeof Q1_EXPENSES !== 'undefined') { renderExpenseTable(Q1_EXPENSES); } }
+  if (id === 'expenses') { if (typeof renderExpenseTable === 'function' && typeof Q1_EXPENSES !== 'undefined') { switchQtab('q1'); } }
 }
 
 // ── MODALS ────────────────────────────────────
