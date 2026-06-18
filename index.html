@@ -406,13 +406,17 @@ canvas.chart { max-width: 100%; }
       <span id="sync-dot" style="width:8px;height:8px;border-radius:50%;background:#ccc;display:inline-block"></span>
       <span id="sync-label">Offline</span>
     </button>
-    <div class="topbar-user" onclick="doLogout()">
+    <div class="topbar-user" style="position:relative" onclick="toggleUserMenu(event)">
       <div class="user-avatar" id="user-avatar">A</div>
       <div>
         <div style="font-size:12.5px;font-weight:700" id="user-name">Admin</div>
         <div style="font-size:10.5px;color:var(--text-muted)" id="user-role">KECC JV</div>
       </div>
-      <span style="opacity:.55;margin-left:4px;font-size:11px">Log-out ▾</span>
+      <span style="opacity:.55;margin-left:4px;font-size:11px">▾</span>
+      <div id="user-dropdown" style="display:none;position:absolute;top:100%;right:0;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.15);min-width:160px;z-index:9999;overflow:hidden">
+        <div onclick="openChangePw()" style="padding:10px 16px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border)" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">🔑 비밀번호 변경</div>
+        <div onclick="doLogout()" style="padding:10px 16px;cursor:pointer;font-size:13px;color:var(--danger)" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">🚪 Log-out</div>
+      </div>
     </div>
   </div>
 
@@ -2772,6 +2776,44 @@ function applyRoleNav() {
   selectGroup('general', 'dashboard');
 }
 
+
+function toggleUserMenu(e) {
+  e.stopPropagation();
+  var dd = document.getElementById('user-dropdown');
+  dd.style.display = dd.style.display === 'none' ? 'flex' : 'none';
+  dd.style.flexDirection = 'column';
+}
+document.addEventListener('click', function() {
+  var dd = document.getElementById('user-dropdown');
+  if (dd) dd.style.display = 'none';
+});
+function openChangePw() {
+  document.getElementById('user-dropdown').style.display = 'none';
+  document.getElementById('cpw-current').value = '';
+  document.getElementById('cpw-new').value = '';
+  document.getElementById('cpw-confirm').value = '';
+  document.getElementById('cpw-error').style.display = 'none';
+  document.getElementById('modal-changepw').style.display = 'flex';
+}
+function closeChangePw() {
+  document.getElementById('modal-changepw').style.display = 'none';
+}
+function doChangePw() {
+  var cur = document.getElementById('cpw-current').value;
+  var nw  = document.getElementById('cpw-new').value;
+  var cf  = document.getElementById('cpw-confirm').value;
+  var err = document.getElementById('cpw-error');
+  if (!cur || !nw || !cf) { err.textContent='모든 항목을 입력하세요.'; err.style.display='block'; return; }
+  if (pwHash(cur) !== currentUser.pwHash) { err.textContent='현재 비밀번호가 올바르지 않습니다.'; err.style.display='block'; return; }
+  if (nw.length < 6) { err.textContent='새 비밀번호는 6자 이상이어야 합니다.'; err.style.display='block'; return; }
+  if (nw !== cf) { err.textContent='새 비밀번호가 일치하지 않습니다.'; err.style.display='block'; return; }
+  loadUsers();
+  var u = USERS.find(function(x){ return x.id === currentUser.id; });
+  if (u) { u.pwHash = pwHash(nw); currentUser.pwHash = u.pwHash; saveUsers(); }
+  closeChangePw();
+  alert('비밀번호가 변경되었습니다.');
+}
+
 function doLogout() {
   if (!confirm('Log out?')) return;
   currentUser = null;
@@ -4687,5 +4729,29 @@ function exportIssueCSV() {
   showToast('⬇️ CSV downloaded');
 }
 </script>
+
+  <!-- ─── CHANGE PASSWORD MODAL ─── -->
+  <div id="modal-changepw" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10000;align-items:center;justify-content:center">
+    <div style="background:var(--surface);border-radius:12px;padding:32px;width:360px;box-shadow:0 8px 32px rgba(0,0,0,.2)">
+      <h3 style="margin:0 0 20px">🔑 비밀번호 변경</h3>
+      <div style="margin-bottom:12px">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">현재 비밀번호</label>
+        <input type="password" id="cpw-current" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:14px;box-sizing:border-box">
+      </div>
+      <div style="margin-bottom:12px">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">새 비밀번호</label>
+        <input type="password" id="cpw-new" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:14px;box-sizing:border-box">
+      </div>
+      <div style="margin-bottom:20px">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">새 비밀번호 확인</label>
+        <input type="password" id="cpw-confirm" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:14px;box-sizing:border-box">
+      </div>
+      <div id="cpw-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:12px"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button onclick="closeChangePw()" style="padding:8px 20px;border-radius:6px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:13px">취소</button>
+        <button onclick="doChangePw()" style="padding:8px 20px;border-radius:6px;border:none;background:var(--primary);color:#fff;cursor:pointer;font-size:13px;font-weight:600">변경</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
