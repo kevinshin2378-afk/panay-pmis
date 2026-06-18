@@ -2880,16 +2880,21 @@ function doLogin() {
     errEl.style.display = 'block';
     return;
   }
-  user.lastLogin = new Date().toISOString().split('T')[0];
-  saveUsers();
-  currentUser = { id: user.id, name: user.name, role: user.role, company: user.company, accounting: !!user.accounting };
-  document.getElementById('user-name').textContent = user.name;
-  document.getElementById('user-role').textContent = user.company + ' · ' + user.role;
-  document.getElementById('user-avatar').textContent = user.name[0].toUpperCase();
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  applyRoleNav();
-  initApp();
+  try {
+    user.lastLogin = new Date().toISOString().split('T')[0];
+    saveUsers();
+    currentUser = { id: user.id, name: user.name, role: user.role, company: user.company, accounting: !!user.accounting };
+    document.getElementById('user-name').textContent = user.name;
+    document.getElementById('user-role').textContent = user.company + ' · ' + user.role;
+    document.getElementById('user-avatar').textContent = user.name[0].toUpperCase();
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    applyRoleNav();
+    initApp();
+  } catch(err) {
+    errEl.textContent = '❌ 로그인 오류: ' + err.message;
+    errEl.style.display = 'block';
+  }
 }
 
 const GROUP_LABELS = {
@@ -3603,7 +3608,7 @@ async function saveAllToSheets() {
   }
 }
 
-async async function createPMISSpreadsheet() {
+async function createPMISSpreadsheet() {
   if (!gdriveToken) { showToast('먼저 Google 로그인을 해주세요.'); return; }
   const btn = document.getElementById('create-sheet-btn');
   btn.disabled = true; btn.textContent = '생성 중...';
