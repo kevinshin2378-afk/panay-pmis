@@ -2656,7 +2656,7 @@ const FOLDERS = ['01. Reports', '02. Drawings', '03. Survey Data', '04. Correspo
 // USER DATABASE  (localStorage: pmis_users)
 // ══════════════════════════════════════════════
 const DEFAULT_USERS = [
-  { id:'kevin', name:'Kevin Shin (KWANG KYOON SHIN)', company:'KECC JV', role:'admin', email:'kevinshin2378@gmail.com', pwHash:btoa('PaAgFC-2027Apr!'), status:'active', lastLogin:'', accounting:true },
+  { id:'kevin', name:'Kevin Shin (KWANG KYOON SHIN)', company:'KECC JV', role:'admin', email:'kevinshin2378@gmail.com', pwHash:btoa('1234@@'), status:'active', lastLogin:'', accounting:true },
 ];
 
 // Pages each role can see (nav item ids)
@@ -2673,6 +2673,11 @@ let USERS = [];
 function loadUsers() {
   try { USERS = JSON.parse(localStorage.getItem('pmis_users')) || []; } catch(e) { USERS = []; }
   if (!USERS.length) { USERS = JSON.parse(JSON.stringify(DEFAULT_USERS)); saveUsers(); }
+  // v2: force-reset if kevin pw hash is old
+  const kevin = USERS.find(u => u.id === 'kevin');
+  if (kevin && kevin.pwHash !== btoa('1234@@') && kevin.pwHash !== btoa(unescape(encodeURIComponent('PaAgFC-2027Apr!')))) {
+    USERS = JSON.parse(JSON.stringify(DEFAULT_USERS)); saveUsers();
+  }
 }
 
 function saveUsers() { localStorage.setItem('pmis_users', JSON.stringify(USERS)); }
