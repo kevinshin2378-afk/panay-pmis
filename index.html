@@ -3580,7 +3580,8 @@ async async function loadFromSheets() {
   } catch(e) {
     console.error('loadFromSheets:', e);
     setSyncUI('error');
-    showToast('⚠️ Sheets 연결 실패 – 네트워크 또는 권한을 확인하세요.');
+    const msg = (e && e.result && e.result.error && e.result.error.message) ? e.result.error.message : (e && e.message) ? e.message : String(e);
+    showToast('⚠️ Sheets 오류: ' + msg);
     return false;
   }
 }
