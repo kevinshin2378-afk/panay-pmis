@@ -3676,8 +3676,9 @@ function sheetsSignIn() {
   if (typeof google === 'undefined') { showToast('Google API 로딩 중입니다. 잠시 후 다시 시도하세요.'); return; }
   const client = google.accounts.oauth2.initTokenClient({
     client_id: GDRIVE_CLIENT_ID, scope: SCOPES,
+    error_callback: (err) => { showToast('Google 로그인 오류: ' + (err.type||JSON.stringify(err)) + ' — 팝업 차단을 해제하거나 페이지를 새로고침하세요.'); },
     callback: async (resp) => {
-      if (resp.error) { showToast('Google 로그인 실패: ' + resp.error); return; }
+      if (resp.error) { showToast('Google 로그인 실패: ' + resp.error + ' — 팝업 허용 후 재시도하세요.'); return; }
       gdriveToken = resp.access_token;
       document.getElementById('google-signin-btn').textContent = '✅ 로그인됨';
       document.getElementById('google-signin-btn').style.background = 'var(--accent2)';
