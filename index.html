@@ -3559,22 +3559,23 @@ async function loadFromSheets() {
   if (!gdriveToken || !_sheetsId) return false;
   setSyncUI('syncing');
   try {
-    const [issRes, delRes] = await Promise.all([
-      gapi.client.sheets.spreadsheets.values.get({ spreadsheetId: _sheetsId, range: 'ISSUES!A1' }),
-      gapi.client.sheets.spreadsheets.values.get({ spreadsheetId: _sheetsId, range: 'DELIVERABLES!A1' })
-    ]);
-    const issJSON = ((issRes.result.values || [[]])[0] || [])[0];
-    const delJSON = ((delRes.result.values || [[]])[0] || [])[0];
+    const getSheet = async (range) => {
+      try {
+        const res = await gapi.client.sheets.spreadsheets.values.get({ spreadsheetId: _sheetsId, range });
+        return ((res.result.values || [[]])[0] || [])[0];
+      } catch(e) { return null; }
+    };
+    const [issJSON, delJSON] = await Promise.all([getSheet('ISSUES!A1'), getSheet('DELIVERABLES!A1')]);
     if (issJSON) { try { ISSUES = JSON.parse(issJSON); } catch(e) {} }
     if (delJSON) { try { DELIVERABLES = JSON.parse(delJSON); } catch(e) {} }
     setSyncUI('synced');
     renderIssueList(); renderDelivStats(); renderDeliverables();
-    showToast('✅ Sheets에서 최신 데이터를 불러왔습니다.');
+    showToast('✅ Sheets 연결 완료!');
     return true;
   } catch(e) {
     console.error('loadFromSheets:', e);
     setSyncUI('error');
-    showToast('⚠️ Sheets 로드 실패 – 로컬 데이터를 사용합니다.');
+    showToast('⚠️ Sheets 연결 실패 – 네트워크 또는 권한을 확인하세요.');
     return false;
   }
 }
@@ -3602,7 +3603,7 @@ async function saveAllToSheets() {
   }
 }
 
-async function createPMISSpreadsheet() {
+async async function createPMISSpreadsheet() {
   if (!gdriveToken) { showToast('먼저 Google 로그인을 해주세요.'); return; }
   const btn = document.getElementById('create-sheet-btn');
   btn.disabled = true; btn.textContent = '생성 중...';
