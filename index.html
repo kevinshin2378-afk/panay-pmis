@@ -3761,6 +3761,17 @@ function scheduleSave() {
 async function loadFromSheets() {
   if (!gdriveToken || !_sheetsId) return false;
   setSyncUI('syncing');
+  // gapi 초기화 완료 대기 (최대 5초)
+  let waited = 0;
+  while (!_gapiReady && waited < 5000) {
+    await new Promise(r => setTimeout(r, 200));
+    waited += 200;
+  }
+  if (!_gapiReady || !gapi.client.sheets) {
+    setSyncUI('error');
+    showToast('⚠️ Google API 로딩 실패. 페이지를 새로고침 후 다시 시도하세요.');
+    return false;
+  }
   try {
     const getSheet = async (range) => {
       try {
@@ -3772,13 +3783,16 @@ async function loadFromSheets() {
     if (issJSON) { try { ISSUES = JSON.parse(issJSON); } catch(e) {} }
     if (delJSON) { try { DELIVERABLES = JSON.parse(delJSON); } catch(e) {} }
     setSyncUI('synced');
-    renderIssueList(); renderDelivStats(); renderDeliverables();
+    try { if(typeof renderIssueList==='function') renderIssueList(); } catch(e) {}
+    try { if(typeof renderDelivStats==='function') renderDelivStats(); } catch(e) {}
+    try { if(typeof renderDeliverables==='function') renderDeliverables(); } catch(e) {}
     showToast('✅ Sheets 연결 완료!');
     return true;
   } catch(e) {
     console.error('loadFromSheets:', e);
     setSyncUI('error');
-    const msg = (e && e.result && e.result.error && e.result.error.message) ? e.result.error.message : (e && e.message) ? e.message : String(e);
+    const msg = (e && e.result && e.result.error && e.result.error.message)
+      ? e.result.error.message : (e && e.message) ? e.message : String(e);
     showToast('⚠️ Sheets 오류: ' + msg);
     return false;
   }
@@ -3901,18 +3915,19 @@ function sheetsSignIn() {
 function initGoogleAPI() {
   if (typeof gapi === 'undefined') return;
   gapi.load('client', async () => {
-    await gapi.client.init({
-      apiKey: GDRIVE_API_KEY,
-      discoveryDocs: [
-        'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
-        'https://sheets.googleapis.com/$discovery/rest?version=v4'
-      ]
-    });
-    // 저장된 Sheets ID 표시
+    try {
+      await gapi.client.init({
+        apiKey: GDRIVE_API_KEY,
+        discoveryDocs: [
+          'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
+          'https://sheets.googleapis.com//rest?version=v4'
+        ]
+      });
+      _gapiReady = true;
+    } catch(e) { console.warn('gapi.client.init failed:', e); }
     if (_sheetsId) document.getElementById('sheets-id-input') && (document.getElementById('sheets-id-input').value = _sheetsId);
   });
 }
-
 function gdriveSignIn(callback) {
   if (GDRIVE_CLIENT_ID === 'YOUR_CLIENT_ID.apps.googleusercontent.com') {
     document.getElementById('modal-gdrive-setup').classList.add('open'); return;
