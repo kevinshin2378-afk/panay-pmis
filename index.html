@@ -457,12 +457,14 @@ canvas.chart { max-width: 100%; }
       <a class="nav-item" data-page="accounting" data-group="accounting" onclick="showPage('accounting')"><span class="nav-icon">💰</span> Accounting Overview</a>
       <a class="nav-item" data-page="invoicing"  data-group="accounting" onclick="showPage('invoicing')"><span class="nav-icon">🧾</span> Invoicing &amp; Payments</a>
       <a class="nav-item" data-page="expenses"   data-group="accounting" onclick="showPage('expenses')"><span class="nav-icon">💵</span> Expense Management</a>
+      <a class="nav-item" data-page="budget"     data-group="accounting" onclick="showPage('budget')"><span class="nav-icon">📊</span> Budget Management</a>
 
       <a class="nav-item" data-page="notice"   data-group="collab" onclick="showPage('notice')"><span class="nav-icon">📢</span> Notice Board</a>
       <a class="nav-item" data-page="schedule" data-group="collab" onclick="showPage('schedule')"><span class="nav-icon">📅</span> Schedule</a>
       <a class="nav-item" data-page="webhard"  data-group="collab" onclick="showPage('webhard')"><span class="nav-icon">💾</span> File Storage (Webhard)</a>
 
       <a class="nav-item" data-page="users" data-group="settings" onclick="showPage('users')"><span class="nav-icon">👤</span> User Management</a>
+      <a class="nav-item" data-page="admin-panel" data-group="settings" onclick="showPage('admin-panel')" style="color:#b71c1c;font-weight:600"><span class="nav-icon">🔐</span> Admin Panel</a>
 
       <a class="nav-item" data-page="manual-overview"  data-group="manual" onclick="showPage('manual-overview')"><span class="nav-icon">📋</span> Overview</a>
       <a class="nav-item" data-page="manual-general"   data-group="manual" onclick="showPage('manual-general')"><span class="nav-icon">🗺️</span> General</a>
@@ -1447,6 +1449,344 @@ canvas.chart { max-width: 100%; }
       </div>
       </div>
 
+      <!-- ─── BUDGET MANAGEMENT ─── -->
+      <div class="page" id="page-budget">
+        <div class="page-header">
+          <div class="breadcrumb">Home › Accounting › <span>Budget Management</span></div>
+          <h1>Budget Management</h1>
+          <div style="display:flex;gap:10px;margin-top:8px">
+            <a href="budget_original_contract.xlsx" download style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#1565c0;color:#fff;border-radius:6px;text-decoration:none;font-size:13px">⬇ Original Contract (xlsx)</a>
+            <a href="budget_realignment_r9.xlsx" download style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#2e7d32;color:#fff;border-radius:6px;text-decoration:none;font-size:13px">⬇ Realignment No.1 R9 (xlsx)</a>
+          </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid-3" style="margin-bottom:20px">
+          <div class="stat-card" style="border-left:4px solid #1565c0">
+            <div class="stat-label">📋 Original Contract</div>
+            <div class="stat-value" style="font-size:22px;color:#1565c0">$ 3,954,410</div>
+            <div class="stat-sub">Contract Negotiation (r6 SUBMITTED)</div>
+          </div>
+          <div class="stat-card" style="border-left:4px solid #2e7d32">
+            <div class="stat-label">🔄 Realignment No.1 R9</div>
+            <div class="stat-value" style="font-size:22px;color:#2e7d32">$ 5,081,223</div>
+            <div class="stat-sub">Grand Total (USD) incl. Taxes &amp; Contingency</div>
+          </div>
+          <div class="stat-card" style="border-left:4px solid #e65100">
+            <div class="stat-label">📈 Budget Variance</div>
+            <div class="stat-value" style="font-size:22px;color:#e65100">+$ 1,126,813</div>
+            <div class="stat-sub">+28.5% increase from original</div>
+          </div>
+        </div>
+
+        <!-- Overall Summary Comparison -->
+        <div class="card mt24">
+          <div class="card-header">
+            <div class="card-title">Cost Summary Comparison</div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th style="text-align:right">Original Contract (USD)</th>
+                  <th style="text-align:right">Realignment R9 (USD)</th>
+                  <th style="text-align:right">Variance (USD)</th>
+                  <th style="text-align:right">Change %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background:#e3f2fd">
+                  <td><strong>I. Remuneration</strong></td>
+                  <td style="text-align:right"><strong>2,507,700</strong></td>
+                  <td style="text-align:right"><strong>2,507,700</strong></td>
+                  <td style="text-align:right">0</td>
+                  <td style="text-align:right">0.0%</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Foreign Key Experts</td>
+                  <td style="text-align:right">1,571,500</td>
+                  <td style="text-align:right">1,571,500</td>
+                  <td style="text-align:right">0</td>
+                  <td style="text-align:right">0.0%</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Local Key Experts</td>
+                  <td style="text-align:right">272,000</td>
+                  <td style="text-align:right">600,000</td>
+                  <td style="text-align:right;color:#e65100">+328,000</td>
+                  <td style="text-align:right;color:#e65100">+120.6%</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Support Staff</td>
+                  <td style="text-align:right">664,200</td>
+                  <td style="text-align:right">336,200</td>
+                  <td style="text-align:right;color:#2e7d32">−328,000</td>
+                  <td style="text-align:right;color:#2e7d32">−49.4%</td>
+                </tr>
+                <tr style="background:#e8f5e9">
+                  <td><strong>II. Other Expenses / Reimbursable</strong></td>
+                  <td style="text-align:right"><strong>1,446,710</strong></td>
+                  <td style="text-align:right"><strong>1,484,510</strong></td>
+                  <td style="text-align:right;color:#e65100"><strong>+37,800</strong></td>
+                  <td style="text-align:right;color:#e65100"><strong>+2.6%</strong></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Per Diem (incl. accommodation)</td>
+                  <td style="text-align:right">228,610</td>
+                  <td style="text-align:right">234,785</td>
+                  <td style="text-align:right;color:#e65100">+6,175</td>
+                  <td style="text-align:right;color:#e65100">+2.7%</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;International Flights</td>
+                  <td style="text-align:right">33,150</td>
+                  <td style="text-align:right">39,000</td>
+                  <td style="text-align:right;color:#e65100">+5,850</td>
+                  <td style="text-align:right;color:#e65100">+17.6%</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Communication Costs</td>
+                  <td style="text-align:right">2,000</td>
+                  <td style="text-align:right">1,600</td>
+                  <td style="text-align:right;color:#2e7d32">−400</td>
+                  <td style="text-align:right;color:#2e7d32">−20.0%</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Drafting / Reproduction</td>
+                  <td style="text-align:right">16,000</td>
+                  <td style="text-align:right">11,000</td>
+                  <td style="text-align:right;color:#2e7d32">−5,000</td>
+                  <td style="text-align:right;color:#2e7d32">−31.3%</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Equipment / Materials</td>
+                  <td style="text-align:right">8,000</td>
+                  <td style="text-align:right">8,000</td>
+                  <td style="text-align:right">0</td>
+                  <td style="text-align:right">0.0%</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Shipment of Personal Effects</td>
+                  <td style="text-align:right">1,950</td>
+                  <td style="text-align:right">1,560</td>
+                  <td style="text-align:right;color:#2e7d32">−390</td>
+                  <td style="text-align:right;color:#2e7d32">−20.0%</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Use of Computers / Software</td>
+                  <td style="text-align:right">20,000</td>
+                  <td style="text-align:right">10,000</td>
+                  <td style="text-align:right;color:#2e7d32">−10,000</td>
+                  <td style="text-align:right;color:#2e7d32">−50.0%</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Laboratory Tests</td>
+                  <td style="text-align:right">1,000</td>
+                  <td style="text-align:right">3,400</td>
+                  <td style="text-align:right;color:#e65100">+2,400</td>
+                  <td style="text-align:right;color:#e65100">+240.0%</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Sub-contract</td>
+                  <td style="text-align:right">970,000</td>
+                  <td style="text-align:right">830,000</td>
+                  <td style="text-align:right;color:#2e7d32">−140,000</td>
+                  <td style="text-align:right;color:#2e7d32">−14.4%</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Local Transportation</td>
+                  <td style="text-align:right">—</td>
+                  <td style="text-align:right">147,200</td>
+                  <td style="text-align:right;color:#e65100">+147,200</td>
+                  <td style="text-align:right">New</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Office / Admin / Meetings</td>
+                  <td style="text-align:right">—</td>
+                  <td style="text-align:right">145,000</td>
+                  <td style="text-align:right;color:#e65100">+145,000</td>
+                  <td style="text-align:right">New</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;&nbsp;Training of Client's Personnel</td>
+                  <td style="text-align:right">—</td>
+                  <td style="text-align:right">52,965</td>
+                  <td style="text-align:right;color:#e65100">+52,965</td>
+                  <td style="text-align:right">New</td>
+                </tr>
+                <tr style="background:#fff8e1">
+                  <td><strong>Subtotal (I + II)</strong></td>
+                  <td style="text-align:right"><strong>3,954,410</strong></td>
+                  <td style="text-align:right"><strong>3,992,210</strong></td>
+                  <td style="text-align:right;color:#e65100"><strong>+37,800</strong></td>
+                  <td style="text-align:right;color:#e65100"><strong>+1.0%</strong></td>
+                </tr>
+                <tr>
+                  <td>III. Taxes (VAT 12% + EWT 15%, PHP)</td>
+                  <td style="text-align:right">—</td>
+                  <td style="text-align:right" colspan="3"><em>PHP 51,547,439 (EDCF Counterpart)</em></td>
+                </tr>
+                <tr>
+                  <td>IV. Contingency (4.75% of I+II)</td>
+                  <td style="text-align:right">—</td>
+                  <td style="text-align:right" colspan="3"><em>PHP 10,744,132</em></td>
+                </tr>
+                <tr style="background:#e8eaf6;font-size:15px">
+                  <td><strong>GRAND TOTAL (USD)</strong></td>
+                  <td style="text-align:right"><strong>3,954,410</strong></td>
+                  <td style="text-align:right"><strong>5,081,223</strong></td>
+                  <td style="text-align:right;color:#e65100"><strong>+1,126,813</strong></td>
+                  <td style="text-align:right;color:#e65100"><strong>+28.5%</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Foreign Key Experts Remuneration -->
+        <div class="card mt24">
+          <div class="card-header">
+            <div class="card-title">Remuneration — Foreign Key Experts</div>
+            <div class="card-sub">Comparison: Original Contract vs. Realignment No.1 R9 (Unit: USD)</div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th rowspan="2">ID</th>
+                  <th rowspan="2">Name</th>
+                  <th rowspan="2">Position</th>
+                  <th colspan="3" style="text-align:center;background:#dbeafe;border-bottom:1px solid #90caf9">Original Contract</th>
+                  <th colspan="3" style="text-align:center;background:#dcfce7;border-bottom:1px solid #86efac">Realignment R9</th>
+                  <th rowspan="2" style="text-align:right">Variance</th>
+                </tr>
+                <tr>
+                  <th style="text-align:right;background:#eff6ff">Home M/M</th>
+                  <th style="text-align:right;background:#eff6ff">Field M/M</th>
+                  <th style="text-align:right;background:#eff6ff">Total (USD)</th>
+                  <th style="text-align:right;background:#f0fdf4">Home M/M</th>
+                  <th style="text-align:right;background:#f0fdf4">Field M/M</th>
+                  <th style="text-align:right;background:#f0fdf4">Total (USD)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>KF-1</td><td>YOON, Jae Heung</td><td>Team Leader (River Engineer)</td><td style="text-align:right">7.0</td><td style="text-align:right">9.0</td><td style="text-align:right">258,000</td><td style="text-align:right">2.5</td><td style="text-align:right">9.5</td><td style="text-align:right">199,000</td><td style="text-align:right;color:#2e7d32">−59,000</td></tr>
+                <tr><td>KF-2</td><td>YOU, Won Hee</td><td>River Structural Engineer</td><td style="text-align:right">5.5</td><td style="text-align:right">10.5</td><td style="text-align:right">237,000</td><td style="text-align:right">3.5</td><td style="text-align:right">10.5</td><td style="text-align:right">210,000</td><td style="text-align:right;color:#2e7d32">−27,000</td></tr>
+                <tr><td>KF-3</td><td>PARK, Min Sang → SHIN, Kwang-Kyoon</td><td>Flood Control Engineer</td><td style="text-align:right">6.5</td><td style="text-align:right">7.5</td><td style="text-align:right">204,000</td><td style="text-align:right">1.0</td><td style="text-align:right">8.0</td><td style="text-align:right">137,500</td><td style="text-align:right;color:#2e7d32">−66,500</td></tr>
+                <tr><td>KF-4</td><td>SHIN, Kwang-Kyoon → LEE, Sunghan</td><td>Civil Design Engineer 1</td><td style="text-align:right">5.0</td><td style="text-align:right">9.0</td><td style="text-align:right">207,000</td><td style="text-align:right">4.0</td><td style="text-align:right">9.0</td><td style="text-align:right">193,500</td><td style="text-align:right;color:#2e7d32">−13,500</td></tr>
+                <tr><td>KF-5</td><td>JANG, Bo Shik → YOON, Chan Young</td><td>Civil Design Engineer 2</td><td style="text-align:right">3.0</td><td style="text-align:right">4.0</td><td style="text-align:right">102,500</td><td style="text-align:right">3.0</td><td style="text-align:right">4.0</td><td style="text-align:right">102,500</td><td style="text-align:right">0</td></tr>
+                <tr><td>KF-6</td><td>YANG, Geumseok</td><td>Structural Engineer</td><td style="text-align:right">3.0</td><td style="text-align:right">5.0</td><td style="text-align:right">118,000</td><td style="text-align:right">4.0</td><td style="text-align:right">5.0</td><td style="text-align:right">131,500</td><td style="text-align:right;color:#e65100">+13,500</td></tr>
+                <tr><td>KF-7</td><td>PARK, Jeong Woo</td><td>Mechanical Engineer</td><td style="text-align:right">1.0</td><td style="text-align:right">3.0</td><td style="text-align:right">60,000</td><td style="text-align:right">1.0</td><td style="text-align:right">3.0</td><td style="text-align:right">60,000</td><td style="text-align:right">0</td></tr>
+                <tr><td>KF-8</td><td>LEE, Won Jae</td><td>Electrical Engineer</td><td style="text-align:right">1.0</td><td style="text-align:right">3.0</td><td style="text-align:right">60,000</td><td style="text-align:right">2.0</td><td style="text-align:right">3.0</td><td style="text-align:right">73,500</td><td style="text-align:right;color:#e65100">+13,500</td></tr>
+                <tr><td>KF-9</td><td>PARK, Jung Geun</td><td>SCADA Engineer</td><td style="text-align:right">1.0</td><td style="text-align:right">2.0</td><td style="text-align:right">44,500</td><td style="text-align:right">2.0</td><td style="text-align:right">2.0</td><td style="text-align:right">58,000</td><td style="text-align:right;color:#e65100">+13,500</td></tr>
+                <tr><td>KF-10</td><td>WEI, Seung Wook</td><td>GIS Expert</td><td style="text-align:right">2.0</td><td style="text-align:right">4.0</td><td style="text-align:right">89,000</td><td style="text-align:right">5.0</td><td style="text-align:right">4.0</td><td style="text-align:right">129,500</td><td style="text-align:right;color:#e65100">+40,500</td></tr>
+                <tr style="background:#fffde7"><td>KF-11</td><td>JUNG, Yoo Dong</td><td>Road Engineer <span class="tag tag-blue" style="font-size:10px">신규</span></td><td style="text-align:right">—</td><td style="text-align:right">—</td><td style="text-align:right">—</td><td style="text-align:right">6.5</td><td style="text-align:right">2.0</td><td style="text-align:right">118,500</td><td style="text-align:right;color:#e65100">+118,500</td></tr>
+                <tr style="background:#fffde7"><td>KF-12</td><td>KIM, Yong Min</td><td>Environmental Specialist <span class="tag tag-blue" style="font-size:10px">신규</span></td><td style="text-align:right">—</td><td style="text-align:right">—</td><td style="text-align:right">—</td><td style="text-align:right">2.0</td><td style="text-align:right">1.0</td><td style="text-align:right">42,500</td><td style="text-align:right;color:#e65100">+42,500</td></tr>
+                <tr style="background:#fffde7"><td>KF-13</td><td>OH, Myung Hwan</td><td>Geotechnical Engineer <span class="tag tag-blue" style="font-size:10px">신규</span></td><td style="text-align:right">—</td><td style="text-align:right">—</td><td style="text-align:right">—</td><td style="text-align:right">4.0</td><td style="text-align:right">4.0</td><td style="text-align:right">116,000</td><td style="text-align:right;color:#e65100">+116,000</td></tr>
+                <tr style="background:#e8eaf6;font-weight:bold">
+                  <td colspan="3">Subtotal — Foreign Key Experts</td>
+                  <td style="text-align:right">35.0</td><td style="text-align:right">57.0</td><td style="text-align:right">1,380,000</td>
+                  <td style="text-align:right">40.5</td><td style="text-align:right">65.0</td><td style="text-align:right">1,571,500</td>
+                  <td style="text-align:right;color:#e65100">+191,500</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Local Key Experts -->
+        <div class="card mt24">
+          <div class="card-header">
+            <div class="card-title">Remuneration — Local Key Experts (Realignment R9)</div>
+            <div class="card-sub">Rate: Home basis (USD/month)</div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th><th>Name</th><th>Position</th>
+                  <th style="text-align:right">Rate (USD/mo)</th>
+                  <th style="text-align:right">M/M</th>
+                  <th style="text-align:right">Total (USD)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>KL-1</td><td>Reynaldo R. Medina</td><td>Deputy Team Leader / River Engineer</td><td style="text-align:right">5,000</td><td style="text-align:right">16</td><td style="text-align:right">80,000</td></tr>
+                <tr><td>KL-2</td><td>Michael Rivera</td><td>River Structural Engineer</td><td style="text-align:right">4,000</td><td style="text-align:right">8</td><td style="text-align:right">32,000</td></tr>
+                <tr><td>KL-3</td><td>Giane Carlo V. Lacuesta</td><td>Flood Control Engineer</td><td style="text-align:right">4,000</td><td style="text-align:right">8</td><td style="text-align:right">32,000</td></tr>
+                <tr><td>KL-4</td><td>Dave Ervin Umali</td><td>Hydrologist</td><td style="text-align:right">4,000</td><td style="text-align:right">6</td><td style="text-align:right">24,000</td></tr>
+                <tr><td>KL-5</td><td>Jeron M. Colobong</td><td>Geodetic Engineer 1</td><td style="text-align:right">4,000</td><td style="text-align:right">6</td><td style="text-align:right">24,000</td></tr>
+                <tr><td>KL-6</td><td>Cress Anthony Manigo</td><td>Geodetic Engineer 2</td><td style="text-align:right">4,000</td><td style="text-align:right">6</td><td style="text-align:right">24,000</td></tr>
+                <tr><td>KL-7</td><td>Shemelyn S. Coronacion</td><td>Geotechnical Engineer 1</td><td style="text-align:right">4,000</td><td style="text-align:right">4</td><td style="text-align:right">16,000</td></tr>
+                <tr><td>KL-8</td><td>Malcom B. Padayao</td><td>Geotechnical Engineer 2</td><td style="text-align:right">4,000</td><td style="text-align:right">4</td><td style="text-align:right">16,000</td></tr>
+                <tr><td>KL-9</td><td>Cesar L. Oropilla</td><td>Geologist</td><td style="text-align:right">4,000</td><td style="text-align:right">4</td><td style="text-align:right">16,000</td></tr>
+                <tr><td>KL-10</td><td>Aldrin M. Tadifa</td><td>Civil Structural Engineer 1</td><td style="text-align:right">4,000</td><td style="text-align:right">4</td><td style="text-align:right">16,000</td></tr>
+                <tr><td>KL-11</td><td>Jovanne Langga</td><td>Civil Structural Engineer 2</td><td style="text-align:right">4,000</td><td style="text-align:right">4</td><td style="text-align:right">16,000</td></tr>
+                <tr><td>KL-12</td><td>John Carlo D. Villar</td><td>Bridge Engineer</td><td style="text-align:right">4,000</td><td style="text-align:right">4</td><td style="text-align:right">16,000</td></tr>
+                <tr style="background:#e8eaf6;font-weight:bold">
+                  <td colspan="4">Subtotal — Local Key Experts (R9)</td>
+                  <td style="text-align:right">74</td>
+                  <td style="text-align:right">272,000</td>
+                </tr>
+                <tr style="background:#f3e5f5">
+                  <td colspan="5"><em>Support Staff (R9 Summary)</em></td>
+                  <td style="text-align:right">328,000</td>
+                </tr>
+                <tr style="background:#e8eaf6;font-weight:bold">
+                  <td colspan="5">Total Local (Key Experts + Support Staff)</td>
+                  <td style="text-align:right">600,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Sub-contract Breakdown -->
+        <div class="card mt24">
+          <div class="card-header">
+            <div class="card-title">Sub-Contract Scope (Realignment R9)</div>
+            <div class="card-sub">Total Sub-contract Budget: USD 830,000</div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>No.</th><th>Description</th><th>Unit</th><th style="text-align:right">Unit Cost (USD)</th><th style="text-align:right">Qty</th><th style="text-align:right">Total (USD)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="6" style="background:#e3f2fd;font-weight:bold">Panay River Basin</td></tr>
+                <tr><td>9.1</td><td>Topographic, Hydrographic and Cross Section Survey</td><td>km</td><td style="text-align:right">3,550</td><td style="text-align:right">22</td><td style="text-align:right">78,100</td></tr>
+                <tr><td>9.2</td><td>Geotechnical Investigation (Soil Drilling/Boring)</td><td>BH</td><td style="text-align:right">1,500</td><td style="text-align:right">100</td><td style="text-align:right">150,000</td></tr>
+                <tr><td>9.3</td><td>Environmental and Social Impact Assessment</td><td>km</td><td style="text-align:right">1,000</td><td style="text-align:right">22</td><td style="text-align:right">22,000</td></tr>
+                <tr><td>9.4</td><td>Right-of-Way Investigation (incl. Parcellary Survey)</td><td>km</td><td style="text-align:right">3,200</td><td style="text-align:right">22</td><td style="text-align:right">70,400</td></tr>
+                <tr><td>9.5</td><td>Geological and Geohazard Assessment Survey</td><td>km</td><td style="text-align:right">500</td><td style="text-align:right">22</td><td style="text-align:right">11,000</td></tr>
+                <tr><td>9.6</td><td>Flood Inundation Survey</td><td>km</td><td style="text-align:right">500</td><td style="text-align:right">22</td><td style="text-align:right">11,000</td></tr>
+                <tr><td>9.7</td><td>Gender and Development Survey</td><td>No.</td><td style="text-align:right">100</td><td style="text-align:right">100</td><td style="text-align:right">10,000</td></tr>
+                <tr><td>9.8</td><td>Conduct of IEC Activities</td><td>No.</td><td style="text-align:right">100</td><td style="text-align:right">100</td><td style="text-align:right">10,000</td></tr>
+                <tr><td>9.9</td><td>Socio-Economic Survey</td><td>No.</td><td style="text-align:right">100</td><td style="text-align:right">100</td><td style="text-align:right">10,000</td></tr>
+                <tr><td>9.10</td><td>Conduct of Public Consultation / Coordination Meetings</td><td>No.</td><td style="text-align:right">1,500</td><td style="text-align:right">5</td><td style="text-align:right">7,500</td></tr>
+                <tr style="background:#e8f5e9;font-weight:bold"><td colspan="5">Panay Subtotal</td><td style="text-align:right">380,000</td></tr>
+                <tr><td colspan="6" style="background:#e3f2fd;font-weight:bold">Agusan River Basin</td></tr>
+                <tr><td>9.11</td><td>Topographic, Hydrographic and Cross Section Survey</td><td>km</td><td style="text-align:right">3,550</td><td style="text-align:right">30</td><td style="text-align:right">106,500</td></tr>
+                <tr><td>9.12</td><td>Geotechnical Investigation (Soil Drilling/Boring)</td><td>BH</td><td style="text-align:right">1,500</td><td style="text-align:right">100</td><td style="text-align:right">150,000</td></tr>
+                <tr><td>9.13</td><td>Environmental and Social Impact Assessment</td><td>km</td><td style="text-align:right">1,000</td><td style="text-align:right">30</td><td style="text-align:right">30,000</td></tr>
+                <tr><td>9.14</td><td>Right-of-Way Investigation (incl. Parcellary Survey)</td><td>km</td><td style="text-align:right">3,200</td><td style="text-align:right">30</td><td style="text-align:right">96,000</td></tr>
+                <tr><td>9.15</td><td>Geological and Geohazard Assessment Survey</td><td>km</td><td style="text-align:right">500</td><td style="text-align:right">30</td><td style="text-align:right">15,000</td></tr>
+                <tr><td>9.16</td><td>Flood Inundation Survey</td><td>km</td><td style="text-align:right">500</td><td style="text-align:right">30</td><td style="text-align:right">15,000</td></tr>
+                <tr><td>9.17</td><td>Gender and Development Survey</td><td>No.</td><td style="text-align:right">100</td><td style="text-align:right">100</td><td style="text-align:right">10,000</td></tr>
+                <tr><td>9.18</td><td>Conduct of IEC Activities</td><td>No.</td><td style="text-align:right">100</td><td style="text-align:right">100</td><td style="text-align:right">10,000</td></tr>
+                <tr><td>9.19</td><td>Socio-Economic Survey</td><td>No.</td><td style="text-align:right">100</td><td style="text-align:right">100</td><td style="text-align:right">10,000</td></tr>
+                <tr><td>9.20</td><td>Conduct of Public Consultation / Coordination Meetings</td><td>No.</td><td style="text-align:right">1,500</td><td style="text-align:right">5</td><td style="text-align:right">7,500</td></tr>
+                <tr style="background:#e8f5e9;font-weight:bold"><td colspan="5">Agusan Subtotal</td><td style="text-align:right">450,000</td></tr>
+                <tr style="background:#e8eaf6;font-weight:bold"><td colspan="5">Total Sub-contract</td><td style="text-align:right">830,000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <!-- ─── END BUDGET MANAGEMENT ─── -->
+
       <!-- ─── PROGRESS MGMT ─── -->
       <div class="page" id="page-progress">
         <div class="page-header">
@@ -1573,6 +1913,31 @@ canvas.chart { max-width: 100%; }
         <div class="page-header">
           <div class="breadcrumb">Home › <span>Progress Photos</span></div>
           <h1>Progress Photos</h1>
+        </div>
+
+        <!-- 현장조사 영상 -->
+        <div class="card" style="margin-bottom:24px">
+          <div class="card-header">
+            <div class="card-title">&#127909; 현장조사 영상 / Site Survey Videos</div>
+            <div class="card-badge">2026</div>
+          </div>
+          <div style="padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:16px">
+            <div>
+              <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;background:#000">
+                <iframe
+                  src="https://www.youtube.com/embed/biXQc18Pb8o"
+                  title="현장조사 영상 - Panay &amp; Agusan Flood Control Site Survey"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px">
+                </iframe>
+              </div>
+              <div style="margin-top:8px;font-size:13px;color:var(--text-muted)">
+                &#128205; Panay &amp; Agusan 홍수관리 실시설계 – 현장조사 영상
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="card">
@@ -1941,6 +2306,140 @@ canvas.chart { max-width: 100%; }
           </div>
         </div>
       </div>
+
+      <!-- ─── ADMIN PANEL ─── -->
+      <div class="page" id="page-admin-panel">
+        <div class="page-header">
+          <div class="breadcrumb">Home › Settings › <span>Admin Panel</span></div>
+          <h1>🔐 Admin Panel <span style="font-size:13px;background:#b71c1c;color:#fff;padding:3px 10px;border-radius:12px;vertical-align:middle">KEVIN ONLY</span></h1>
+        </div>
+
+        <!-- System Info -->
+        <div class="grid-3" style="margin-bottom:20px">
+          <div class="stat-card" style="border-left:4px solid #b71c1c">
+            <div class="stat-label">🖥️ System Version</div>
+            <div class="stat-value" style="font-size:20px">PMIS v9</div>
+            <div class="stat-sub">Panay &amp; Agusan PKG-2</div>
+          </div>
+          <div class="stat-card" style="border-left:4px solid #1565c0">
+            <div class="stat-label">👥 Total Accounts</div>
+            <div class="stat-value" style="font-size:20px" id="admin-user-count">—</div>
+            <div class="stat-sub">Active users in system</div>
+          </div>
+          <div class="stat-card" style="border-left:4px solid #2e7d32">
+            <div class="stat-label">📅 Last Login</div>
+            <div class="stat-value" style="font-size:20px" id="admin-last-login">—</div>
+            <div class="stat-sub">Current session: kevin</div>
+          </div>
+        </div>
+
+        <!-- Account List with Passwords -->
+        <div class="card mt24">
+          <div class="card-header">
+            <div class="card-title">전체 계정 목록 (Admin 전용)</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <button onclick="adminResetAllPw()" style="padding:6px 14px;background:#e53935;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">🔄 전체 비밀번호 초기화</button>
+              <button onclick="adminRefreshTable()" style="padding:6px 14px;background:#1565c0;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">↻ 새로고침</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="admin-user-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>이름</th>
+                  <th>소속</th>
+                  <th>권한</th>
+                  <th>비밀번호</th>
+                  <th>상태</th>
+                  <th>마지막 로그인</th>
+                  <th>액션</th>
+                </tr>
+              </thead>
+              <tbody id="admin-user-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="card mt24" style="border:2px solid #b71c1c">
+          <div class="card-header" style="background:#fff5f5">
+            <div class="card-title" style="color:#b71c1c">⚠️ Danger Zone</div>
+          </div>
+          <div style="padding:16px;display:flex;gap:12px;flex-wrap:wrap">
+            <button onclick="adminResetLocalStorage()" style="padding:8px 18px;background:#b71c1c;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">🗑️ LocalStorage 전체 초기화</button>
+            <button onclick="adminExportData()" style="padding:8px 18px;background:#37474f;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">💾 시스템 데이터 내보내기 (JSON)</button>
+          </div>
+        </div>
+
+        <script>
+        function adminRefreshTable() {
+          if (!currentUser || currentUser.id !== 'kevin') return;
+          const tbody = document.getElementById('admin-user-tbody');
+          document.getElementById('admin-user-count').textContent = USERS.length + '명';
+          document.getElementById('admin-last-login').textContent = currentUser.lastLogin || '현재';
+          tbody.innerHTML = '';
+          USERS.forEach((u, idx) => {
+            const pw = (() => { try { return atob(u.pwHash); } catch(e) { return '(암호화)'; } })();
+            const roleLabel = {admin:'관리자',manager:'매니저',accounting:'회계',staff:'직원',editor:'편집자',viewer:'열람자'}[u.role] || u.role;
+            const roleColor = {admin:'#b71c1c',manager:'#1565c0',accounting:'#2e7d32',staff:'#546e7a',editor:'#6a1b9a',viewer:'#e65100'}[u.role] || '#888';
+            tbody.innerHTML += `<tr>
+              <td><strong>${u.id}</strong></td>
+              <td>${u.name}</td>
+              <td>${u.company||'—'}</td>
+              <td><span style="background:${roleColor};color:#fff;padding:2px 8px;border-radius:10px;font-size:12px">${roleLabel}</span></td>
+              <td><span style="font-family:monospace;background:#f5f5f5;padding:2px 8px;border-radius:4px">${pw}</span>
+                <button onclick="adminChangePw(${idx})" style="margin-left:6px;padding:2px 8px;font-size:11px;background:#546e7a;color:#fff;border:none;border-radius:4px;cursor:pointer">변경</button>
+              </td>
+              <td><span class="tag ${u.status==='active'?'tag-green':'tag-red'}">${u.status==='active'?'활성':'비활성'}</span></td>
+              <td style="font-size:12px">${u.lastLogin||'—'}</td>
+              <td>
+                <button onclick="adminToggleStatus(${idx})" style="padding:2px 8px;font-size:11px;background:#ff8f00;color:#fff;border:none;border-radius:4px;cursor:pointer">
+                  ${u.status==='active'?'비활성화':'활성화'}
+                </button>
+              </td>
+            </tr>`;
+          });
+        }
+        function adminChangePw(idx) {
+          const newPw = prompt(`[${USERS[idx].id}] 새 비밀번호 입력:`);
+          if (!newPw) return;
+          USERS[idx].pwHash = btoa(unescape(encodeURIComponent(newPw)));
+          saveUsers(); adminRefreshTable();
+          alert('비밀번호가 변경되었습니다.');
+        }
+        function adminToggleStatus(idx) {
+          if (USERS[idx].id === 'kevin') { alert('kevin 계정은 비활성화할 수 없습니다.'); return; }
+          USERS[idx].status = USERS[idx].status === 'active' ? 'inactive' : 'active';
+          saveUsers(); adminRefreshTable();
+        }
+        function adminResetAllPw() {
+          if (!confirm('모든 계정의 비밀번호를 1234@@로 초기화하시겠습니까?')) return;
+          USERS.forEach(u => u.pwHash = btoa('1234@@'));
+          saveUsers(); adminRefreshTable();
+          alert('전체 비밀번호가 1234@@로 초기화되었습니다.');
+        }
+        function adminResetLocalStorage() {
+          if (!confirm('⚠️ LocalStorage를 전체 초기화합니다. 모든 데이터가 삭제됩니다. 계속하시겠습니까?')) return;
+          localStorage.clear(); alert('초기화 완료. 페이지를 새로고침합니다.'); location.reload();
+        }
+        function adminExportData() {
+          const data = {};
+          for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            try { data[k] = JSON.parse(localStorage.getItem(k)); } catch(e) { data[k] = localStorage.getItem(k); }
+          }
+          const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+          const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+          a.download = 'pmis_data_export.json'; a.click();
+        }
+        // Auto-load when page becomes visible
+        document.addEventListener('pmis-page-shown', function(e) {
+          if (e.detail === 'admin-panel') adminRefreshTable();
+        });
+        </script>
+      </div>
+      <!-- ─── END ADMIN PANEL ─── -->
 
       <!-- ─── MANUAL ─── -->
 
@@ -3026,12 +3525,12 @@ const DEFAULT_USERS = [
 // Pages each role can see (nav item ids)
 const MANUAL_PAGES = ['manual-overview','manual-general','manual-contract','manual-progress','manual-documents','manual-collab','manual-settings'];
 const ROLE_PAGES = {
-  admin:   ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','notice','schedule','webhard','users',...MANUAL_PAGES],
-  manager: ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','notice','schedule','webhard','users',...MANUAL_PAGES],
-  accounting: ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','notice','schedule','webhard',...MANUAL_PAGES],
-  staff:   ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','notice','schedule','webhard',...MANUAL_PAGES],
-  editor:  ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','notice','schedule','webhard',...MANUAL_PAGES],
-  viewer:  ['dashboard','general','contract','progress','workforce','photos','deliverables','documents','notice','schedule',...MANUAL_PAGES],
+  admin:   ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','budget','notice','schedule','webhard','users','admin-panel',...MANUAL_PAGES],
+  manager: ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','budget','notice','schedule','webhard','users',...MANUAL_PAGES],
+  accounting: ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','budget','notice','schedule','webhard',...MANUAL_PAGES],
+  staff:   ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','budget','notice','schedule','webhard',...MANUAL_PAGES],
+  editor:  ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','budget','notice','schedule','webhard',...MANUAL_PAGES],
+  viewer:  ['dashboard','general','contract','progress','workforce','photos','deliverables','documents','budget','notice','schedule',...MANUAL_PAGES],
 };
 
 let USERS = [];
@@ -3337,6 +3836,7 @@ function showPage(id) {
   if (id === 'issues') { initIssueTracker(); }
   if (id === 'deliverables') { initDeliverables(); }
   if (id === 'users') { initUsers(); }
+  if (id === 'admin-panel') { document.dispatchEvent(new CustomEvent('pmis-page-shown', {detail:'admin-panel'})); }
   if (id === 'expenses') { if (typeof renderExpenseTable === 'function' && typeof Q1_EXPENSES !== 'undefined') { switchQtab('q1'); } }
 }
 
