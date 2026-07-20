@@ -529,6 +529,7 @@ canvas.chart { max-width: 100%; }
               <div style="display:flex;gap:8px;align-items:center">
                 <div class="card-badge" id="scurve-asof">As of Jul 15, 2026</div>
                 <button onclick="openSCurveEditor()" style="padding:4px 10px;border-radius:6px;border:1px solid #d0d7de;background:#fff;cursor:pointer;font-size:12px">✏️ 데이터 입력</button>
+                <button onclick="exportSCurveXlsm()" style="padding:4px 10px;border-radius:6px;border:1px solid #d0d7de;background:#fff;cursor:pointer;font-size:12px">📥 Export</button>
               </div>
             </div>
             <canvas id="scurve-chart" height="180" class="chart"></canvas>
@@ -4083,6 +4084,26 @@ function resetSCurveData() {
   drawSCurve('scurve-chart', true);
   const asofEl = document.getElementById('scurve-asof'); if (asofEl) asofEl.textContent = 'As of ' + SCURVE.asOfLabel;
   if (typeof showToast === 'function') showToast('S-Curve 기본값으로 복원됨');
+}
+function exportSCurveXlsm() {
+  if (typeof XLSX === 'undefined') { showToast('⚠️ Excel 라이브러리 로딩 실패. 새로고침 후 다시 시도하세요.'); return; }
+  const rows = [['Month', 'Plan Cumulative %', 'Actual Cumulative %', 'Slippage %']];
+  SCURVE.labels.forEach((lb, i) => {
+    const p = SCURVE.cumPlan[i] !== undefined ? SCURVE.cumPlan[i] : null;
+    const a = SCURVE.cumActual[i] !== undefined ? SCURVE.cumActual[i] : null;
+    rows.push([lb, p, a, (p !== null && a !== null) ? +(a - p).toFixed(2) : null]);
+  });
+  rows.push([]);
+  rows.push(['As of', SCURVE.asOfLabel || '']);
+  rows.push(['Actual', SCURVE.asOfActual !== undefined ? SCURVE.asOfActual + '%' : '']);
+  rows.push(['Plan', SCURVE.asOfPlan !== undefined ? SCURVE.asOfPlan + '%' : '']);
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [{wch:10},{wch:18},{wch:18},{wch:12}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'S-Curve');
+  const d = new Date().toISOString().split('T')[0];
+  XLSX.writeFile(wb, 'PARB_S-Curve_' + d + '.xlsm', { bookType: 'xlsm' });
+  showToast('✅ S-Curve Excel 다운로드 완료');
 }
 
 function drawSCurve(canvasId, small = false) {
