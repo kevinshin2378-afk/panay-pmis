@@ -526,7 +526,10 @@ canvas.chart { max-width: 100%; }
           <div class="card">
             <div class="card-header">
               <div class="card-title">Progress S-Curve</div>
-              <div class="card-badge">As of Mar 2026</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <div class="card-badge" id="scurve-asof">As of Jul 15, 2026</div>
+                <button onclick="openSCurveEditor()" style="padding:4px 10px;border-radius:6px;border:1px solid #d0d7de;background:#fff;cursor:pointer;font-size:12px">✏️ 데이터 입력</button>
+              </div>
             </div>
             <canvas id="scurve-chart" height="180" class="chart"></canvas>
           </div>
@@ -4002,16 +4005,85 @@ const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov
 // + 3rd Monthly Progress Report March 2026 (Apr 1 2026, actual through Mar 2026)
 // Plan: cumulative % sampled at month-end from 34-period bi-weekly S-curve (NTP Nov 25 2025)
 // Actual through Mar 2026 confirmed: 17.44% (Plan 17.11%, Slippage +0.33%) per 3rd MPR
-const SCURVE = (() => {
-  const labels = ['Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26','Nov-26','Dec-26','Jan-27','Feb-27'];
-  const planMonthly   = [2.41,7.88,2.49,1.57,10.15,5.28,6.26,10.43,7.03,8.84,11.98,13.43,7.15,1.55,1.40,2.15];
-  const actualMonthly = [1.69,1.70,5.76,2.08,6.21]; // through Mar 2026 (3rd MPR)
-  const cum = arr => { let s = 0; return arr.map(v => +( (s += v).toFixed(2) )); };
-  const cumPlan = cum(planMonthly);
-  const cumActual = cum(actualMonthly);
-  // asOf = Mar 2026: actual 17.44% vs MPR plan 17.11% = +0.33% (period 7, Mar 2)
-  return { labels, planMonthly, actualMonthly, cumPlan, cumActual, asOfIdx: actualMonthly.length - 1, asOfLabel: 'Mar 2026', asOfActual: 17.44, asOfPlan: 17.11 };
-})();
+// S-Curve data (from WCI26-002.Rev0 S-Curve as of July 15, 2026) — editable via UI, stored in localStorage
+const SCURVE_DEFAULT = {
+  labels: ['Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26','Nov-26','Dec-26','Jan-27','Feb-27','Mar-27','Apr-27','May-27'],
+  cumPlan:   [0, 6.91, 12.48, 14.35, 17.11, 23.86, 27.44, 35.76, 46.46, 51.26, 57.72, 67.57, 80.38, 89.51, 96.31, 97.85, 100, 100, 100],
+  cumActual: [0, 3.39, 6.73, 11.23, 17.44, 21.14, 23.00, 30.94, 32.96],
+  asOfLabel: 'Jul 15, 2026'
+};
+let SCURVE = loadSCurve();
+function loadSCurve() {
+  let d;
+  try { d = JSON.parse(localStorage.getItem('pmis_scurve')); } catch(e) {}
+  if (!d || !Array.isArray(d.cumPlan)) d = JSON.parse(JSON.stringify(SCURVE_DEFAULT));
+  const ai = Math.max(0, d.cumActual.length - 1);
+  d.asOfIdx = ai;
+  d.asOfActual = d.cumActual[ai];
+  d.asOfPlan = d.cumPlan[ai];
+  return d;
+}
+function saveSCurve(d) { localStorage.setItem('pmis_scurve', JSON.stringify({ labels: d.labels, cumPlan: d.cumPlan, cumActual: d.cumActual, asOfLabel: d.asOfLabel })); }
+
+// ── S-Curve editor UI ──
+function openSCurveEditor() {
+  let modal = document.getElementById('modal-scurve-edit');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'modal-scurve-edit';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:flex;align-items:center;justify-content:center';
+    modal.innerHTML = '<div style="background:#fff;border-radius:10px;max-width:560px;width:92%;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,.25)">'
+      + '<div style="padding:14px 20px;border-bottom:1px solid #e6ebf1;display:flex;justify-content:space-between;align-items:center">'
+      + '<strong style="font-size:15px">📈 S-Curve Data Entry (Cumulative %)</strong>'
+      + '<button onclick="document.getElementById(\'modal-scurve-edit\').style.display=\'none\'" style="border:none;background:none;font-size:20px;cursor:pointer">×</button></div>'
+      + '<div id="scurve-edit-body" style="overflow-y:auto;padding:12px 20px"></div>'
+      + '<div style="padding:12px 20px;border-top:1px solid #e6ebf1;display:flex;gap:8px;justify-content:flex-end">'
+      + '<button onclick="resetSCurveData()" style="padding:8px 14px;border-radius:6px;border:1px solid #d0d7de;background:#fff;cursor:pointer;font-size:13px">기본값 복원</button>'
+      + '<button onclick="applySCurveData()" style="padding:8px 18px;border-radius:6px;border:none;background:var(--primary,#14649e);color:#fff;cursor:pointer;font-size:13px;font-weight:600">저장 &amp; 차트 갱신</button></div></div>';
+    document.body.appendChild(modal);
+  }
+  const body = document.getElementById('scurve-edit-body');
+  let rows = '<table style="width:100%;border-collapse:collapse;font-size:13px">'
+    + '<tr style="background:#f5f7fa"><th style="padding:6px;text-align:left;border-bottom:1px solid #e6ebf1">Month</th>'
+    + '<th style="padding:6px;border-bottom:1px solid #e6ebf1">Plan Cum. %</th>'
+    + '<th style="padding:6px;border-bottom:1px solid #e6ebf1">Actual Cum. %</th></tr>';
+  SCURVE.labels.forEach((lb, i) => {
+    const p = SCURVE.cumPlan[i] !== undefined ? SCURVE.cumPlan[i] : '';
+    const a = SCURVE.cumActual[i] !== undefined ? SCURVE.cumActual[i] : '';
+    rows += `<tr><td style="padding:4px 6px;border-bottom:1px solid #f0f3f6">${lb}</td>`
+      + `<td style="padding:4px 6px;border-bottom:1px solid #f0f3f6"><input type="number" step="0.01" min="0" max="100" id="sc-p-${i}" value="${p}" style="width:90px;padding:4px 6px;border:1px solid #d0d7de;border-radius:4px;text-align:right"></td>`
+      + `<td style="padding:4px 6px;border-bottom:1px solid #f0f3f6"><input type="number" step="0.01" min="0" max="100" id="sc-a-${i}" value="${a}" placeholder="-" style="width:90px;padding:4px 6px;border:1px solid #d0d7de;border-radius:4px;text-align:right"></td></tr>`;
+  });
+  rows += '</table><div style="margin-top:8px;font-size:12px;color:#8b99aa">Actual은 실적이 있는 달까지만 입력하세요 (빈 칸 = 미도래). As of: <input type="text" id="sc-asof" value="' + (SCURVE.asOfLabel||'') + '" style="width:110px;padding:3px 6px;border:1px solid #d0d7de;border-radius:4px;font-size:12px"></div>';
+  body.innerHTML = rows;
+  modal.style.display = 'flex';
+}
+function applySCurveData() {
+  const plan = [], act = [];
+  SCURVE.labels.forEach((_, i) => {
+    const p = parseFloat(document.getElementById('sc-p-' + i).value);
+    plan.push(isNaN(p) ? 0 : p);
+    const av = document.getElementById('sc-a-' + i).value;
+    if (av !== '' && act.length === i) { const a = parseFloat(av); if (!isNaN(a)) act.push(a); }
+  });
+  const asof = document.getElementById('sc-asof').value.trim();
+  SCURVE.cumPlan = plan; SCURVE.cumActual = act;
+  if (asof) SCURVE.asOfLabel = asof;
+  saveSCurve(SCURVE);
+  SCURVE = loadSCurve();
+  document.getElementById('modal-scurve-edit').style.display = 'none';
+  drawSCurve('scurve-chart', true);
+  const asofEl = document.getElementById('scurve-asof'); if (asofEl) asofEl.textContent = 'As of ' + SCURVE.asOfLabel;
+  if (typeof showToast === 'function') showToast('✅ S-Curve 업데이트 완료');
+}
+function resetSCurveData() {
+  localStorage.removeItem('pmis_scurve');
+  SCURVE = loadSCurve();
+  document.getElementById('modal-scurve-edit').style.display = 'none';
+  drawSCurve('scurve-chart', true);
+  const asofEl = document.getElementById('scurve-asof'); if (asofEl) asofEl.textContent = 'As of ' + SCURVE.asOfLabel;
+  if (typeof showToast === 'function') showToast('S-Curve 기본값으로 복원됨');
+}
 
 function drawSCurve(canvasId, small = false) {
   const canvas = document.getElementById(canvasId);
