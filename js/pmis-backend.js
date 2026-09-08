@@ -45,6 +45,14 @@
     }),
     signOut: (token) => request('/auth/v1/logout', { method: 'POST', token }),
     currentUser: (token) => request('/auth/v1/user', { token }),
+    updatePassword: (token, password) => request('/auth/v1/user', {
+      method: 'PUT', token, body: { password },
+    }),
+    requestPasswordRecovery: (email, redirectTo) => request('/auth/v1/recover', {
+      method: 'POST', body: { email, redirect_to: redirectTo },
+    }),
+    profile: (userId, token) => request(`/rest/v1/profiles?id=eq.${encodeURIComponent(userId)}&select=id,display_name,organization_name,global_role,active`, { token }),
+    memberships: (userId, token) => request(`/rest/v1/project_members?user_id=eq.${encodeURIComponent(userId)}&select=project_id,role,accounting_access,projects(id,code,name,starts_on,ends_on,active)`, { token }),
     projects: (token) => request('/rest/v1/projects?select=id,code,name,starts_on,ends_on,active&order=name.asc', { token }),
     deliverables: (projectId, token) => request(`/rest/v1/deliverables?project_id=eq.${encodeURIComponent(projectId)}&select=*&order=due_on.asc.nullslast`, { token }),
     issues: (projectId, token) => request(`/rest/v1/issues?project_id=eq.${encodeURIComponent(projectId)}&select=*&order=opened_on.desc`, { token }),

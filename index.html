@@ -375,7 +375,7 @@ canvas.chart { max-width: 100%; }
       <div class="login-sub">Panay and Agusan River Basins · Philippines<br>Client: Department of Public Works and Highways (DPWH)</div>
     </div>
     <div class="login-body">
-    <input type="text" id="login-user" placeholder="User ID" autocomplete="username">
+    <input type="email" id="login-user" placeholder="Email address" autocomplete="username">
     <div style="position:relative">
       <input type="password" id="login-pw" placeholder="Password" autocomplete="current-password"
         style="padding-right:42px;width:100%;box-sizing:border-box"
@@ -383,12 +383,12 @@ canvas.chart { max-width: 100%; }
       <button type="button" onclick="togglePw('login-pw',this)" tabindex="-1"
         style="position:absolute;right:10px;top:50%;transform:translateY(-65%);background:none;border:none;cursor:pointer;font-size:16px;padding:2px;color:var(--text-muted)">👁️</button>
     </div>
-    <div id="login-error" style="color:#c0392b;font-size:12px;margin:-6px 0 10px;display:none">
-      ❌ Invalid user ID or password.
+    <div id="login-error" role="alert" style="color:#c0392b;font-size:12px;margin:-6px 0 10px;display:none">
+      ❌ Email or password is incorrect.
     </div>
     <button class="login-btn" onclick="doLogin()">LOGIN</button>
     <div style="font-size:11px;color:var(--text-muted);margin-top:14px;text-align:center">
-      Access is restricted to authorized personnel only.<br>Contact the PMIS administrator for credentials.
+      Access is restricted to authorized personnel only.<br>Use the email address invited by the PMIS administrator.
     </div>
     </div><!-- /login-body -->
   </div>
@@ -416,7 +416,7 @@ canvas.chart { max-width: 100%; }
       </div>
       <span style="opacity:.55;margin-left:4px;font-size:11px">▾</span>
       <div id="user-dropdown" style="display:none;position:absolute;top:100%;right:0;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.15);min-width:160px;z-index:9999;overflow:hidden">
-        <div onclick="openChangePw()" style="padding:10px 16px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border)" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">🔑 비밀번호 변경</div>
+        <div onclick="sendPasswordRecovery()" style="padding:10px 16px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border)" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">🔑 비밀번호 재설정</div>
         <div onclick="doLogout()" style="padding:10px 16px;cursor:pointer;font-size:13px;color:var(--danger)" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">🚪 Log-out</div>
       </div>
     </div>
@@ -2337,12 +2337,12 @@ canvas.chart { max-width: 100%; }
           </div>
         </div>
 
-        <!-- Account List with Passwords -->
+        <!-- Account access is centrally managed; no passwords are exposed in PMIS. -->
         <div class="card mt24">
           <div class="card-header">
             <div class="card-title">전체 계정 목록 (Admin 전용)</div>
             <div style="display:flex;gap:8px;align-items:center">
-              <button onclick="adminResetAllPw()" style="padding:6px 14px;background:#e53935;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">🔄 전체 비밀번호 초기화</button>
+              <button onclick="adminResetAllPw()" style="padding:6px 14px;background:#546e7a;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">🔐 중앙 계정 관리 안내</button>
               <button onclick="adminRefreshTable()" style="padding:6px 14px;background:#1565c0;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">↻ 새로고침</button>
             </div>
           </div>
@@ -2354,7 +2354,7 @@ canvas.chart { max-width: 100%; }
                   <th>이름</th>
                   <th>소속</th>
                   <th>권한</th>
-                  <th>비밀번호</th>
+                  <th>인증</th>
                   <th>상태</th>
                   <th>마지막 로그인</th>
                   <th>액션</th>
@@ -2378,13 +2378,13 @@ canvas.chart { max-width: 100%; }
 
         <script>
         function adminRefreshTable() {
-          if (!currentUser || currentUser.id !== 'kevin') return;
+          if (!currentUser || currentUser.role !== 'admin') return;
           const tbody = document.getElementById('admin-user-tbody');
+          loadUsers();
           document.getElementById('admin-user-count').textContent = USERS.length + '명';
           document.getElementById('admin-last-login').textContent = currentUser.lastLogin || '현재';
           tbody.innerHTML = '';
-          USERS.forEach((u, idx) => {
-            const pw = (() => { try { return atob(u.pwHash); } catch(e) { return '(암호화)'; } })();
+          USERS.forEach((u) => {
             const roleLabel = {admin:'관리자',manager:'매니저',accounting:'회계',staff:'직원',editor:'편집자',viewer:'열람자'}[u.role] || u.role;
             const roleColor = {admin:'#b71c1c',manager:'#1565c0',accounting:'#2e7d32',staff:'#546e7a',editor:'#6a1b9a',viewer:'#e65100'}[u.role] || '#888';
             tbody.innerHTML += `<tr>
@@ -2392,36 +2392,17 @@ canvas.chart { max-width: 100%; }
               <td>${u.name}</td>
               <td>${u.company||'—'}</td>
               <td><span style="background:${roleColor};color:#fff;padding:2px 8px;border-radius:10px;font-size:12px">${roleLabel}</span></td>
-              <td><span style="font-family:monospace;background:#f5f5f5;padding:2px 8px;border-radius:4px">${pw}</span>
-                <button onclick="adminChangePw(${idx})" style="margin-left:6px;padding:2px 8px;font-size:11px;background:#546e7a;color:#fff;border:none;border-radius:4px;cursor:pointer">변경</button>
-              </td>
+              <td><span class="tag tag-gray">Supabase managed</span></td>
               <td><span class="tag ${u.status==='active'?'tag-green':'tag-red'}">${u.status==='active'?'활성':'비활성'}</span></td>
               <td style="font-size:12px">${u.lastLogin||'—'}</td>
               <td>
-                <button onclick="adminToggleStatus(${idx})" style="padding:2px 8px;font-size:11px;background:#ff8f00;color:#fff;border:none;border-radius:4px;cursor:pointer">
-                  ${u.status==='active'?'비활성화':'활성화'}
-                </button>
+                <span style="font-size:11px;color:#667085">Server-side only</span>
               </td>
             </tr>`;
           });
         }
-        function adminChangePw(idx) {
-          const newPw = prompt(`[${USERS[idx].id}] 새 비밀번호 입력:`);
-          if (!newPw) return;
-          USERS[idx].pwHash = btoa(unescape(encodeURIComponent(newPw)));
-          saveUsers(); adminRefreshTable();
-          alert('비밀번호가 변경되었습니다.');
-        }
-        function adminToggleStatus(idx) {
-          if (USERS[idx].id === 'kevin') { alert('kevin 계정은 비활성화할 수 없습니다.'); return; }
-          USERS[idx].status = USERS[idx].status === 'active' ? 'inactive' : 'active';
-          saveUsers(); adminRefreshTable();
-        }
         function adminResetAllPw() {
-          if (!confirm('모든 계정의 비밀번호를 1234@@로 초기화하시겠습니까?')) return;
-          USERS.forEach(u => u.pwHash = btoa('1234@@'));
-          saveUsers(); adminRefreshTable();
-          alert('전체 비밀번호가 1234@@로 초기화되었습니다.');
+          alert('Passwords are managed through Supabase Auth. Use the Supabase dashboard for administrator actions.');
         }
         function adminResetLocalStorage() {
           if (!confirm('⚠️ LocalStorage를 전체 초기화합니다. 모든 데이터가 삭제됩니다. 계속하시겠습니까?')) return;
@@ -2670,8 +2651,8 @@ canvas.chart { max-width: 100%; }
           <div style="line-height:1.8;font-size:13px;color:#374151;padding:4px 0 8px">
             <ul style="margin:4px 0 0 20px;display:flex;flex-direction:column;gap:6px">
               <li>Admin/Manager 계정만 접근 가능</li>
-              <li><b>계정 유형별 초기 비밀번호</b>: Admin <code>1234@@</code> / Others <code>1234@@</code></li>
-              <li>사용자 추가([+ Add User]), 비밀번호 변경, 역할(Role) 변경 기능</li>
+              <li><b>계정 및 권한</b>: Supabase Auth와 중앙 PMIS 데이터베이스에서 관리합니다.</li>
+              <li>사용자 초대와 역할 변경은 PMIS 관리자가 중앙 관리 절차로 수행합니다.</li>
               <li><b>접근 링크 공유</b>: 상단 Share System Access Link에서 GitHub Pages URL 복사하여 팀원에게 공유</li>
             </ul>
           </div>
@@ -3250,7 +3231,7 @@ canvas.chart { max-width: 100%; }
     </div>
     <div style="font-size:13px;line-height:1.7">
       <h3 style="font-size:14px;color:var(--primary);margin:6px 0 6px">1. Getting Started</h3>
-      <p>Access the system anywhere at <strong>kevinshin2378-afk.github.io/panay-pmis</strong> and log in with the ID/password issued by the administrator. Use the 👁️ icon to show/hide your password.</p>
+      <p>Access the system anywhere at <strong>kevinshin2378-afk.github.io/panay-pmis</strong> and sign in with the email address invited by the PMIS administrator.</p>
       <h3 style="font-size:14px;color:var(--primary);margin:14px 0 6px">2. Menu Overview</h3>
       <table style="font-size:12px;margin-bottom:6px"><tbody>
         <tr><td style="font-weight:700;width:170px">GENERAL</td><td>Dashboard (project KPIs, D-day, milestones) and General Information</td></tr>
@@ -3516,22 +3497,17 @@ const APPROVAL_ITEMS = [
 const FOLDERS = ['01. Reports', '02. Drawings', '03. Survey Data', '04. Correspondence', '05. Photos', '06. Contracts', '07. Meeting Minutes'];
 
 // ══════════════════════════════════════════════
-// USER DATABASE  (localStorage: pmis_users)
+// IDENTITY & ACCESS
+// Credentials, user status, and project membership are authoritative only in
+// Supabase Auth + the PMIS central database. Do not put accounts or passwords
+// in browser storage or static source files.
 // ══════════════════════════════════════════════
-const DEFAULT_USERS = [
-  { id:'kevin',  name:'Kevin Shin (KWANG KYOON SHIN)', company:'KECC JV',  role:'admin', email:'kevinshin2378@gmail.com', pwHash:btoa('1234@@'), status:'active', lastLogin:'', accounting:true },
-  { id:'noel',   name:'Noel (Accounting Manager)',      company:'KECC JV',  role:'accounting', email:'', pwHash:btoa('1234@@'), status:'active', lastLogin:'', accounting:true },
-  { id:'205202', name:'SAMAN Admin',                    company:'SAMAN',    role:'accounting', email:'', pwHash:btoa('1234@@'), status:'active', lastLogin:'', accounting:true },
-  { id:'yoon',   name:'YOON Jae Heung (Team Leader)',   company:'KECC JV',  role:'staff', email:'', pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
-  { id:'wci',    name:'WCI',                            company:'WCI',      role:'staff', email:'', pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
-  { id:'sean',   name:'Sean',                           company:'KECC JV',  role:'staff', email:'', pwHash:btoa('1234@@'), status:'active', lastLogin:'' },
-];
 
 // Pages each role can see (nav item ids)
 const MANUAL_PAGES = ['manual-overview','manual-general','manual-contract','manual-progress','manual-documents','manual-collab','manual-settings'];
 const ROLE_PAGES = {
-  admin:   ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','budget','notice','schedule','webhard','users','admin-panel',...MANUAL_PAGES],
-  manager: ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','budget','notice','schedule','webhard','users',...MANUAL_PAGES],
+  admin:   ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','budget','notice','schedule','webhard',...MANUAL_PAGES],
+  manager: ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','budget','notice','schedule','webhard',...MANUAL_PAGES],
   accounting: ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','accounting','invoicing','expenses','budget','notice','schedule','webhard',...MANUAL_PAGES],
   staff:   ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','approval','budget','notice','schedule','webhard',...MANUAL_PAGES],
   editor:  ['dashboard','general','contract','progress','workforce','photos','deliverables','issues','documents','budget','notice','schedule','webhard',...MANUAL_PAGES],
@@ -3541,21 +3517,19 @@ const ROLE_PAGES = {
 let USERS = [];
 
 function loadUsers() {
-  // v3: force-reset stored users on version mismatch
-  if (localStorage.getItem('pmis_ver') !== '9') {
-    localStorage.removeItem('pmis_users');
-    localStorage.setItem('pmis_ver', '9');
-  }
-  try { USERS = JSON.parse(localStorage.getItem('pmis_users')) || []; } catch(e) { USERS = []; }
-  if (!USERS.length) { USERS = JSON.parse(JSON.stringify(DEFAULT_USERS)); saveUsers(); }
+  // Compatibility-only UI projection. It never reads or writes browser users.
+  USERS = currentUser ? [{
+    id: currentUser.id, name: currentUser.name, company: currentUser.company,
+    role: currentUser.role, email: currentUser.email, status: 'active',
+    accounting: currentUser.accounting, lastLogin: currentUser.lastLogin || 'Current session',
+  }] : [];
 }
 
-function saveUsers() { localStorage.setItem('pmis_users', JSON.stringify(USERS)); }
+function saveUsers() { /* Central user management is provisioned server-side. */ }
 
 // ── LOGIN ──────────────────────────────────────
 let currentUser = null;
-
-function pwHash(pw) { return btoa(unescape(encodeURIComponent(pw))); }
+const PMIS_SESSION_KEY = 'pmis_auth_session_v1';
 
 function togglePw(inputId, btn) {
   const el = document.getElementById(inputId);
@@ -3564,38 +3538,62 @@ function togglePw(inputId, btn) {
   btn.textContent = show ? '🙈' : '👁️';
 }
 
-function quickFill(id) {
-  document.getElementById('login-user').value = id;
-  document.getElementById('login-pw').value = '1234@@';
-}
-
-function doLogin() {
-  const uid = document.getElementById('login-user').value.trim();
+async function doLogin() {
+  const email = document.getElementById('login-user').value.trim().toLowerCase();
   const pw  = document.getElementById('login-pw').value;
   const errEl = document.getElementById('login-error');
+  const button = document.querySelector('.login-btn');
   errEl.style.display = 'none';
-  if (!uid) { errEl.textContent = '❌ Please enter your User ID.'; errEl.style.display = 'block'; return; }
-  loadUsers();
-  const user = USERS.find(u => u.id === uid && u.status === 'active');
-  if (!user || user.pwHash !== pwHash(pw)) {
-    errEl.textContent = '❌ Invalid user ID or password.';
-    errEl.style.display = 'block';
-    return;
-  }
+  if (!email || !pw) { errEl.textContent = '❌ Enter your invited email address and password.'; errEl.style.display = 'block'; return; }
+  if (!window.PMISBackend) { errEl.textContent = '❌ Secure authentication service is unavailable.'; errEl.style.display = 'block'; return; }
+  button.disabled = true; button.textContent = 'SIGNING IN…';
   try {
-    user.lastLogin = new Date().toISOString().split('T')[0];
-    saveUsers();
-    currentUser = { id: user.id, name: user.name, role: user.role, company: user.company, accounting: !!user.accounting };
-    document.getElementById('user-name').textContent = user.name;
-    document.getElementById('user-role').textContent = user.company + ' · ' + user.role;
-    document.getElementById('user-avatar').textContent = user.name[0].toUpperCase();
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-    applyRoleNav();
-    initApp();
+    const session = await PMISBackend.signIn(email, pw);
+    await activateSecureSession(session);
   } catch(err) {
-    errEl.textContent = '❌ 로그인 오류: ' + err.message;
+    errEl.textContent = '❌ ' + (err.message || 'Unable to sign in.');
     errEl.style.display = 'block';
+  } finally {
+    button.disabled = false; button.textContent = 'LOGIN';
+  }
+}
+
+async function activateSecureSession(session) {
+  if (!session || !session.access_token || !session.user) throw new Error('Authentication session was not returned.');
+  const token = session.access_token;
+  const [profiles, memberships] = await Promise.all([
+    PMISBackend.profile(session.user.id, token),
+    PMISBackend.memberships(session.user.id, token),
+  ]);
+  const profile = profiles && profiles[0];
+  const membership = (memberships || []).find(m => m.projects && m.projects.active);
+  if (!profile || !profile.active) throw new Error('Your PMIS profile is inactive or has not been provisioned.');
+  if (!membership) throw new Error('Your account has no active PMIS project membership.');
+
+  currentUser = {
+    id: profile.id, email: session.user.email || '', name: profile.display_name,
+    role: membership.role, company: profile.organization_name || 'PMIS',
+    accounting: !!membership.accounting_access, accessToken: token,
+    project: membership.projects, lastLogin: new Date().toLocaleDateString(),
+  };
+  sessionStorage.setItem(PMIS_SESSION_KEY, JSON.stringify({ access_token: token, user: session.user }));
+  document.getElementById('user-name').textContent = currentUser.name;
+  document.getElementById('user-role').textContent = currentUser.company + ' · ' + currentUser.role;
+  document.getElementById('user-avatar').textContent = currentUser.name[0].toUpperCase();
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  applyRoleNav();
+  initApp();
+}
+
+async function restoreSecureSession() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(PMIS_SESSION_KEY) || 'null');
+    if (!saved || !saved.access_token) return;
+    const user = await PMISBackend.currentUser(saved.access_token);
+    await activateSecureSession({ access_token: saved.access_token, user });
+  } catch (_) {
+    sessionStorage.removeItem(PMIS_SESSION_KEY);
   }
 }
 
@@ -3654,35 +3652,27 @@ document.addEventListener('click', function() {
   if (dd) dd.style.display = 'none';
 });
 function openChangePw() {
-  document.getElementById('user-dropdown').style.display = 'none';
-  document.getElementById('cpw-current').value = '';
-  document.getElementById('cpw-new').value = '';
-  document.getElementById('cpw-confirm').value = '';
-  document.getElementById('cpw-error').style.display = 'none';
-  document.getElementById('modal-changepw').style.display = 'flex';
+  sendPasswordRecovery();
 }
 function closeChangePw() {
   document.getElementById('modal-changepw').style.display = 'none';
 }
-function doChangePw() {
-  var cur = document.getElementById('cpw-current').value;
-  var nw  = document.getElementById('cpw-new').value;
-  var cf  = document.getElementById('cpw-confirm').value;
-  var err = document.getElementById('cpw-error');
-  if (!cur || !nw || !cf) { err.textContent='모든 항목을 입력하세요.'; err.style.display='block'; return; }
-  if (pwHash(cur) !== currentUser.pwHash) { err.textContent='현재 비밀번호가 올바르지 않습니다.'; err.style.display='block'; return; }
-  if (nw.length < 6) { err.textContent='새 비밀번호는 6자 이상이어야 합니다.'; err.style.display='block'; return; }
-  if (nw !== cf) { err.textContent='새 비밀번호가 일치하지 않습니다.'; err.style.display='block'; return; }
-  loadUsers();
-  var u = USERS.find(function(x){ return x.id === currentUser.id; });
-  if (u) { u.pwHash = pwHash(nw); currentUser.pwHash = u.pwHash; saveUsers(); }
-  closeChangePw();
-  alert('비밀번호가 변경되었습니다.');
+async function sendPasswordRecovery() {
+  if (!currentUser || !currentUser.email || !currentUser.accessToken) return;
+  try {
+    await PMISBackend.requestPasswordRecovery(currentUser.email, window.location.origin + window.location.pathname);
+    showToast('Password reset email sent.');
+  } catch (err) {
+    showToast('Unable to send password reset email: ' + err.message);
+  }
 }
 
-function doLogout() {
+async function doLogout() {
   if (!confirm('Log out?')) return;
+  const token = currentUser && currentUser.accessToken;
+  try { if (token) await PMISBackend.signOut(token); } catch (_) { /* local session is still cleared */ }
   currentUser = null;
+  sessionStorage.removeItem(PMIS_SESSION_KEY);
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('app').style.display = 'none';
   document.getElementById('login-user').value = '';
@@ -3716,78 +3706,16 @@ function renderUserTable() {
 }
 
 function openUserModal(editId) {
-  document.getElementById('um-error').style.display = 'none';
-  if (editId) {
-    loadUsers();
-    const u = USERS.find(x => x.id === editId);
-    if (!u) return;
-    document.getElementById('user-modal-title').textContent = 'Edit User';
-    document.getElementById('um-edit-id').value = u.id;
-    document.getElementById('um-id').value = u.id;
-    document.getElementById('um-id').disabled = true;
-    document.getElementById('um-name').value = u.name;
-    document.getElementById('um-company').value = u.company;
-    document.getElementById('um-role').value = u.role;
-    document.getElementById('um-email').value = u.email || '';
-    document.getElementById('um-pw').value = '';
-    document.getElementById('um-pw-label').innerHTML = 'Password <span style="color:var(--text-muted);font-weight:400">(only if changing)</span>';
-    document.getElementById('um-status').value = u.status;
-    document.getElementById('um-accounting').checked = !!u.accounting;
-  } else {
-    document.getElementById('user-modal-title').textContent = 'Add User';
-    document.getElementById('um-edit-id').value = '';
-    document.getElementById('um-id').value = '';
-    document.getElementById('um-id').disabled = false;
-    document.getElementById('um-name').value = '';
-    document.getElementById('um-company').value = 'KECC JV';
-    document.getElementById('um-role').value = 'editor';
-    document.getElementById('um-email').value = '';
-    document.getElementById('um-pw').value = '';
-    document.getElementById('um-pw-label').innerHTML = 'Password <span style="color:var(--danger)">*</span>';
-    document.getElementById('um-status').value = 'active';
-    document.getElementById('um-accounting').checked = false;
-  }
-  openModal('modal-user');
+  showToast('User provisioning is managed in Supabase Auth and the central PMIS database.');
 }
 
 function saveUser() {
-  const errEl = document.getElementById('um-error');
-  errEl.style.display = 'none';
-  const editId = document.getElementById('um-edit-id').value;
-  const id = document.getElementById('um-id').value.trim();
-  const name = document.getElementById('um-name').value.trim();
-  const company = document.getElementById('um-company').value;
-  const role = document.getElementById('um-role').value;
-  const email = document.getElementById('um-email').value.trim();
-  const pw = document.getElementById('um-pw').value;
-  const status = document.getElementById('um-status').value;
-  const accounting = document.getElementById('um-accounting').checked;
-  if (!id || !name) { errEl.textContent = 'ID and Name are required.'; errEl.style.display = 'block'; return; }
-  loadUsers();
-  if (!editId) {
-    if (!pw) { errEl.textContent = 'Enter an initial password.'; errEl.style.display = 'block'; return; }
-    if (USERS.find(u => u.id === id)) { errEl.textContent = 'This ID already exists.'; errEl.style.display = 'block'; return; }
-    USERS.push({ id, name, company, role, email, pwHash: pwHash(pw), status, lastLogin: '', accounting });
-  } else {
-    const idx = USERS.findIndex(u => u.id === editId);
-    if (idx < 0) return;
-    USERS[idx] = { ...USERS[idx], name, company, role, email, status, accounting };
-    if (pw) USERS[idx].pwHash = pwHash(pw);
-  }
-  saveUsers();
   closeModal('modal-user');
-  renderUserTable();
-  showToast('User saved.');
+  showToast('User changes are disabled here. Provision users centrally in Supabase.');
 }
 
 function deleteUser(id) {
-  if (id === 'kevin') { showToast('This account cannot be deleted.'); return; }
-  if (!confirm(`"${id}" Delete this user?`)) return;
-  loadUsers();
-  USERS = USERS.filter(u => u.id !== id);
-  saveUsers();
-  renderUserTable();
-  showToast('User deleted.');
+  showToast('User changes are disabled here. Provision users centrally in Supabase.');
 }
 
 function copyShareUrl() {
@@ -4683,6 +4611,10 @@ function initApp() {
   if (typeof gapi !== 'undefined') initGoogleAPI();
   updateGdriveStatus(false);
 }
+
+// Session tokens are kept only for the current browser tab. A refresh verifies
+// the token with Supabase again before restoring any PMIS view.
+restoreSecureSession();
 
 // keyboard shortcuts
 document.addEventListener('keydown', e => {
