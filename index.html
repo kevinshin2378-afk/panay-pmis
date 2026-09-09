@@ -375,6 +375,7 @@ canvas.chart { max-width: 100%; }
       <div class="login-sub">Panay and Agusan River Basins · Philippines<br>Client: Department of Public Works and Highways (DPWH)</div>
     </div>
     <div class="login-body">
+    <div id="login-form">
     <input type="email" id="login-user" placeholder="Email address" autocomplete="username">
     <div style="position:relative">
       <input type="password" id="login-pw" placeholder="Password" autocomplete="current-password"
@@ -389,6 +390,15 @@ canvas.chart { max-width: 100%; }
     <button class="login-btn" onclick="doLogin()">LOGIN</button>
     <div style="font-size:11px;color:var(--text-muted);margin-top:14px;text-align:center">
       Access is restricted to authorized personnel only.<br>Use the email address invited by the PMIS administrator.
+    </div>
+    </div><!-- /login-form -->
+    <div id="recovery-form" style="display:none">
+      <div style="font-size:14px;font-weight:700;color:var(--primary);margin-bottom:8px">Set a new password</div>
+      <div style="font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:16px">Choose a new password for your PMIS account. Use at least 8 characters.</div>
+      <input type="password" id="recovery-pw" placeholder="New password" autocomplete="new-password">
+      <input type="password" id="recovery-pw-confirm" placeholder="Confirm new password" autocomplete="new-password" onkeydown="if(event.key==='Enter')completePasswordRecovery()">
+      <div id="recovery-error" role="alert" style="color:#c0392b;font-size:12px;margin:-6px 0 10px;display:none"></div>
+      <button class="login-btn" id="recovery-btn" onclick="completePasswordRecovery()">SET PASSWORD</button>
     </div>
     </div><!-- /login-body -->
   </div>
@@ -3597,6 +3607,49 @@ async function restoreSecureSession() {
   }
 }
 
+let recoveryAccessToken = null;
+
+function handleRecoveryRedirect() {
+  const params = new URLSearchParams(window.location.hash.slice(1));
+  const error = params.get('error_description');
+  if (error) {
+    const errEl = document.getElementById('login-error');
+    errEl.textContent = '❌ ' + error.replace(/\+/g, ' ');
+    errEl.style.display = 'block';
+    history.replaceState(null, '', window.location.pathname);
+    return;
+  }
+  if (params.get('type') !== 'recovery' || !params.get('access_token')) return;
+  recoveryAccessToken = params.get('access_token');
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('recovery-form').style.display = 'block';
+  document.getElementById('recovery-pw').focus();
+}
+
+async function completePasswordRecovery() {
+  const password = document.getElementById('recovery-pw').value;
+  const confirmation = document.getElementById('recovery-pw-confirm').value;
+  const errEl = document.getElementById('recovery-error');
+  const button = document.getElementById('recovery-btn');
+  errEl.style.display = 'none';
+  if (!recoveryAccessToken) { errEl.textContent = 'Reset link is missing or expired. Request a new one.'; errEl.style.display = 'block'; return; }
+  if (password.length < 8) { errEl.textContent = 'Use at least 8 characters.'; errEl.style.display = 'block'; return; }
+  if (password !== confirmation) { errEl.textContent = 'Passwords do not match.'; errEl.style.display = 'block'; return; }
+  button.disabled = true; button.textContent = 'UPDATING…';
+  try {
+    await PMISBackend.updatePassword(recoveryAccessToken, password);
+    const user = await PMISBackend.currentUser(recoveryAccessToken);
+    history.replaceState(null, '', window.location.pathname);
+    await activateSecureSession({ access_token: recoveryAccessToken, user });
+    recoveryAccessToken = null;
+  } catch (err) {
+    errEl.textContent = '❌ ' + (err.message || 'Unable to set the new password.');
+    errEl.style.display = 'block';
+  } finally {
+    button.disabled = false; button.textContent = 'SET PASSWORD';
+  }
+}
+
 const GROUP_LABELS = {
   general: 'General', contract: 'Contract Status', progress: 'Progress Management',
   documents: 'Documents', accounting: 'Accounting', collab: 'Collaboration', settings: 'Settings',
@@ -4614,7 +4667,8 @@ function initApp() {
 
 // Session tokens are kept only for the current browser tab. A refresh verifies
 // the token with Supabase again before restoring any PMIS view.
-restoreSecureSession();
+handleRecoveryRedirect();
+if (!recoveryAccessToken) restoreSecureSession();
 
 // keyboard shortcuts
 document.addEventListener('keydown', e => {
